@@ -68,7 +68,13 @@
       "Bash(mkdir -p \"C:/Users/dzeni/Documents/ernst-moser/src/app/admin\")",
       "Bash(mkdir -p \"C:/Users/dzeni/Documents/ernst-moser/src/app/admin/team/[id]\")",
       "Bash(mkdir -p \"C:/Users/dzeni/Documents/ernst-moser/src/app/api/admin/team/[id]\")",
-      "Bash(npx prisma:*)"
+      "Bash(npx prisma:*)",
+      "Bash(cd:*)",
+      "Bash(npx tsx:*)",
+      "Bash(node -e \"console.log\\(require\\(''./node_modules/next/package.json''\\).version\\)\")",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   }
 }
