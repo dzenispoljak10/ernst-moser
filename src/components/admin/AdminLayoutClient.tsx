@@ -1,24 +1,42 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import Sidebar from './Sidebar'
 
 interface AdminLayoutClientProps {
   children: React.ReactNode
   userName?: string | null
   userEmail?: string | null
+  isAuthenticated: boolean
 }
 
 export default function AdminLayoutClient({
   children,
   userName,
   userEmail,
+  isAuthenticated,
 }: AdminLayoutClientProps) {
   const pathname = usePathname()
+  const router = useRouter()
   const isLoginPage = pathname === '/admin/login'
+
+  // Client-side fallback redirect (server redirect is primary)
+  useEffect(() => {
+    if (!isAuthenticated && !isLoginPage) {
+      router.replace('/admin/login')
+    }
+    if (isAuthenticated && isLoginPage) {
+      router.replace('/admin')
+    }
+  }, [isAuthenticated, isLoginPage, router])
 
   if (isLoginPage) {
     return <>{children}</>
+  }
+
+  if (!isAuthenticated) {
+    return null
   }
 
   return (

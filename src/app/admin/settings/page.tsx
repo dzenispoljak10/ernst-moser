@@ -1,8 +1,10 @@
 import { Settings } from 'lucide-react'
 import { auth } from '@/auth'
+import { redirect } from 'next/navigation'
 
 export default async function SettingsPage() {
   const session = await auth()
+  if (!session) redirect('/admin/login')
 
   return (
     <div className="p-8 max-w-2xl mx-auto">

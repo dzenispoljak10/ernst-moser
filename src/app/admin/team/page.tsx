@@ -1,3 +1,5 @@
+import { auth } from '@/auth'
+import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Users, Plus, Pencil, Trash2, CheckCircle2, XCircle } from 'lucide-react'
 import DeleteTeamMember from './DeleteTeamMember'
@@ -25,6 +27,8 @@ async function getTeamMembers(): Promise<TeamMember[]> {
 }
 
 export default async function TeamPage() {
+  const session = await auth()
+  if (!session) redirect('/admin/login')
   const members = await getTeamMembers()
 
   return (

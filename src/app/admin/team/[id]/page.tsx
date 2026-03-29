@@ -1,7 +1,8 @@
+import { auth } from '@/auth'
+import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Users } from 'lucide-react'
 import TeamForm from '../TeamForm'
-import { notFound } from 'next/navigation'
 
 async function getMember(id: string) {
   try {
@@ -17,6 +18,8 @@ export default async function EditTeamMemberPage({
 }: {
   params: Promise<{ id: string }>
 }) {
+  const session = await auth()
+  if (!session) redirect('/admin/login')
   const { id } = await params
   const member = await getMember(id)
   if (!member) notFound()

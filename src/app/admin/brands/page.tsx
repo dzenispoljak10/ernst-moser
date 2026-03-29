@@ -1,3 +1,5 @@
+import { auth } from '@/auth'
+import { redirect } from 'next/navigation'
 import { Tag, Pencil, CheckCircle2, XCircle } from 'lucide-react'
 import Link from 'next/link'
 
@@ -28,6 +30,8 @@ const CENTER_LABELS: Record<string, string> = {
 }
 
 export default async function BrandsPage() {
+  const session = await auth()
+  if (!session) redirect('/admin/login')
   const brands = await getBrands()
 
   return (

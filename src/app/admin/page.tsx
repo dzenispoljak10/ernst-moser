@@ -1,4 +1,5 @@
 import { auth } from '@/auth'
+import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Users, Tag, UserCheck, ArrowRight, LayoutDashboard } from 'lucide-react'
 
@@ -18,6 +19,7 @@ async function getStats() {
 
 export default async function AdminDashboardPage() {
   const session = await auth()
+  if (!session) redirect('/admin/login')
   const stats = await getStats()
 
   const statCards = [

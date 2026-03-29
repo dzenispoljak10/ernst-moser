@@ -1,8 +1,12 @@
+import { auth } from '@/auth'
+import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Users } from 'lucide-react'
 import TeamForm from '../TeamForm'
 
-export default function NewTeamMemberPage() {
+export default async function NewTeamMemberPage() {
+  const session = await auth()
+  if (!session) redirect('/admin/login')
   return (
     <div className="p-8 max-w-2xl mx-auto">
       <div className="flex items-center gap-3 mb-8">
