@@ -22,11 +22,10 @@ function getTitle(pathname: string): string {
 }
 
 interface TopBarProps {
-  userName?: string | null
   onMenuOpen: () => void
 }
 
-export default function TopBar({ userName, onMenuOpen }: TopBarProps) {
+export default function TopBar({ onMenuOpen }: TopBarProps) {
   const pathname = usePathname()
   const [now, setNow] = useState('')
 
@@ -34,9 +33,9 @@ export default function TopBar({ userName, onMenuOpen }: TopBarProps) {
     const fmt = () =>
       setNow(
         new Date().toLocaleDateString('de-CH', {
-          weekday: 'long',
+          weekday: 'short',
           day: '2-digit',
-          month: 'long',
+          month: 'short',
           year: 'numeric',
         })
       )
@@ -46,28 +45,23 @@ export default function TopBar({ userName, onMenuOpen }: TopBarProps) {
   }, [])
 
   return (
-    <div
-      className="flex items-center justify-between px-6 lg:px-8 py-4 bg-white border-b border-gray-100 shrink-0"
-    >
+    <div className="bg-white border-b border-gray-100/80 px-6 lg:px-8 py-4 flex items-center justify-between shrink-0">
       <div className="flex items-center gap-4">
         <button
           onClick={onMenuOpen}
-          className="lg:hidden p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+          className="lg:hidden p-1.5 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
         >
-          <Menu size={20} />
+          <Menu size={18} />
         </button>
         <h1
-          className="text-xl font-bold text-gray-900"
+          className="text-[18px] font-semibold text-gray-900"
           style={{ fontFamily: 'var(--font-heading, sans-serif)' }}
         >
           {getTitle(pathname)}
         </h1>
       </div>
       {now && (
-        <span
-          className="text-sm text-gray-400 hidden sm:block"
-          style={{ fontFamily: 'var(--font-body, sans-serif)' }}
-        >
+        <span className="text-[12px] text-gray-400 hidden sm:block">
           {now}
         </span>
       )}

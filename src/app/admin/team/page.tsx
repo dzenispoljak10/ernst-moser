@@ -35,98 +35,97 @@ export default async function TeamPage() {
   return (
     <PageWrapper>
       <div className="p-6 lg:p-8 max-w-5xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <p className="text-sm text-gray-500">{members.length} Einträge</p>
+
+        {/* Header */}
+        <div className="flex items-center justify-between mb-5">
+          <span className="text-[13px] text-gray-400">{members.length} Einträge</span>
           <Link
             href="/admin/team/new"
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-white text-sm font-medium transition-all hover:brightness-110"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-[13px] font-medium text-white transition-all hover:opacity-90"
             style={{ background: '#1B2D5B' }}
           >
-            <Plus size={15} />
+            <Plus size={14} />
             Mitglied hinzufügen
           </Link>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        {/* Table */}
+        <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
           {members.length === 0 ? (
-            <div className="p-16 text-center">
-              <p className="text-gray-400 text-sm">Noch keine Teammitglieder vorhanden.</p>
+            <div className="py-16 text-center text-[13px] text-gray-400">
+              Noch keine Teammitglieder vorhanden.
             </div>
           ) : (
             <table className="w-full">
               <thead>
-                <tr className="bg-gray-50 border-b border-gray-100">
-                  <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-6 py-3">
-                    Mitglied
-                  </th>
-                  <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 py-3">
-                    Rolle
-                  </th>
-                  <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 py-3 hidden md:table-cell">
-                    Kontakt
-                  </th>
-                  <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 py-3 hidden sm:table-cell">
-                    Status
-                  </th>
+                <tr className="bg-gray-50/80 border-b border-gray-100">
+                  <th className="text-left text-[11px] font-semibold text-gray-400 uppercase tracking-wider px-5 py-3">Mitglied</th>
+                  <th className="text-left text-[11px] font-semibold text-gray-400 uppercase tracking-wider px-4 py-3">Rolle</th>
+                  <th className="text-left text-[11px] font-semibold text-gray-400 uppercase tracking-wider px-4 py-3 hidden md:table-cell">Kontakt</th>
+                  <th className="text-left text-[11px] font-semibold text-gray-400 uppercase tracking-wider px-4 py-3 hidden sm:table-cell">Status</th>
                   <th className="px-4 py-3 w-20" />
                 </tr>
               </thead>
               <tbody>
-                {members.map((m) => (
-                  <tr key={m.id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-4">
+                {members.map((m, i) => (
+                  <tr
+                    key={m.id}
+                    className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors"
+                    style={{
+                      animation: 'fadeUp 0.25s ease both',
+                      animationDelay: `${0.05 + i * 0.03}s`,
+                      opacity: 0,
+                    }}
+                  >
+                    <td className="px-5 py-3.5">
                       <div className="flex items-center gap-3">
                         {m.photoUrl ? (
-                          <img
-                            src={m.photoUrl}
-                            alt={`${m.firstName} ${m.lastName}`}
-                            className="w-9 h-9 rounded-xl object-cover"
-                          />
+                          <img src={m.photoUrl} alt="" className="w-8 h-8 rounded-lg object-cover" />
                         ) : (
                           <div
-                            className="w-9 h-9 rounded-xl flex items-center justify-center text-sm font-semibold"
-                            style={{ background: 'rgba(27,45,91,0.1)', color: '#1B2D5B' }}
+                            className="w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-bold"
+                            style={{ background: 'rgba(27,45,91,0.08)', color: '#1B2D5B' }}
                           >
                             {m.firstName.charAt(0)}{m.lastName.charAt(0)}
                           </div>
                         )}
                         <div>
-                          <div className="text-sm font-medium text-gray-900">
+                          <div className="text-[14px] font-medium text-gray-900 leading-tight">
                             {m.firstName} {m.lastName}
                           </div>
                           {m.centerId && (
-                            <div className="text-xs text-gray-400 mt-0.5">{m.centerId}</div>
+                            <div className="text-[11px] text-gray-400 mt-0.5">{m.centerId}</div>
                           )}
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-4 text-sm text-gray-500">{m.role}</td>
-                    <td className="px-4 py-4 hidden md:table-cell">
-                      <div className="text-xs text-gray-500 space-y-0.5">
-                        {m.email && <div>{m.email}</div>}
-                        {m.phone && <div>{m.phone}</div>}
+                    <td className="px-4 py-3.5 text-[13px] text-gray-500">{m.role}</td>
+                    <td className="px-4 py-3.5 hidden md:table-cell">
+                      <div className="space-y-0.5">
+                        {m.email && <div className="text-[12px] text-gray-400">{m.email}</div>}
+                        {m.phone && <div className="text-[12px] text-gray-400">{m.phone}</div>}
                       </div>
                     </td>
-                    <td className="px-4 py-4 hidden sm:table-cell">
+                    <td className="px-4 py-3.5 hidden sm:table-cell">
                       {m.isActive ? (
-                        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-green-700 bg-green-50 px-2.5 py-0.5 rounded-full">
-                          <CheckCircle2 size={11} />
+                        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-green-600 bg-green-50 px-2 py-0.5 rounded-md">
+                          <CheckCircle2 size={10} />
                           Aktiv
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-gray-500 bg-gray-100 px-2.5 py-0.5 rounded-full">
-                          <XCircle size={11} />
+                        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-md">
+                          <XCircle size={10} />
                           Inaktiv
                         </span>
                       )}
                     </td>
-                    <td className="px-4 py-4">
-                      <div className="flex items-center gap-1 justify-end">
+                    <td className="px-4 py-3.5">
+                      <div className="flex items-center gap-0.5 justify-end">
                         <Link
                           href={`/admin/team/${m.id}`}
-                          className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+                          className="p-1.5 rounded-md text-gray-400 hover:text-[#1B2D5B] hover:bg-[#1B2D5B]/5 transition-colors"
                         >
-                          <Pencil size={14} />
+                          <Pencil size={13} />
                         </Link>
                         <DeleteTeamMember id={m.id} name={`${m.firstName} ${m.lastName}`} />
                       </div>
@@ -137,6 +136,7 @@ export default async function TeamPage() {
             </table>
           )}
         </div>
+
       </div>
     </PageWrapper>
   )

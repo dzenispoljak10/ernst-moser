@@ -26,26 +26,14 @@ export default function AdminLayoutClient({
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
-    if (!isAuthenticated && !isLoginPage) {
-      router.replace('/admin/login')
-    }
-    if (isAuthenticated && isLoginPage) {
-      router.replace('/admin')
-    }
+    if (!isAuthenticated && !isLoginPage) router.replace('/admin/login')
+    if (isAuthenticated && isLoginPage) router.replace('/admin')
   }, [isAuthenticated, isLoginPage, router])
 
-  // Close sidebar on route change
-  useEffect(() => {
-    setSidebarOpen(false)
-  }, [pathname])
+  useEffect(() => { setSidebarOpen(false) }, [pathname])
 
-  if (isLoginPage) {
-    return <>{children}</>
-  }
-
-  if (!isAuthenticated) {
-    return null
-  }
+  if (isLoginPage) return <>{children}</>
+  if (!isAuthenticated) return null
 
   return (
     <div className="flex h-full overflow-hidden">
@@ -56,9 +44,9 @@ export default function AdminLayoutClient({
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
       />
-      <div className="flex-1 flex flex-col overflow-hidden min-w-0">
-        <TopBar userName={userName} onMenuOpen={() => setSidebarOpen(true)} />
-        <main className="flex-1 overflow-auto" style={{ background: 'rgba(249,250,251,0.5)' }}>
+      <div className="flex-1 flex flex-col overflow-hidden min-w-0" style={{ background: '#F8F9FC' }}>
+        <TopBar onMenuOpen={() => setSidebarOpen(true)} />
+        <main className="flex-1 overflow-auto">
           {children}
         </main>
       </div>

@@ -74,7 +74,32 @@
       "Bash(node -e \"console.log\\(require\\(''./node_modules/next/package.json''\\).version\\)\")",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(vercel --version)",
+      "Bash(vercel whoami:*)",
+      "Bash(vercel link:*)",
+      "Bash(vercel env:*)",
+      "Bash(vercel storage:*)",
+      "Bash(vercel postgres:*)",
+      "Bash(vercel --help)",
+      "Read(//c/Users/dzeni/.local/share/com.vercel.cli/**)",
+      "Read(//c/Users/dzeni/.config/vercel/**)",
+      "Read(//c/Users/dzeni/**)",
+      "Bash(VERCEL_TOKEN=\"vca_1liOrXEO3bciIvBXjEpDXD7sL2zcvG1rCj5SxuXYPQtFi47I811czfij\" curl -s -H \"Authorization: Bearer $VERCEL_TOKEN\" \"https://api.vercel.com/v9/projects/ernst-moser\")",
+      "Bash(VERCEL_TOKEN=\"vca_1liOrXEO3bciIvBXjEpDXD7sL2zcvG1rCj5SxuXYPQtFi47I811czfij\" TEAM_ID=\"team_PKMBfxLY2zVfSAJcMZ8PpBbC\" __NEW_LINE_3d01107fb2f60bed__ for TYPE in \"postgres\" \"neon-postgres\" \"neon\" \"vercel-postgres\")",
+      "Bash(do echo:*)",
+      "Bash(find C:/Users/dzeni/Documents/ernst-moser/public -iname *logo* -o -iname *moser*)",
+      "Bash(vercel project:*)",
+      "Bash(vercel db:*)",
+      "Bash(neonctl --version)",
+      "Bash(neonctl auth:*)",
+      "Bash(neonctl me:*)",
+      "Bash(neonctl projects:*)",
+      "Bash(vercel --prod)",
+      "Bash(vercel ls:*)",
+      "Bash(vercel logs:*)",
+      "Bash(curl:*)",
+      "Bash(python3 -c \"import sys; content = sys.stdin.read\\(\\); import re; errors = re.findall\\(r''''error[^<]{0,200}'''', content, re.IGNORECASE\\); [print\\(e[:150]\\) for e in errors[:5]]\")"
     ]
   }
 }

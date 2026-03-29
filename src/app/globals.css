@@ -24,6 +24,12 @@
   --tr: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ─── Admin Animations ──────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* ─── Base ──────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
