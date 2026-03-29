@@ -223,7 +223,7 @@ export default async function UnternehmenPage() {
                 { name: 'Adrian Moser', role: 'Geschäftsführer, Leitung Verkauf', center: 'Kommunalcenter', color: '#C0392B' },
                 { name: 'Roland Burkhalter', role: 'Betriebsleiter Nutzfahrzeugcenter', center: 'Nutzfahrzeugcenter', color: '#1B2D5B' },
                 { name: 'Ernst Moser', role: 'Springer', center: '', color: '#1B2D5B' },
-                { name: 'Michael Peter', role: 'Verkauf Leichtnutzfahrzeuge + Kommunalgeräte', center: 'Nutzfahrzeugcenter', color: '#1B2D5B' },
+                { name: 'Michael Peter', role: 'Leiter Verkauf', center: 'Nutzfahrzeugcenter', color: '#1B2D5B' },
                 { name: 'Raphael Maurer', role: 'Verkauf Robotertechnik + Motorgeräte', center: 'Motorgerätecenter', color: '#4A7C59' },
                 { name: 'Daniela Gräf', role: 'Kaufmännische Angestellte', center: '', color: '#1B2D5B' },
                 { name: 'Sibylle Moser', role: 'Kaufmännische Angestellte', center: '', color: '#1B2D5B' },
