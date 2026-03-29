@@ -27,31 +27,32 @@ export default async function EditTeamMemberPage({
 
   return (
     <PageWrapper>
-      <div className="p-6 lg:p-8 mx-auto">
-        <div className="mb-6">
+      <div className="px-8 py-6">
+        <div className="mb-5">
           <Link
             href="/admin/team"
-            className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-700 transition-colors"
+            className="inline-flex items-center gap-1.5 text-[12px] text-gray-400 hover:text-gray-700 transition-colors"
           >
-            <ArrowLeft size={15} />
+            <ArrowLeft size={13} />
             Zurück
           </Link>
         </div>
-
-        <TeamForm
-          memberId={id}
-          defaultValues={{
-            firstName: member.firstName,
-            lastName: member.lastName,
-            role: member.role,
-            email: member.email ?? '',
-            phone: member.phone ?? '',
-            centerId: member.centerId ?? '',
-            order: member.order,
-            isActive: member.isActive,
-            photoUrl: member.photoUrl ?? '',
-          }}
-        />
+        <div className="max-w-lg">
+          <TeamForm
+            memberId={id}
+            defaultValues={{
+              firstName: member.firstName,
+              lastName: member.lastName,
+              role: member.role,
+              email: member.email ?? '',
+              phone: member.phone ?? '',
+              centerId: member.centerId ?? '',
+              order: member.order,
+              isActive: member.isActive,
+              photoUrl: member.photoUrl ?? '',
+            }}
+          />
+        </div>
       </div>
     </PageWrapper>
   )

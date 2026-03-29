@@ -44,7 +44,7 @@ export default function AdminLayoutClient({
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
       />
-      <div className="flex-1 flex flex-col overflow-hidden min-w-0" style={{ background: '#F8F9FC' }}>
+      <div className="flex-1 flex flex-col overflow-hidden min-w-0" style={{ background: '#F7F8FA' }}>
         <TopBar onMenuOpen={() => setSidebarOpen(true)} />
         <main className="flex-1 overflow-auto">
           {children}

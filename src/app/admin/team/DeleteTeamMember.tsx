@@ -43,7 +43,7 @@ export default function DeleteTeamMember({ id, name }: { id: string; name: strin
   return (
     <button
       onClick={() => setConfirming(true)}
-      className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
+      className="p-1.5 rounded-md text-gray-300 hover:text-red-400 hover:bg-red-50 transition-all"
       title={`${name} löschen`}
     >
       <Trash2 size={15} />

@@ -9,39 +9,41 @@ export default async function SettingsPage() {
 
   return (
     <PageWrapper>
-      <div className="p-6 lg:p-8 mx-auto space-y-5">
+      <div className="px-8 py-6 max-w-2xl space-y-5">
 
         {/* Account */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-6">
-          <h3 className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-5">
+        <div className="bg-white rounded-xl border border-gray-100 p-6">
+          <h3 className="text-[10px] font-semibold text-gray-400 uppercase tracking-[0.1em] mb-5">
             Angemeldeter Benutzer
           </h3>
           <div className="flex items-center gap-4">
             <div
-              className="w-11 h-11 rounded-xl flex items-center justify-center text-white text-base font-bold"
+              className="w-10 h-10 rounded-lg flex items-center justify-center text-white text-sm font-bold"
               style={{ background: '#1B2D5B' }}
             >
               {session?.user?.name?.charAt(0)?.toUpperCase() ?? 'A'}
             </div>
             <div>
-              <div className="text-[15px] font-semibold text-gray-900">{session?.user?.name}</div>
-              <div className="text-[13px] text-gray-400 mt-0.5">{session?.user?.email}</div>
-              <div className="text-[11px] text-gray-300 mt-0.5 uppercase tracking-wider">{session?.user?.role}</div>
+              <div className="text-[14px] font-semibold text-gray-900">{session?.user?.name}</div>
+              <div className="text-[12px] text-gray-400 mt-0.5">{session?.user?.email}</div>
+              {session?.user?.role && (
+                <div className="text-[10px] text-gray-300 mt-0.5 uppercase tracking-wider">{session?.user?.role}</div>
+              )}
             </div>
           </div>
         </div>
 
         {/* Change Password */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-6">
-          <h3 className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-5">
+        <div className="bg-white rounded-xl border border-gray-100 p-6">
+          <h3 className="text-[10px] font-semibold text-gray-400 uppercase tracking-[0.1em] mb-5">
             Passwort ändern
           </h3>
           <ChangePasswordForm />
         </div>
 
         {/* System */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-6">
-          <h3 className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-5">
+        <div className="bg-white rounded-xl border border-gray-100 p-6">
+          <h3 className="text-[10px] font-semibold text-gray-400 uppercase tracking-[0.1em] mb-5">
             System
           </h3>
           <dl className="space-y-3">

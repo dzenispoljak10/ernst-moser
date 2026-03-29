@@ -1,20 +1,22 @@
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { Users, Tag, UserCheck, Settings, ArrowRight, Plus } from 'lucide-react'
+import { Users, Tag, UserCheck, Package, ChevronRight, MapPin, Phone, Mail } from 'lucide-react'
 import PageWrapper from '@/components/admin/PageWrapper'
 
 async function getStats() {
   try {
     const { prisma } = await import('@/lib/prisma')
-    const [teamCount, brandCount, salespersonCount] = await Promise.all([
+    const { readClient } = await import('@/lib/sanity')
+    const [teamCount, brandCount, salespersonCount, productCount] = await Promise.all([
       prisma.teamMember.count({ where: { isActive: true } }),
       prisma.brand.count({ where: { isActive: true } }),
       prisma.salesperson.count(),
+      readClient.fetch<number>('count(*[_type == "product"])').catch(() => 0),
     ])
-    return { teamCount, brandCount, salespersonCount }
+    return { teamCount, brandCount, salespersonCount, productCount: productCount ?? 0 }
   } catch {
-    return { teamCount: 0, brandCount: 0, salespersonCount: 0 }
+    return { teamCount: 0, brandCount: 0, salespersonCount: 0, productCount: 0 }
   }
 }
 
@@ -23,144 +25,171 @@ export default async function AdminDashboardPage() {
   if (!session) redirect('/admin/login')
   const stats = await getStats()
 
-  const navCards = [
+  const statCards = [
+    {
+      label: 'Teammitglieder',
+      sub: 'aktiv',
+      count: stats.teamCount,
+      icon: Users,
+      iconBg: 'bg-violet-50',
+      iconColor: 'text-violet-500',
+      delay: 0,
+    },
+    {
+      label: 'Marken',
+      sub: 'aktiv',
+      count: stats.brandCount,
+      icon: Tag,
+      iconBg: 'bg-blue-50',
+      iconColor: 'text-blue-500',
+      delay: 0.04,
+    },
+    {
+      label: 'Verkäufer',
+      sub: 'gesamt',
+      count: stats.salespersonCount,
+      icon: UserCheck,
+      iconBg: 'bg-amber-50',
+      iconColor: 'text-amber-500',
+      delay: 0.08,
+    },
+    {
+      label: 'Produkte',
+      sub: 'in Sanity',
+      count: stats.productCount,
+      icon: Package,
+      iconBg: 'bg-emerald-50',
+      iconColor: 'text-emerald-500',
+      delay: 0.12,
+    },
+  ]
+
+  const quickLinks = [
     {
       href: '/admin/team',
       label: 'Teammitglieder',
-      desc: 'Mitglieder verwalten und veröffentlichen',
+      sub: 'Mitglieder verwalten und veröffentlichen',
       icon: Users,
-      count: stats.teamCount,
-      countLabel: 'aktiv',
-      accent: '#1B2D5B',
-      accentBg: '#EEF2FF',
-      delay: 0,
+      iconBg: 'bg-violet-50',
+      iconColor: 'text-violet-500',
     },
     {
       href: '/admin/brands',
       label: 'Marken',
-      desc: 'Logos, Beschreibungen und Center-Zuordnung',
+      sub: 'Logos, Beschreibungen und Center-Zuordnung',
       icon: Tag,
-      count: stats.brandCount,
-      countLabel: 'aktiv',
-      accent: '#4A7C59',
-      accentBg: '#ECFDF5',
-      delay: 0.07,
+      iconBg: 'bg-blue-50',
+      iconColor: 'text-blue-500',
     },
     {
       href: '/admin/salesperson',
       label: 'Verkäufer',
-      desc: 'Ansprechpartner und Kontaktdaten',
+      sub: 'Ansprechpartner und Kontaktdaten',
       icon: UserCheck,
-      count: stats.salespersonCount,
-      countLabel: 'gesamt',
-      accent: '#C0392B',
-      accentBg: '#FEF2F2',
-      delay: 0.14,
-    },
-    {
-      href: '/admin/settings',
-      label: 'Einstellungen',
-      desc: 'Passwort, Konto und System',
-      icon: Settings,
-      count: null,
-      countLabel: '',
-      accent: '#64748b',
-      accentBg: '#F1F5F9',
-      delay: 0.21,
+      iconBg: 'bg-amber-50',
+      iconColor: 'text-amber-500',
     },
   ]
 
   return (
     <PageWrapper>
-      <div className="p-6 lg:p-8 mx-auto">
+      <div className="px-8 py-6">
 
-        {/* Greeting */}
-        <div className="mb-8">
-          <h2
-            className="text-[22px] font-bold text-gray-900 leading-tight"
-            style={{ fontFamily: 'var(--font-heading, sans-serif)' }}
-          >
-            Willkommen zurück{session?.user?.name ? `, ${session.user.name}` : ''}
-          </h2>
-          <p className="text-[13px] text-gray-400 mt-1">Was möchten Sie heute verwalten?</p>
-        </div>
-
-        {/* Main Nav Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-          {navCards.map(({ href, label, desc, icon: Icon, count, countLabel, accent, accentBg, delay }) => (
-            <Link
-              key={href}
-              href={href}
-              className="group relative bg-white rounded-2xl border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all duration-200 overflow-hidden"
+        {/* Stats Row */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {statCards.map(({ label, sub, count, icon: Icon, iconBg, iconColor, delay }) => (
+            <div
+              key={label}
+              className="bg-white rounded-xl border border-gray-100 p-5"
               style={{
-                animation: 'fadeUp 0.35s ease both',
+                animation: 'fadeUp 0.25s ease both',
                 animationDelay: `${delay}s`,
                 opacity: 0,
               }}
             >
-              {/* Top color strip */}
-              <div
-                className="h-1 w-full"
-                style={{ background: accent, opacity: 0.7 }}
-              />
-
-              <div className="p-6">
-                {/* Icon + Arrow */}
-                <div className="flex items-start justify-between mb-5">
-                  <div
-                    className="w-14 h-14 rounded-2xl flex items-center justify-center"
-                    style={{ background: accentBg }}
-                  >
-                    <Icon size={26} style={{ color: accent }} />
-                  </div>
-                  <div
-                    className="w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                    style={{ background: accentBg }}
-                  >
-                    <ArrowRight size={15} style={{ color: accent }} />
-                  </div>
-                </div>
-
-                {/* Count */}
-                {count !== null && (
-                  <div className="flex items-baseline gap-1.5 mb-2">
-                    <span
-                      className="text-[42px] font-black leading-none"
-                      style={{ fontFamily: 'var(--font-heading, sans-serif)', color: '#0F172A' }}
-                    >
-                      {count}
-                    </span>
-                    <span className="text-[13px] text-gray-400 mb-1">{countLabel}</span>
-                  </div>
-                )}
-
-                {/* Title */}
-                <div
-                  className="text-[17px] font-bold text-gray-900 leading-tight"
-                  style={{ fontFamily: 'var(--font-heading, sans-serif)' }}
-                >
-                  {label}
-                </div>
-                <div className="text-[12px] text-gray-400 mt-1 leading-relaxed">{desc}</div>
+              <div className={`w-9 h-9 rounded-lg flex items-center justify-center mb-3 ${iconBg}`}>
+                <Icon size={17} className={iconColor} />
               </div>
-            </Link>
+              <div
+                className="text-[28px] font-bold text-gray-900 leading-none"
+                style={{ fontFamily: 'var(--font-heading, sans-serif)' }}
+              >
+                {count}
+              </div>
+              <div className="text-[13px] text-gray-600 font-medium mt-1">{label}</div>
+              <div className="text-[11px] text-gray-400 mt-0.5">{sub}</div>
+            </div>
           ))}
         </div>
 
-        {/* Quick Add Button */}
-        <Link
-          href="/admin/team/new"
-          className="flex items-center justify-center gap-2.5 w-full py-3.5 rounded-2xl border-2 border-dashed border-gray-200 text-[13px] font-medium text-gray-400 hover:border-[#1B2D5B]/30 hover:text-[#1B2D5B] hover:bg-[#1B2D5B]/2 transition-all"
-          style={{
-            animation: 'fadeUp 0.35s ease both',
-            animationDelay: '0.3s',
-            opacity: 0,
-          }}
-        >
-          <Plus size={15} />
-          Neues Teammitglied hinzufügen
-        </Link>
+        {/* Two Column Layout */}
+        <div className="grid grid-cols-3 gap-5 mt-5">
 
+          {/* Schnellzugriff */}
+          <div
+            className="col-span-2 bg-white rounded-xl border border-gray-100 p-5"
+            style={{
+              animation: 'fadeUp 0.25s ease both',
+              animationDelay: '0.18s',
+              opacity: 0,
+            }}
+          >
+            <h2 className="text-[14px] font-semibold text-gray-800 mb-4">Schnellzugriff</h2>
+            <div className="space-y-0.5">
+              {quickLinks.map(({ href, label, sub, icon: Icon, iconBg, iconColor }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className="flex items-center gap-3 py-2.5 px-2 rounded-lg hover:bg-gray-50/50 transition-colors border-b border-gray-50 last:border-0 cursor-pointer"
+                >
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${iconBg}`}>
+                    <Icon size={15} className={iconColor} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[13px] font-medium text-gray-700">{label}</div>
+                    <div className="text-[11px] text-gray-400">{sub}</div>
+                  </div>
+                  <ChevronRight size={14} className="text-gray-300 shrink-0" />
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Info */}
+          <div
+            className="col-span-1 bg-white rounded-xl border border-gray-100 p-5"
+            style={{
+              animation: 'fadeUp 0.25s ease both',
+              animationDelay: '0.22s',
+              opacity: 0,
+            }}
+          >
+            <h2 className="text-[14px] font-semibold text-gray-800 mb-4">Ernst Moser GmbH</h2>
+            <div className="space-y-3">
+              <div className="flex items-start gap-2.5">
+                <MapPin size={13} className="text-gray-300 mt-0.5 shrink-0" />
+                <div>
+                  <div className="text-[12px] text-gray-600">Industrie Ost 17</div>
+                  <div className="text-[12px] text-gray-600">4563 Gerlafingen SO</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <Phone size={13} className="text-gray-300 shrink-0" />
+                <div className="text-[12px] text-gray-600">+41 32 674 25 25</div>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <Mail size={13} className="text-gray-300 shrink-0" />
+                <div className="text-[12px] text-gray-600">info@ernst-moser.ch</div>
+              </div>
+            </div>
+            <div className="mt-5 pt-4 border-t border-gray-50">
+              <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">System</div>
+              <div className="text-[11px] text-gray-400">Sanity: <span className="font-mono text-gray-500">owqsc1ph</span></div>
+              <div className="text-[11px] text-gray-400 mt-0.5">Dataset: <span className="font-mono text-gray-500">production</span></div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </PageWrapper>
   )
