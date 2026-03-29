@@ -1,4 +1,4 @@
-import { client, imageUrl } from '@/lib/sanity'
+import { readClient as client, imageUrl } from '@/lib/sanity'
 import { getSalespersonByBrand } from '@/lib/queries'
 import { notFound } from 'next/navigation'
 import ProductHeroClient from '@/components/ui/ProductHeroClient'

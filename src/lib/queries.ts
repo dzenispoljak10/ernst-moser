@@ -1,4 +1,4 @@
-import { client } from './sanity'
+import { readClient as client } from './sanity'
 
 export interface SanityCenter {
   _id: string

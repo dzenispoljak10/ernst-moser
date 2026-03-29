@@ -1,5 +1,5 @@
 import { getCenters, getAllBrands } from '@/lib/queries'
-import { client, imageUrl } from '@/lib/sanity'
+import { readClient as client, imageUrl } from '@/lib/sanity'
 import Image from 'next/image'
 import Link from 'next/link'
 import CountUp from '@/components/ui/CountUp'

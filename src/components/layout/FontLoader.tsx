@@ -1,4 +1,4 @@
-import { client } from '@/lib/sanity'
+import { readClient as client } from '@/lib/sanity'
 
 interface FontAsset {
   _id: string

@@ -1,4 +1,4 @@
-import { client } from '@/lib/sanity'
+import { readClient as client } from '@/lib/sanity'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import BrandPageContent from '@/components/pages/BrandPageContent'

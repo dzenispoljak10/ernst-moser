@@ -1,5 +1,5 @@
 import BrandPageContent from '@/components/pages/BrandPageContent'
-import { client } from '@/lib/sanity'
+import { readClient as client } from '@/lib/sanity'
 import type { Metadata } from 'next'
 
 export const revalidate = 60

@@ -3,6 +3,15 @@ import { createImageUrlBuilder } from '@sanity/image-url'
 import localImages from './localImages.json'
 import localExternalImages from './localExternalImages.json'
 
+// Read-only client — no token needed, uses CDN for public dataset reads
+export const readClient = createClient({
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'owqsc1ph',
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
+  apiVersion: '2024-01-01',
+  useCdn: true,
+})
+
+// Write client — requires SANITY_TOKEN, used only in admin API routes
 export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'owqsc1ph',
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
