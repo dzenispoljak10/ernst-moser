@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { client, imageUrl } from '@/lib/sanity'
+import { readClient as client, imageUrl } from '@/lib/sanity'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import CountUp from '@/components/ui/CountUp'
 import {

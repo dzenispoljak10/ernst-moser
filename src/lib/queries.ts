@@ -1,5 +1,4 @@
-import { readClient, client as noCdnClient } from './sanity'
-const client = readClient
+import { readClient as client } from './sanity'
 
 export interface SanityCenter {
   _id: string
@@ -182,7 +181,7 @@ export interface SanityTeamMember {
 }
 
 export async function getTeamMembers(): Promise<SanityTeamMember[]> {
-  return noCdnClient.fetch(`
+  return client.fetch(`
     *[_type == "teamMember" && isActive != false] | order(order asc, lastName asc) {
       _id, firstName, lastName, role, photo, email, phone, order, isActive,
       center->{ _id, name, slug, color }
