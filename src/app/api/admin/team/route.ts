@@ -3,6 +3,8 @@ import { auth } from '@/auth'
 import { prisma } from '@/lib/prisma'
 import { client } from '@/lib/sanity'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   const session = await auth()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -12,7 +14,7 @@ export async function GET() {
       orderBy: [{ order: 'asc' }, { lastName: 'asc' }],
     })
     return NextResponse.json(members)
-  } catch (err) {
+  } catch {
     return NextResponse.json({ error: 'DB error' }, { status: 500 })
   }
 }
@@ -41,7 +43,7 @@ export async function POST(req: NextRequest) {
     await syncTeamMemberToSanity(member)
 
     return NextResponse.json(member, { status: 201 })
-  } catch (err) {
+  } catch {
     return NextResponse.json({ error: 'Create failed' }, { status: 500 })
   }
 }
