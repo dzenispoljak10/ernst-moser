@@ -1,7 +1,7 @@
 'use client'
 
 import { NextStudio } from 'next-sanity/studio'
-import config from '../../../../studio/sanity.config'
+import config from '@/lib/sanity.config'
 
 export const dynamic = 'force-dynamic'
 
