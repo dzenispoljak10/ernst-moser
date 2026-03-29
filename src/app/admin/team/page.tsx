@@ -1,7 +1,7 @@
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { Users, Plus, Pencil, Trash2, CheckCircle2, XCircle } from 'lucide-react'
+import { Plus, Pencil, CheckCircle2, XCircle } from 'lucide-react'
 import DeleteTeamMember from './DeleteTeamMember'
 
 interface TeamMember {
@@ -33,18 +33,11 @@ export default async function TeamPage() {
 
   return (
     <div className="p-8 max-w-5xl mx-auto">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-3">
-          <Users size={22} className="text-gray-400" />
-          <div>
-            <h1 className="text-xl font-semibold text-gray-900">Teammitglieder</h1>
-            <p className="text-sm text-gray-500 mt-0.5">{members.length} Einträge</p>
-          </div>
-        </div>
+      <div className="flex items-center justify-between mb-6">
+        <p className="text-sm text-gray-500">{members.length} Einträge</p>
         <Link
           href="/admin/team/new"
-          className="flex items-center gap-2 px-4 py-2 rounded-lg text-white text-sm font-medium transition-colors"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-semibold transition-all hover:brightness-110"
           style={{ background: '#1B2D5B' }}
         >
           <Plus size={16} />
@@ -52,62 +45,55 @@ export default async function TeamPage() {
         </Link>
       </div>
 
-      {/* Table */}
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         {members.length === 0 ? (
-          <div className="p-12 text-center">
-            <Users size={32} className="text-gray-200 mx-auto mb-3" />
-            <p className="text-gray-500 text-sm">Noch keine Teammitglieder.</p>
-            <p className="text-gray-400 text-xs mt-1">
-              Führen Sie erst{' '}
-              <code className="bg-gray-100 px-1 rounded">npx prisma db push && npx tsx prisma/seed.ts</code>{' '}
-              aus.
-            </p>
+          <div className="p-16 text-center">
+            <p className="text-gray-400 text-sm">Noch keine Teammitglieder vorhanden.</p>
           </div>
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gray-100">
-                <th className="text-left text-xs font-medium text-gray-400 uppercase tracking-wide px-6 py-3">
+              <tr className="border-b border-gray-50">
+                <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wide px-6 py-4">
                   Mitglied
                 </th>
-                <th className="text-left text-xs font-medium text-gray-400 uppercase tracking-wide px-4 py-3">
+                <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wide px-4 py-4">
                   Rolle
                 </th>
-                <th className="text-left text-xs font-medium text-gray-400 uppercase tracking-wide px-4 py-3 hidden md:table-cell">
+                <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wide px-4 py-4 hidden md:table-cell">
                   Kontakt
                 </th>
-                <th className="text-left text-xs font-medium text-gray-400 uppercase tracking-wide px-4 py-3 hidden sm:table-cell">
+                <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wide px-4 py-4 hidden sm:table-cell">
                   Status
                 </th>
-                <th className="px-4 py-3" />
+                <th className="px-4 py-4 w-24" />
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
               {members.map((m) => (
-                <tr key={m.id} className="hover:bg-gray-50/50 transition-colors">
+                <tr key={m.id} className="hover:bg-gray-50/60 transition-colors">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       {m.photoUrl ? (
                         <img
                           src={m.photoUrl}
                           alt={`${m.firstName} ${m.lastName}`}
-                          className="w-9 h-9 rounded-full object-cover"
+                          className="w-9 h-9 rounded-xl object-cover"
                         />
                       ) : (
                         <div
-                          className="w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-semibold"
+                          className="w-9 h-9 rounded-xl flex items-center justify-center text-white text-xs font-bold"
                           style={{ background: '#1B2D5B' }}
                         >
                           {m.firstName.charAt(0)}{m.lastName.charAt(0)}
                         </div>
                       )}
                       <div>
-                        <div className="text-sm font-medium text-gray-900">
+                        <div className="text-sm font-semibold text-gray-900">
                           {m.firstName} {m.lastName}
                         </div>
                         {m.centerId && (
-                          <div className="text-xs text-gray-400">{m.centerId}</div>
+                          <div className="text-xs text-gray-400 mt-0.5">{m.centerId}</div>
                         )}
                       </div>
                     </div>
@@ -121,12 +107,12 @@ export default async function TeamPage() {
                   </td>
                   <td className="px-4 py-4 hidden sm:table-cell">
                     {m.isActive ? (
-                      <span className="inline-flex items-center gap-1 text-xs text-green-700 bg-green-50 px-2 py-0.5 rounded-full">
+                      <span className="inline-flex items-center gap-1.5 text-xs font-medium text-green-700 bg-green-50 px-2.5 py-1 rounded-lg">
                         <CheckCircle2 size={11} />
                         Aktiv
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1 text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
+                      <span className="inline-flex items-center gap-1.5 text-xs font-medium text-gray-500 bg-gray-100 px-2.5 py-1 rounded-lg">
                         <XCircle size={11} />
                         Inaktiv
                       </span>

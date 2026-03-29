@@ -94,32 +94,32 @@ export default function TeamForm({ defaultValues, memberId }: TeamFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
-        <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+        <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
           <X size={14} />
           {error}
         </div>
       )}
 
       {/* Photo */}
-      <div className="bg-white rounded-xl border border-gray-100 p-6">
-        <h3 className="text-sm font-semibold text-gray-700 mb-4">Foto</h3>
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-5">Foto</h3>
         <div className="flex items-center gap-4">
           {form.photoUrl ? (
             <img
               src={form.photoUrl}
               alt="Vorschau"
-              className="w-16 h-16 rounded-full object-cover border-2 border-gray-100"
+              className="w-16 h-16 rounded-xl object-cover border-2 border-gray-100"
             />
           ) : (
             <div
-              className="w-16 h-16 rounded-full flex items-center justify-center text-white text-lg font-semibold"
+              className="w-16 h-16 rounded-xl flex items-center justify-center text-white text-lg font-bold"
               style={{ background: '#1B2D5B' }}
             >
               {form.firstName?.charAt(0) || '?'}
             </div>
           )}
           <div>
-            <label className="cursor-pointer inline-flex items-center gap-2 px-3 py-1.5 border border-gray-200 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+            <label className="cursor-pointer inline-flex items-center gap-2 px-3 py-2 border border-gray-200 rounded-xl text-sm text-gray-700 hover:bg-gray-50 transition-colors">
               <Upload size={14} />
               {uploading ? 'Uploading…' : 'Foto hochladen'}
               <input
@@ -144,8 +144,8 @@ export default function TeamForm({ defaultValues, memberId }: TeamFormProps) {
       </div>
 
       {/* Name & Role */}
-      <div className="bg-white rounded-xl border border-gray-100 p-6">
-        <h3 className="text-sm font-semibold text-gray-700 mb-4">Grunddaten</h3>
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-5">Grunddaten</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <FormField
             label="Vorname *"
@@ -170,8 +170,8 @@ export default function TeamForm({ defaultValues, memberId }: TeamFormProps) {
       </div>
 
       {/* Contact */}
-      <div className="bg-white rounded-xl border border-gray-100 p-6">
-        <h3 className="text-sm font-semibold text-gray-700 mb-4">Kontakt</h3>
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-5">Kontakt</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <FormField
             label="E-Mail"
@@ -188,15 +188,15 @@ export default function TeamForm({ defaultValues, memberId }: TeamFormProps) {
       </div>
 
       {/* Center & Settings */}
-      <div className="bg-white rounded-xl border border-gray-100 p-6">
-        <h3 className="text-sm font-semibold text-gray-700 mb-4">Einstellungen</h3>
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-5">Einstellungen</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1.5">Center</label>
             <select
               value={form.centerId}
               onChange={(e) => set('centerId', e.target.value)}
-              className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none"
+              className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none"
               onFocus={(e) => {
                 e.currentTarget.style.borderColor = '#1B2D5B'
                 e.currentTarget.style.boxShadow = '0 0 0 2px rgba(27,45,91,0.15)'
@@ -244,7 +244,7 @@ export default function TeamForm({ defaultValues, memberId }: TeamFormProps) {
         <button
           type="submit"
           disabled={saving}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-white text-sm font-medium transition-colors disabled:opacity-70"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-sm font-semibold transition-all hover:brightness-110 disabled:opacity-70"
           style={{ background: '#1B2D5B' }}
         >
           <Save size={15} />
@@ -253,7 +253,7 @@ export default function TeamForm({ defaultValues, memberId }: TeamFormProps) {
         <button
           type="button"
           onClick={() => router.push('/admin/team')}
-          className="px-4 py-2.5 rounded-lg text-sm text-gray-600 border border-gray-200 hover:bg-gray-50 transition-colors"
+          className="px-4 py-2.5 rounded-xl text-sm text-gray-600 border border-gray-200 hover:bg-gray-50 transition-colors"
         >
           Abbrechen
         </button>
@@ -285,7 +285,7 @@ function FormField({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         required={required}
-        className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none transition-all"
+        className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none transition-all"
         onFocus={(e) => {
           e.currentTarget.style.borderColor = '#1B2D5B'
           e.currentTarget.style.boxShadow = '0 0 0 2px rgba(27,45,91,0.15)'

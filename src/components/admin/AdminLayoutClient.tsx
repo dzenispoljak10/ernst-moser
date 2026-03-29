@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import Sidebar from './Sidebar'
+import TopBar from './TopBar'
 
 interface AdminLayoutClientProps {
   children: React.ReactNode
@@ -21,7 +22,6 @@ export default function AdminLayoutClient({
   const router = useRouter()
   const isLoginPage = pathname === '/admin/login'
 
-  // Client-side fallback redirect (server redirect is primary)
   useEffect(() => {
     if (!isAuthenticated && !isLoginPage) {
       router.replace('/admin/login')
@@ -42,9 +42,12 @@ export default function AdminLayoutClient({
   return (
     <div className="flex h-full overflow-hidden">
       <Sidebar userName={userName} userEmail={userEmail} />
-      <main className="flex-1 overflow-auto bg-gray-50">
-        {children}
-      </main>
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <TopBar userName={userName} />
+        <main className="flex-1 overflow-auto" style={{ background: '#f8fafc' }}>
+          {children}
+        </main>
+      </div>
     </div>
   )
 }
