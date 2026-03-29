@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { auth } from '@/auth'
 import { prisma } from '@/lib/prisma'
 import { client } from '@/lib/sanity'
@@ -50,6 +51,10 @@ export async function PUT(
     // Sync to Sanity
     await syncTeamMemberToSanity(member.firstName, member.lastName, body)
 
+    // Revalidate public pages
+    revalidatePath('/unternehmen')
+    revalidatePath('/unternehmen/team')
+
     return NextResponse.json(member)
   } catch {
     return NextResponse.json({ error: 'Update failed' }, { status: 500 })
@@ -69,6 +74,9 @@ export async function DELETE(
 
     // Mark as inactive in Sanity instead of deleting
     await markSanityTeamMemberInactive(member.firstName, member.lastName)
+
+    revalidatePath('/unternehmen')
+    revalidatePath('/unternehmen/team')
 
     return NextResponse.json({ success: true })
   } catch {

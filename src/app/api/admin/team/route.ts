@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { auth } from '@/auth'
 import { prisma } from '@/lib/prisma'
 import { client } from '@/lib/sanity'
@@ -41,6 +42,9 @@ export async function POST(req: NextRequest) {
 
     // Sync to Sanity
     await syncTeamMemberToSanity(member)
+
+    revalidatePath('/unternehmen')
+    revalidatePath('/unternehmen/team')
 
     return NextResponse.json(member, { status: 201 })
   } catch {
