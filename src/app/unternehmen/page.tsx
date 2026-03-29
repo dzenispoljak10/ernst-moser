@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { client, urlFor } from '@/lib/sanity'
+import { client, imageUrl } from '@/lib/sanity'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import CountUp from '@/components/ui/CountUp'
 import {
@@ -74,7 +74,7 @@ export default async function UnternehmenPage() {
       {/* ══ HERO ══════════════════════════════════════════════════ */}
       <section className="unternehmen-hero">
         <Image
-          src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&q=85&auto=format&fit=crop"
+          src="/images/unsplash/workshop.jpg"
           alt="Ernst Moser GmbH Firmengelände"
           fill
           style={{ objectFit: 'cover' }}
@@ -185,7 +185,7 @@ export default async function UnternehmenPage() {
           <div className="team-preview-grid">
             {team.length > 0 ? team.map((member, i) => {
               const photoUrl = member.photo?.asset
-                ? urlFor({ _type: 'image', asset: member.photo.asset }).width(480).height(480).fit('crop').url()
+                ? imageUrl({ _type: 'image', asset: member.photo.asset })
                 : null
               const centerColor = member.center?.color ?? '#1B2D5B'
               return (

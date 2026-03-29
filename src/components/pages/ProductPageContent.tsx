@@ -1,4 +1,4 @@
-import { client, urlFor } from '@/lib/sanity'
+import { client, imageUrl } from '@/lib/sanity'
 import { getSalespersonByBrand } from '@/lib/queries'
 import { notFound } from 'next/navigation'
 import ProductHeroClient from '@/components/ui/ProductHeroClient'
@@ -63,13 +63,9 @@ export default async function ProductPageContent({
     product.brandImages?.[0] ??
     null
 
-  const imageUrl = imageSource
-    ? urlFor(imageSource).width(900).height(900).fit('max').url()
-    : null
+  const productImageUrl = imageSource ? imageUrl(imageSource) : null
 
-  const spPhotoUrl = sp?.photo
-    ? urlFor(sp.photo).width(560).height(680).fit('crop').url()
-    : null
+  const spPhotoUrl = sp?.photo ? imageUrl(sp.photo) : null
 
   const descriptionText = ptText(product.description)
   const specs = (product.specs ?? []) as Array<{ label: string; value: string }>
@@ -84,7 +80,7 @@ export default async function ProductPageContent({
         centerName={center.name}
         centerSlug={centerSlug}
         centerColor={center.color}
-        imageUrl={imageUrl}
+        imageUrl={productImageUrl}
         descriptionText={descriptionText}
         specs={specs}
         priceLabel={product.priceLabel ?? null}

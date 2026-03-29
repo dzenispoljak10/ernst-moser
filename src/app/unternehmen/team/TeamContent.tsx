@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Phone, Mail } from 'lucide-react'
-import { urlFor } from '@/lib/sanity'
+import { imageUrl } from '@/lib/sanity'
 import type { SanityTeamMember } from '@/lib/queries'
 
 const FILTERS = [
@@ -54,7 +54,7 @@ export default function TeamContent({ members }: Props) {
         <AnimatePresence mode="popLayout">
           {filtered.map((member, i) => {
             const photoUrl = member.photo?.asset
-              ? urlFor({ _type: 'image', asset: member.photo.asset }).width(480).height(640).fit('crop').url()
+              ? imageUrl({ _type: 'image', asset: member.photo.asset })
               : null
             const centerColor = member.center?.color ?? '#1B2D5B'
 

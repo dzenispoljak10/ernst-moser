@@ -9,7 +9,7 @@ import {
   Tag, Compass, Wrench, ShoppingCart, Key, Bot,
 } from 'lucide-react'
 import { getMenuColumnsForCenter, type MenuColumn } from '@/lib/menuConfig'
-import { urlFor } from '@/lib/sanity'
+import { imageUrl } from '@/lib/sanity'
 import type { SanityCenter, SanityBrand } from '@/lib/queries'
 
 /* ── Icon map ─────────────────────────────────────────────────── */
@@ -216,7 +216,7 @@ export default function MegaMenu({ centers, brandsByCenter, logoUrl }: Props) {
                                 <div className="megamenu-brand-logo-box">
                                   {brand.logo ? (
                                     <Image
-                                      src={urlFor(brand.logo).width(80).height(48).fit('max').url()}
+                                      src={imageUrl(brand.logo)}
                                       alt={brand.name}
                                       width={40} height={24}
                                       className="megamenu-brand-logo"

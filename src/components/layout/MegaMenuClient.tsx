@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, ShoppingBag, X, ChevronRight, ArrowRight, Menu } from 'lucide-react'
 import type { SanityCenter, SanityBrand, SanityMenuCategory } from '@/lib/queries'
-import { urlFor } from '@/lib/sanity'
+import { imageUrl } from '@/lib/sanity'
 
 interface Props {
   centers: SanityCenter[]
@@ -197,7 +197,7 @@ export default function MegaMenuClient({ centers, brandsByCenter, menuCatsByCent
                             >
                               {brand.logo ? (
                                 <Image
-                                  src={urlFor(brand.logo).width(100).height(50).fit('max').url()}
+                                  src={imageUrl(brand.logo)}
                                   alt={brand.name}
                                   width={100}
                                   height={50}

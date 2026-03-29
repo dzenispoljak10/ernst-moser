@@ -1,5 +1,5 @@
 import { getCenters, getAllBrands } from '@/lib/queries'
-import { client, urlFor } from '@/lib/sanity'
+import { client, imageUrl } from '@/lib/sanity'
 import Image from 'next/image'
 import Link from 'next/link'
 import CountUp from '@/components/ui/CountUp'
@@ -89,7 +89,7 @@ export default async function HomePage() {
                     {/* Background image */}
                     {center.heroImage ? (
                       <Image
-                        src={urlFor(center.heroImage).width(800).height(700).fit('crop').url()}
+                        src={imageUrl(center.heroImage)}
                         alt={center.name}
                         fill
                         className="hp-center-card-bg"
@@ -126,7 +126,7 @@ export default async function HomePage() {
                             <div key={brand._id} className="hp-center-brand-chip" title={brand.name}>
                               {brand.logo ? (
                                 <Image
-                                  src={urlFor(brand.logo).width(60).height(36).fit('max').url()}
+                                  src={imageUrl(brand.logo)}
                                   alt={brand.name}
                                   width={30}
                                   height={18}
@@ -206,7 +206,7 @@ export default async function HomePage() {
                     <div className="hp-product-img">
                       {p.mainImage ? (
                         <Image
-                          src={urlFor(p.mainImage).width(600).height(450).fit('max').url()}
+                          src={imageUrl(p.mainImage)}
                           alt={p.name}
                           fill
                           style={{ objectFit: 'contain' }}
@@ -264,7 +264,7 @@ export default async function HomePage() {
                 >
                   {brand.logo ? (
                     <Image
-                      src={urlFor(brand.logo).width(180).height(80).fit('max').url()}
+                      src={imageUrl(brand.logo)}
                       alt={brand.name}
                       width={90}
                       height={40}

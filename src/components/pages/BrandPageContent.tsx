@@ -1,4 +1,4 @@
-import { client, urlFor } from '@/lib/sanity'
+import { client, imageUrl } from '@/lib/sanity'
 import { getSalespersonByBrand } from '@/lib/queries'
 import { getIcon } from '@/lib/iconMap'
 import Image from 'next/image'
@@ -119,17 +119,9 @@ export default async function BrandPageContent({
   const hasApplications = applications.length > 0
 
   const heroImgRaw = brand.heroImage ?? brand.images?.[0] ?? null
-  const heroImgUrl = heroImgRaw
-    ? urlFor(heroImgRaw).width(1920).height(1080).fit('crop').url()
-    : null
-
-  const logoUrl = brand.logo
-    ? urlFor(brand.logo).width(360).height(160).fit('max').url()
-    : null
-
-  const spPhotoUrl = sp?.photo
-    ? urlFor(sp.photo).width(560).height(680).fit('crop').url()
-    : null
+  const heroImgUrl = heroImgRaw ? imageUrl(heroImgRaw) : null
+  const logoUrl = brand.logo ? imageUrl(brand.logo) : null
+  const spPhotoUrl = sp?.photo ? imageUrl(sp.photo) : null
 
   const descBlocks = (brand.description ?? []) as PortableBlock[]
   const descText   = ptText(descBlocks)
@@ -233,7 +225,7 @@ export default async function BrandPageContent({
                       <div className="brand-product-img">
                         {product.mainImage ? (
                           <Image
-                            src={urlFor(product.mainImage).width(600).height(450).fit('max').url()}
+                            src={imageUrl(product.mainImage)}
                             alt={product.name}
                             fill
                             style={{ objectFit: 'contain' }}
@@ -275,7 +267,7 @@ export default async function BrandPageContent({
                       <div className="brand-product-img">
                         {p.image?.asset ? (
                           <Image
-                            src={urlFor(p.image).width(600).height(450).fit('max').url()}
+                            src={imageUrl(p.image)}
                             alt={p.name}
                             fill
                             style={{ objectFit: 'contain' }}

@@ -1,4 +1,4 @@
-import { client, urlFor } from '@/lib/sanity'
+import { client, imageUrl } from '@/lib/sanity'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -116,7 +116,7 @@ export default async function CenterPageContent({ centerSlug }: { centerSlug: st
       >
         {center.heroImage && (
           <Image
-            src={urlFor(center.heroImage).width(1600).height(700).fit('crop').url()}
+            src={imageUrl(center.heroImage)}
             alt={center.name}
             fill
             className="center-hero-media"
@@ -185,7 +185,7 @@ export default async function CenterPageContent({ centerSlug }: { centerSlug: st
                   {brand.heroImage ? (
                     <div style={{ width: '100%', aspectRatio: '3/2', borderRadius: 8, overflow: 'hidden', position: 'relative', marginBottom: 8 }}>
                       <Image
-                        src={urlFor(brand.heroImage).width(400).height(266).fit('crop').url()}
+                        src={imageUrl(brand.heroImage)}
                         alt={brand.name}
                         fill
                         style={{ objectFit: 'cover' }}
@@ -197,7 +197,7 @@ export default async function CenterPageContent({ centerSlug }: { centerSlug: st
                     <div className="brand-logo-wrap">
                       {brand.logo ? (
                         <Image
-                          src={urlFor(brand.logo).width(200).height(100).fit('max').url()}
+                          src={imageUrl(brand.logo)}
                           alt={brand.name}
                           width={160}
                           height={72}

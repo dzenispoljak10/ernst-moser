@@ -13,7 +13,7 @@ const ITEMS = [
     tag: 'Lokaler Partner',
     title: 'Fest verwurzelt in der Region Solothurn',
     text: 'Als regional verwurzeltes Unternehmen kennen wir die Anforderungen unserer Kunden aus der Region Solothurn und dem Mittelland genau. Kurze Wege, schnelle Reaktion – persönlich, lokal und zuverlässig.',
-    image: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1200&q=85&auto=format&fit=crop',
+    image: '/images/unsplash/truck-1.jpg',
     imageAlt: 'LKW Fleet – regionaler Partner',
   },
   {
@@ -31,7 +31,7 @@ const ITEMS = [
     tag: 'Service & Unterhalt',
     title: 'Schneller Service, minimale Ausfallzeiten',
     text: 'Unsere Werkstatt mit modernster Ausrüstung und ein grosses Ersatzteillager für alle Marken garantieren schnelle Reparaturen und planmässigen Unterhalt. Damit Ihre Fahrzeuge und Geräte laufen – immer.',
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=85&auto=format&fit=crop',
+    image: '/images/unsplash/machinery.jpg',
     imageAlt: 'Werkstatt Service Reparatur',
   },
   {
@@ -40,7 +40,7 @@ const ITEMS = [
     tag: 'Breites Sortiment',
     title: 'Über 30 Marken – alles unter einem Dach',
     text: 'Von Lastwagen bis zum Mähroboter, von Kommunalfahrzeugen bis zu Motorgeräten: Unser breites Sortiment führender Marken deckt alle Bedürfnisse von Gewerbe, Kommunen und Privatanwendern ab.',
-    image: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1200&q=85&auto=format&fit=crop',
+    image: '/images/unsplash/vehicles.jpg',
     imageAlt: 'Showroom Fahrzeuge Sortiment',
   },
 ]

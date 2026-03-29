@@ -1,5 +1,7 @@
 import { createClient } from '@sanity/client'
 import { createImageUrlBuilder } from '@sanity/image-url'
+import localImages from './localImages.json'
+import localExternalImages from './localExternalImages.json'
 
 export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'owqsc1ph',
@@ -14,4 +16,28 @@ const builder = createImageUrlBuilder(client)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function urlFor(source: any) {
   return builder.image(source)
+}
+
+/**
+ * Returns a local image path if available, otherwise falls back to the Sanity CDN URL.
+ * Use this instead of urlFor(source).url() for simple (untransformed) image URLs.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function imageUrl(source: any): string {
+  if (!source) return ''
+  // Handle plain string URLs (hardcoded external URLs)
+  if (typeof source === 'string') {
+    return (localExternalImages as Record<string, string>)[source] ?? source
+  }
+  // Handle Sanity image objects
+  const ref: string | undefined = source?.asset?._ref ?? source?.asset?._id
+  if (ref) {
+    const local = (localImages as Record<string, string>)[ref]
+    if (local) return local
+  }
+  try {
+    return urlFor(source).url()
+  } catch {
+    return ''
+  }
 }
