@@ -16,18 +16,18 @@ async function main() {
   console.log('🌱 Seed startet...')
 
   // ─── Admin User ──────────────────────────────────────────────────────────────
-  const passwordHash = await bcrypt.hash('ErnstMoser2026!', 12)
+  const passwordHash = await bcrypt.hash('EM12345', 12)
   await prisma.user.upsert({
     where: { email: 'admin@ernst-moser.ch' },
-    update: {},
+    update: { password: passwordHash, name: 'Admin', role: 'admin' },
     create: {
       email: 'admin@ernst-moser.ch',
       password: passwordHash,
-      name: 'Administrator',
+      name: 'Admin',
       role: 'admin',
     },
   })
-  console.log('✅ Admin User erstellt: admin@ernst-moser.ch / ErnstMoser2026!')
+  console.log('✅ Admin User erstellt: admin@ernst-moser.ch / EM12345')
 
   // ─── Team Members von Sanity importieren ────────────────────────────────────
   try {
