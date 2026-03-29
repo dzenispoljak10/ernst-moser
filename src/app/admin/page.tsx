@@ -1,7 +1,7 @@
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { Users, Tag, UserCheck, ArrowUpRight, Plus, ArrowRight } from 'lucide-react'
+import { Users, Tag, UserCheck, ArrowUpRight, ArrowRight } from 'lucide-react'
 
 async function getStats() {
   try {
@@ -137,14 +137,7 @@ export default async function AdminDashboardPage() {
             <Link
               key={href}
               href={href}
-              className="flex items-center gap-4 p-5 bg-white border border-gray-100 rounded-xl hover:shadow-md hover:border-opacity-20 transition-all group"
-              style={{ '--hover-border': color } as React.CSSProperties}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = `${color}30`
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = '#f3f4f6'
-              }}
+              className="flex items-center gap-4 p-5 bg-white border border-gray-100 rounded-xl hover:shadow-md transition-all group"
             >
               <div
                 className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
