@@ -3,70 +3,109 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MessageCircle, X, Send } from 'lucide-react'
+import Link from 'next/link'
+import { getResponse, ChatbotLink } from '@/lib/chatbot'
 
 interface Message {
   id: string
   role: 'bot' | 'user'
   text: string
+  displayText?: string
+  links?: ChatbotLink[]
+  chips?: string[]
+  typing?: boolean
 }
 
-const SUGGESTIONS = [
-  { label: '📍 Standort & Öffnungszeiten', value: 'Standort & Öffnungszeiten' },
-  { label: '🚛 Nutzfahrzeuge', value: 'Nutzfahrzeuge' },
-  { label: '🌿 Kommunalgeräte', value: 'Kommunalgeräte' },
-  { label: '⚙️ Motorgeräte', value: 'Motorgeräte' },
-]
-
-const BOT_REPLY =
-  'Danke für Ihre Nachricht! 😊 Unser Team hilft Ihnen gerne persönlich weiter.\n📞 +41(0)32 675 58 05\n✉️ info@ernst-moser.ch'
+const DEFAULT_CHIPS = ['Nutzfahrzeuge', 'Kommunal', 'Motorgeräte', 'Kontakt']
+const TYPING_SPEED = 15 // ms per character
 
 export default function ChatBot() {
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
-  const [typing, setTyping] = useState(false)
-  const [showSuggestions, setShowSuggestions] = useState(false)
+  const [isTyping, setIsTyping] = useState(false)
+  const [showChips, setShowChips] = useState(false)
+  const [currentChips, setCurrentChips] = useState<string[]>(DEFAULT_CHIPS)
   const [mounted, setMounted] = useState(false)
   const welcomeDone = useRef(false)
   const bottomRef = useRef<HTMLDivElement>(null)
+  const typingRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // Mount guard – avoids SSR mismatch
   useEffect(() => { setMounted(true) }, [])
 
-  // Welcome sequence on first open
   useEffect(() => {
     if (!open || welcomeDone.current) return
     welcomeDone.current = true
 
     const t1 = setTimeout(() => {
-      setMessages([{ id: 'w1', role: 'bot', text: 'Hallo! 👋 Ich bin Ihre Ernst Moser Assistenz.' }])
+      addBotMessage('Hallo! 👋 Ich bin Ihre Ernst Moser Assistenz.', undefined, undefined, () => {
+        const t2 = setTimeout(() => {
+          addBotMessage(
+            'Senden Sie mir Ihre Nachricht – ich versuche Ihnen weiterzuhelfen!',
+            undefined,
+            DEFAULT_CHIPS,
+          )
+        }, 400)
+        return () => clearTimeout(t2)
+      })
     }, 300)
-    const t2 = setTimeout(() => {
-      setMessages(prev => [...prev, { id: 'w2', role: 'bot', text: 'Senden Sie mir Ihre Nachricht – ich versuche Ihnen weiterzuhelfen!' }])
-    }, 1000)
-    const t3 = setTimeout(() => { setShowSuggestions(true) }, 1800)
 
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3) }
+    return () => clearTimeout(t1)
   }, [open])
 
-  // Auto-scroll
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, typing, showSuggestions])
+  }, [messages, isTyping, showChips])
 
-  const sendMessage = (text: string) => {
-    if (!text.trim()) return
-    setMessages(prev => [...prev, { id: Date.now().toString(), role: 'user', text: text.trim() }])
-    setInput('')
-    setShowSuggestions(false)
-    setTyping(true)
-    setTimeout(() => {
-      setTyping(false)
-      setMessages(prev => [...prev, { id: Date.now().toString() + 'b', role: 'bot', text: BOT_REPLY }])
-    }, 1500)
+  function addBotMessage(
+    fullText: string,
+    links?: ChatbotLink[],
+    chips?: string[],
+    onDone?: () => (() => void) | void,
+  ) {
+    const id = Date.now().toString() + Math.random()
+    setMessages(prev => [...prev, { id, role: 'bot', text: fullText, displayText: '', links, chips, typing: true }])
+    setShowChips(false)
+
+    let i = 0
+    function tick() {
+      i++
+      setMessages(prev =>
+        prev.map(m =>
+          m.id === id
+            ? { ...m, displayText: fullText.slice(0, i), typing: i < fullText.length }
+            : m,
+        ),
+      )
+      if (i < fullText.length) {
+        typingRef.current = setTimeout(tick, TYPING_SPEED)
+      } else {
+        if (chips) {
+          setCurrentChips(chips)
+          setShowChips(true)
+        }
+        onDone?.()
+      }
+    }
+    typingRef.current = setTimeout(tick, TYPING_SPEED)
   }
 
-  // Don't render anything until client-side mount
+  const sendMessage = (text: string) => {
+    if (!text.trim() || isTyping) return
+    const userMsg = text.trim()
+    setInput('')
+    setShowChips(false)
+    setMessages(prev => [...prev, { id: Date.now().toString(), role: 'user', text: userMsg }])
+    setIsTyping(true)
+
+    // Small delay to simulate "thinking"
+    setTimeout(() => {
+      setIsTyping(false)
+      const response = getResponse(userMsg)
+      addBotMessage(response.answer, response.links, response.chips ?? DEFAULT_CHIPS)
+    }, 600)
+  }
+
   if (!mounted) return null
 
   return (
@@ -109,32 +148,35 @@ export default function ChatBot() {
                   >
                     {msg.role === 'bot' && <div className="chatbot-msg-avatar">E</div>}
                     <div className={`chatbot-bubble chatbot-bubble--${msg.role}`}>
-                      {msg.text.split('\n').map((line, i, arr) => (
-                        <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
-                      ))}
+                      <span>
+                        {(msg.displayText ?? msg.text).split('\n').map((line, i, arr) => (
+                          <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
+                        ))}
+                        {msg.typing && <span className="chatbot-cursor">|</span>}
+                      </span>
+                      {/* Links under bubble */}
+                      {!msg.typing && msg.links && msg.links.length > 0 && (
+                        <div className="chatbot-links">
+                          {msg.links.map(link => (
+                            <Link
+                              key={link.href}
+                              href={link.href}
+                              className="chatbot-link-btn"
+                              onClick={() => setOpen(false)}
+                            >
+                              {link.label} →
+                            </Link>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </motion.div>
                 ))}
 
-                {showSuggestions && (
+                {/* Typing indicator */}
+                {isTyping && (
                   <motion.div
-                    key="suggestions"
-                    className="chatbot-suggestions"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.22 }}
-                  >
-                    {SUGGESTIONS.map(s => (
-                      <button key={s.value} className="chatbot-chip" onClick={() => sendMessage(s.value)}>
-                        {s.label}
-                      </button>
-                    ))}
-                  </motion.div>
-                )}
-
-                {typing && (
-                  <motion.div
-                    key="typing"
+                    key="typing-indicator"
                     className="chatbot-msg-row chatbot-msg-row--bot"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -146,6 +188,27 @@ export default function ChatBot() {
                       <span className="chatbot-dot" />
                       <span className="chatbot-dot" />
                     </div>
+                  </motion.div>
+                )}
+
+                {/* Follow-up chips */}
+                {showChips && (
+                  <motion.div
+                    key="chips"
+                    className="chatbot-suggestions"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.22 }}
+                  >
+                    {currentChips.map(chip => (
+                      <button
+                        key={chip}
+                        className="chatbot-chip"
+                        onClick={() => sendMessage(chip)}
+                      >
+                        {chip}
+                      </button>
+                    ))}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -166,7 +229,7 @@ export default function ChatBot() {
               <button
                 className="chatbot-send-btn"
                 onClick={() => sendMessage(input)}
-                disabled={!input.trim()}
+                disabled={!input.trim() || isTyping}
                 aria-label="Senden"
               >
                 <Send size={16} />

@@ -2566,6 +2566,42 @@ a { color: inherit; }
   border-color: rgba(27,45,91,0.4);
   transform: translateY(-1px);
 }
+.chatbot-cursor {
+  display: inline-block;
+  width: 2px;
+  background: currentColor;
+  margin-left: 1px;
+  animation: chatbot-blink 0.7s steps(1) infinite;
+  vertical-align: text-bottom;
+  height: 1em;
+}
+@keyframes chatbot-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.chatbot-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.chatbot-link-btn {
+  display: inline-block;
+  background: #1b2d5b;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 11px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s, transform 0.1s;
+}
+.chatbot-link-btn:hover {
+  background: #c8102e;
+  transform: translateY(-1px);
+}
 
 /* Input area */
 .chatbot-footer {
