@@ -1,6 +1,7 @@
 import { auth } from '@/auth'
 import { Outfit, Plus_Jakarta_Sans } from 'next/font/google'
 import AdminLayoutClient from '@/components/admin/AdminLayoutClient'
+import { getLogoAsset } from '@/lib/queries'
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -21,7 +22,8 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode
 }) {
-  const session = await auth()
+  const [session, logo] = await Promise.all([auth(), getLogoAsset()])
+  const logoUrl = logo?.url ?? 'https://test.eprofis.ch/wp-content/uploads/2025/12/Element-3Logo-EMoser.avif'
 
   return (
     <div
@@ -37,6 +39,7 @@ export default async function AdminLayout({
       <AdminLayoutClient
         userName={session?.user?.name}
         userEmail={session?.user?.email}
+        logoUrl={logoUrl}
         isAuthenticated={!!session}
       >
         {children}

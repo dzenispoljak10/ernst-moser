@@ -2,6 +2,7 @@ import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Users, Tag, UserCheck, ArrowUpRight, ArrowRight } from 'lucide-react'
+import PageWrapper from '@/components/admin/PageWrapper'
 
 async function getStats() {
   try {
@@ -85,78 +86,78 @@ export default async function AdminDashboardPage() {
   ]
 
   return (
-    <div className="p-8 max-w-5xl mx-auto">
-      {/* Welcome */}
-      <div className="mb-8">
-        <p className="text-gray-500 text-sm" style={{ fontFamily: 'var(--font-body, sans-serif)' }}>
-          Willkommen zurück,{' '}
-          <span className="font-semibold text-gray-700">{session?.user?.name ?? 'Administrator'}</span>
-        </p>
-      </div>
+    <PageWrapper>
+      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
+        {/* Welcome */}
+        <div className="mb-8">
+          <p className="text-gray-500 text-sm" style={{ fontFamily: 'var(--font-body, sans-serif)' }}>
+            Willkommen zurück,{' '}
+            <span className="font-semibold text-gray-700">{session?.user?.name ?? 'Administrator'}</span>
+          </p>
+        </div>
 
-      {/* Stat Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
-        {statCards.map(({ label, value, icon: Icon, href, iconBg, iconColor }) => (
-          <Link
-            key={href}
-            href={href}
-            className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all group"
-          >
-            <div className="flex items-start justify-between mb-5">
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                style={{ background: iconBg }}
-              >
-                <Icon size={20} style={{ color: iconColor }} />
-              </div>
-              <ArrowUpRight
-                size={16}
-                className="text-gray-300 group-hover:text-gray-500 transition-colors"
-              />
-            </div>
-            <div
-              className="text-4xl font-black text-gray-900 mb-1"
-              style={{ fontFamily: 'var(--font-heading, sans-serif)' }}
-            >
-              {value}
-            </div>
-            <div className="text-sm text-gray-500">{label}</div>
-          </Link>
-        ))}
-      </div>
-
-      {/* Quick Actions */}
-      <div>
-        <h2
-          className="text-sm font-semibold text-gray-400 uppercase tracking-widest mb-4"
-        >
-          Schnellzugriff
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {quickActions.map(({ href, label, desc, icon: Icon, color, bg }) => (
+        {/* Stat Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
+          {statCards.map(({ label, value, icon: Icon, href, iconBg, iconColor }) => (
             <Link
               key={href}
               href={href}
-              className="flex items-center gap-4 p-5 bg-white border border-gray-100 rounded-xl hover:shadow-md transition-all group"
+              className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all group"
             >
+              <div className="flex items-start justify-between mb-4">
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+                  style={{ background: iconBg }}
+                >
+                  <Icon size={22} style={{ color: iconColor }} />
+                </div>
+                <ArrowUpRight
+                  size={16}
+                  className="text-gray-300 group-hover:text-gray-500 transition-colors"
+                />
+              </div>
               <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                style={{ background: bg }}
+                className="text-4xl font-black text-gray-900 mb-1"
+                style={{ fontFamily: 'var(--font-heading, sans-serif)' }}
               >
-                <Icon size={18} style={{ color }} />
+                {value}
               </div>
-              <div className="flex-1 min-w-0">
-                <div className="text-sm font-semibold text-gray-800">{label}</div>
-                <div className="text-xs text-gray-400 mt-0.5">{desc}</div>
-              </div>
-              <ArrowRight
-                size={15}
-                className="text-gray-300 group-hover:text-gray-500 transition-colors shrink-0"
-              />
+              <div className="text-sm text-gray-500">{label}</div>
             </Link>
           ))}
         </div>
+
+        {/* Quick Actions */}
+        <div>
+          <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-4">
+            Schnellzugriff
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {quickActions.map(({ href, label, desc, icon: Icon, color, bg }) => (
+              <Link
+                key={href}
+                href={href}
+                className="flex items-center gap-4 p-5 bg-white border border-gray-100 rounded-xl hover:shadow-md hover:border-gray-200 transition-all group"
+              >
+                <div
+                  className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
+                  style={{ background: bg }}
+                >
+                  <Icon size={18} style={{ color }} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-semibold text-gray-800">{label}</div>
+                  <div className="text-xs text-gray-500 mt-0.5">{desc}</div>
+                </div>
+                <ArrowRight
+                  size={15}
+                  className="text-gray-300 group-hover:text-gray-500 transition-colors shrink-0"
+                />
+              </Link>
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
+    </PageWrapper>
   )
 }

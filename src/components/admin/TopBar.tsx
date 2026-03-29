@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { Menu } from 'lucide-react'
 
 const PAGE_TITLES: Record<string, string> = {
   '/admin': 'Dashboard',
@@ -22,9 +23,10 @@ function getTitle(pathname: string): string {
 
 interface TopBarProps {
   userName?: string | null
+  onMenuOpen: () => void
 }
 
-export default function TopBar({ userName }: TopBarProps) {
+export default function TopBar({ userName, onMenuOpen }: TopBarProps) {
   const pathname = usePathname()
   const [now, setNow] = useState('')
 
@@ -32,9 +34,9 @@ export default function TopBar({ userName }: TopBarProps) {
     const fmt = () =>
       setNow(
         new Date().toLocaleDateString('de-CH', {
-          weekday: 'short',
+          weekday: 'long',
           day: '2-digit',
-          month: 'short',
+          month: 'long',
           year: 'numeric',
         })
       )
@@ -44,24 +46,31 @@ export default function TopBar({ userName }: TopBarProps) {
   }, [])
 
   return (
-    <div className="flex items-center justify-between px-8 py-4 bg-white border-b border-gray-100 shrink-0">
-      <h1
-        className="text-xl font-bold text-gray-900"
-        style={{ fontFamily: 'var(--font-heading, sans-serif)' }}
-      >
-        {getTitle(pathname)}
-      </h1>
+    <div
+      className="flex items-center justify-between px-6 lg:px-8 py-4 bg-white border-b border-gray-100 shrink-0"
+    >
       <div className="flex items-center gap-4">
-        {now && (
-          <span className="text-sm text-gray-400 hidden sm:block">{now}</span>
-        )}
-        <div
-          className="w-9 h-9 rounded-xl flex items-center justify-center text-white text-sm font-bold"
-          style={{ background: '#1B2D5B' }}
+        <button
+          onClick={onMenuOpen}
+          className="lg:hidden p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
         >
-          {userName?.charAt(0)?.toUpperCase() ?? 'A'}
-        </div>
+          <Menu size={20} />
+        </button>
+        <h1
+          className="text-xl font-bold text-gray-900"
+          style={{ fontFamily: 'var(--font-heading, sans-serif)' }}
+        >
+          {getTitle(pathname)}
+        </h1>
       </div>
+      {now && (
+        <span
+          className="text-sm text-gray-400 hidden sm:block"
+          style={{ fontFamily: 'var(--font-body, sans-serif)' }}
+        >
+          {now}
+        </span>
+      )}
     </div>
   )
 }
