@@ -53,6 +53,8 @@ a { color: inherit; }
 .section { padding: 80px 0; }
 .section-sm { padding: 48px 0; }
 .section-lg { padding: 120px 0; }
+@media (max-width: 640px) { .container { padding: 0 16px; } }
+@media (max-width: 768px) { .section { padding: 48px 0; } .section-lg { padding: 72px 0; } }
 
 /* ─── Topbar ────────────────────────────────────────────────── */
 .topbar { background: var(--c-dark-2); height: var(--topbar-h); font-size: 10.5px; font-family: var(--font-body, sans-serif); }
@@ -419,6 +421,7 @@ a { color: inherit; }
   overflow: hidden;
   background: #0a0a0a;
 }
+@media (max-width: 768px) { .brand-hero { height: 60vh; min-height: 380px; } }
 
 /* Parallax image wrapper */
 .brand-hero-img-wrap {
@@ -1984,6 +1987,7 @@ a { color: inherit; }
   position: relative; height: 560px; display: flex; align-items: center;
   overflow: hidden; background: var(--c-dark);
 }
+@media (max-width: 768px) { .karriere-hero { height: 420px; } }
 .karriere-hero-overlay {
   position: absolute; inset: 0;
   background: linear-gradient(to right, rgba(15,15,15,0.82) 40%, rgba(15,15,15,0.4));
@@ -2151,6 +2155,7 @@ a { color: inherit; }
   position: relative; height: 560px; display: flex; align-items: center;
   overflow: hidden; background: var(--c-dark);
 }
+@media (max-width: 768px) { .unternehmen-hero { height: 420px; } }
 .unternehmen-hero-overlay {
   position: absolute; inset: 0;
   background: linear-gradient(to right, rgba(15,15,15,0.85) 40%, rgba(15,15,15,0.45));

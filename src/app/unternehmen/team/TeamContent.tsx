@@ -134,14 +134,6 @@ export default function TeamContent({ members }: Props) {
                       {member.firstName} {member.lastName}
                     </div>
                     <div className="team-full-role">{member.role}</div>
-                    {member.center && (
-                      <span
-                        className="team-full-badge"
-                        style={{ background: `${centerColor}14`, color: centerColor }}
-                      >
-                        {member.center.name}
-                      </span>
-                    )}
                     {(member.email || member.phone) && (
                       <div className="team-full-contact">
                         {member.email && (

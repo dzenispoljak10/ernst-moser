@@ -214,14 +214,6 @@ export default async function UnternehmenPage() {
                         {member.firstName} {member.lastName}
                       </div>
                       <div className="team-preview-role">{member.role}</div>
-                      {member.center && (
-                        <span
-                          className="team-preview-badge"
-                          style={{ background: `${centerColor}14`, color: centerColor }}
-                        >
-                          {member.center.name}
-                        </span>
-                      )}
                     </div>
                   </div>
                 </AnimatedSection>
@@ -249,11 +241,6 @@ export default async function UnternehmenPage() {
                     <div className="team-preview-info">
                       <div className="team-preview-name">{m.name}</div>
                       <div className="team-preview-role">{m.role}</div>
-                      {m.center && (
-                        <span className="team-preview-badge" style={{ background: `${m.color}14`, color: m.color }}>
-                          {m.center}
-                        </span>
-                      )}
                     </div>
                   </div>
                 </AnimatedSection>

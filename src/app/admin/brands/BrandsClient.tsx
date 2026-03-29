@@ -94,7 +94,7 @@ export default function BrandsClient({ brands }: { brands: Brand[] }) {
           })}
         </div>
       ) : (
-        <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-xl border border-gray-100 overflow-hidden overflow-x-auto">
           {brands.length === 0 ? (
             <div className="py-16 text-center text-[13px] text-gray-400">
               Noch keine Marken vorhanden.
