@@ -27,7 +27,7 @@ export default async function EditTeamMemberPage({
 
   return (
     <PageWrapper>
-      <div className="p-6 lg:p-8 max-w-2xl mx-auto">
+      <div className="p-6 lg:p-8 mx-auto">
         <div className="mb-6">
           <Link
             href="/admin/team"

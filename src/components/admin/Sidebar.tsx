@@ -80,10 +80,10 @@ export default function Sidebar({ userName, userEmail, logoUrl, open, onClose }:
           <div className="text-[10px] text-white/30 tracking-[0.2em] uppercase mt-2">Admin</div>
         </div>
 
-        <div className="border-t border-white/5 mx-4 my-1" />
+        <div className="border-t border-white/5 mt-2 mb-1" />
 
         {/* Navigation */}
-        <nav className="flex-1 px-3 py-2 space-y-0.5 overflow-y-auto">
+        <nav className="flex-1 px-2 py-3 space-y-0.5 overflow-y-auto">
           {NAV_ITEMS.map(({ href, label, icon: Icon, exact }, i) => {
             const active = isActive(href, exact)
             return (
@@ -96,25 +96,25 @@ export default function Sidebar({ userName, userEmail, logoUrl, open, onClose }:
                 <Link
                   href={href}
                   onClick={onClose}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-all"
+                  className="flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-[15px] font-medium transition-all"
                   style={{
-                    color: active ? '#ffffff' : 'rgba(255,255,255,0.40)',
-                    background: active ? 'rgba(255,255,255,0.10)' : 'transparent',
+                    color: active ? '#ffffff' : 'rgba(255,255,255,0.45)',
+                    background: active ? 'rgba(255,255,255,0.12)' : 'transparent',
                   }}
                   onMouseEnter={(e) => {
                     if (!active) {
-                      e.currentTarget.style.color = 'rgba(255,255,255,0.70)'
-                      e.currentTarget.style.background = 'rgba(255,255,255,0.05)'
+                      e.currentTarget.style.color = 'rgba(255,255,255,0.80)'
+                      e.currentTarget.style.background = 'rgba(255,255,255,0.06)'
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (!active) {
-                      e.currentTarget.style.color = 'rgba(255,255,255,0.40)'
+                      e.currentTarget.style.color = 'rgba(255,255,255,0.45)'
                       e.currentTarget.style.background = 'transparent'
                     }
                   }}
                 >
-                  <Icon size={16} className="shrink-0" />
+                  <Icon size={18} className="shrink-0" />
                   <span>{label}</span>
                 </Link>
               </motion.div>
