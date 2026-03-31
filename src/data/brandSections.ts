@@ -771,8 +771,8 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'Kommerzielle Reinigung',
       headline: 'Pudu CC1 & MT1 — Autonome Reinigungsroboter für Profis',
       body: 'Der Pudu CC1 und MT1 VAC sind vollautonome Gewerbe-Reinigungsroboter für grosse Flächen in Einkaufszentren, Flughäfen, Spitälern und Logistikhallen. Mit LiDAR-SLAM-Navigation, automatischem Schmutzwassermanagement und App-gesteuertem Flottenmanagement ersetzen sie manuelle Bodenreinigung effizient und zuverlässig.',
-      image: '/images/brand-sections/pudu-robotics/robot-restaurant.jpg',
-      imageAlt: 'Pudu Reinigungsroboter im gewerblichen Einsatz',
+      image: '/images/products/pudu-robotics-kommerzielle-reinigungsroboter/main.webp',
+      imageAlt: 'Pudu CC1 gewerblicher Reinigungsroboter',
       imageRight: false,
       features: [
         { icon: 'Bot', title: 'Autonome Navigation', text: 'LiDAR-SLAM ermöglicht selbstständiges Kartieren und Navigieren ohne externe Infrastruktur.' },
@@ -785,8 +785,8 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'Technologie',
       headline: 'Pudu Robotics — KI-Plattform für professionellen Einsatz',
       body: 'Alle Pudu-Roboter basieren auf der proprietären Pudu-AI-Plattform mit Multi-Sensor-Fusion, Deep-Learning-Hinderniserkennung und Echtzeit-Flottenmanagement. Das PuduCloud-System ermöglicht die zentrale Steuerung aller Geräte — ob Reinigungsroboter CC1/MT1 oder Serviceroboter T150/T300.',
-      image: '/images/brand-sections/pudu-robotics/robot-hospital.jpg',
-      imageAlt: 'Pudu Roboter im professionellen Einsatz',
+      image: '/images/products/pudu-robotics-pudu-mt1-vac/main.webp',
+      imageAlt: 'Pudu MT1 VAC Saugroboter für Gewerbe',
       specs: [
         { label: 'Navigation', value: 'SLAM + LiDAR' },
         { label: 'Reinigungsbreite CC1', value: '550 mm' },
