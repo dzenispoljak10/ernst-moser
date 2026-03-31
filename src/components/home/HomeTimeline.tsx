@@ -1,6 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useSpring } from 'framer-motion'
 
 const EASE = [0.4, 0, 0.2, 1] as [number, number, number, number]
 
@@ -17,6 +18,13 @@ const MILESTONES = [
 ]
 
 export default function HomeTimeline() {
+  const trackRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: trackRef,
+    offset: ['start 75%', 'end 25%'],
+  })
+  const scaleY = useSpring(scrollYProgress, { stiffness: 80, damping: 20, restDelta: 0.001 })
+
   return (
     <section className="home-timeline-section">
       <div className="home-timeline-bg-deco" />
@@ -37,8 +45,12 @@ export default function HomeTimeline() {
           </p>
         </motion.div>
 
-        <div className="home-timeline-track">
+        <div className="home-timeline-track" ref={trackRef}>
           <div className="home-timeline-spine" />
+          <motion.div
+            className="home-timeline-spine-progress"
+            style={{ scaleY }}
+          />
 
           {MILESTONES.map((m, i) => (
             <motion.div

@@ -1729,7 +1729,15 @@ a { color: inherit; }
   position: absolute; left: 50%; top: 0; bottom: 0;
   width: 1px; background: rgba(255,255,255,0.1); transform: translateX(-50%);
 }
-@media (max-width: 700px) { .home-timeline-spine { left: 20px; transform: none; } }
+.home-timeline-spine-progress {
+  position: absolute; left: calc(50% - 1px); top: 0; bottom: 0;
+  width: 2px; background: linear-gradient(to bottom, #1B2D5B, #4A7C59);
+  transform-origin: top center;
+}
+@media (max-width: 700px) {
+  .home-timeline-spine { left: 20px; transform: none; }
+  .home-timeline-spine-progress { left: 19px; }
+}
 
 .home-timeline-item {
   display: grid; grid-template-columns: 1fr 40px 1fr; align-items: flex-start; padding: 24px 0;
