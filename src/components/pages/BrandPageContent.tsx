@@ -1,4 +1,5 @@
-import { readClient as client, imageUrl, productImageBySlug } from '@/lib/sanity'
+import { readClient as client, imageUrl } from '@/lib/sanity'
+import { productImageBySlug } from '@/lib/serverImages'
 import { getSalespersonByBrand } from '@/lib/queries'
 import { getIcon } from '@/lib/iconMap'
 import Image from 'next/image'
