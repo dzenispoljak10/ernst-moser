@@ -1,4 +1,22 @@
-import Image from 'next/image'
+'use client'
+
+import { useEffect } from 'react'
+
+declare global {
+  interface Window {
+    instgrm?: { Embeds: { process(): void } }
+  }
+}
+
+function InstagramIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <rect x="2" y="2" width="20" height="20" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
 
 const POSTS = [
   'https://www.instagram.com/p/DWgIPgbkckl/',
@@ -9,42 +27,17 @@ const POSTS = [
   'https://www.instagram.com/p/DUoZ8NFD-Hs/',
 ]
 
-function InstagramIcon({ size = 32 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-      <rect x="2" y="2" width="20" height="20" rx="5" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-    </svg>
-  )
-}
-
-interface PostData {
-  url: string
-  thumbnail: string | null
-}
-
-async function fetchPosts(): Promise<PostData[]> {
-  const results = await Promise.all(
-    POSTS.map(async (url) => {
-      try {
-        const res = await fetch(
-          `https://www.instagram.com/oembed/?url=${encodeURIComponent(url)}&omitscript=true`,
-          { next: { revalidate: 3600 } }
-        )
-        if (!res.ok) return { url, thumbnail: null }
-        const data = await res.json()
-        return { url, thumbnail: (data.thumbnail_url as string) ?? null }
-      } catch {
-        return { url, thumbnail: null }
-      }
-    })
-  )
-  return results
-}
-
-export default async function InstagramSection() {
-  const posts = await fetchPosts()
+export default function InstagramSection() {
+  useEffect(() => {
+    if (window.instgrm) {
+      window.instgrm.Embeds.process()
+    } else {
+      const script = document.createElement('script')
+      script.src = '//www.instagram.com/embed.js'
+      script.async = true
+      document.body.appendChild(script)
+    }
+  }, [])
 
   return (
     <section className="ig2-section">
@@ -68,34 +61,27 @@ export default async function InstagramSection() {
         </div>
 
         {/* Grid */}
-        <div className="ig2-grid">
-          {posts.map((post) => (
-            <a
-              key={post.url}
-              href={post.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ig2-card"
-              aria-label="Instagram Post ansehen"
-            >
-              {post.thumbnail ? (
-                <Image
-                  src={post.thumbnail}
-                  alt="Instagram Post"
-                  fill
-                  style={{ objectFit: 'cover' }}
-                  sizes="(max-width: 640px) 50vw, (max-width: 900px) 33vw, 16vw"
-                  unoptimized
-                />
-              ) : (
-                <div className="ig2-fallback">
-                  <InstagramIcon size={36} />
-                </div>
-              )}
-              <div className="ig2-overlay">
-                <InstagramIcon size={32} />
-              </div>
-            </a>
+        <div className="ig2-embed-grid">
+          {POSTS.map((url) => (
+            <div key={url} className="ig2-embed-wrap">
+              <blockquote
+                className="instagram-media"
+                data-instgrm-permalink={url}
+                data-instgrm-version="14"
+                data-instgrm-captioned
+                style={{
+                  background: '#FFF',
+                  border: 0,
+                  borderRadius: 12,
+                  boxShadow: '0 1px 6px rgba(0,0,0,0.1)',
+                  margin: 0,
+                  maxWidth: '100%',
+                  minWidth: 0,
+                  padding: 0,
+                  width: '100%',
+                }}
+              />
+            </div>
           ))}
         </div>
 
