@@ -85,7 +85,7 @@ export default function KarrierePage() {
       {/* ══ HERO ══════════════════════════════════════════════════ */}
       <section className="karriere-hero">
         <Image
-          src="https://images.unsplash.com/photo-1632823471565-1ecdf5c6da2f?w=1600&q=85&auto=format&fit=crop"
+          src="/images/unsplash/workshop-mechanic.jpg"
           alt="Werkstatt Team Ernst Moser GmbH"
           fill
           style={{ objectFit: 'cover' }}

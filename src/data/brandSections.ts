@@ -115,7 +115,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       headline: 'Die effizienteste Scania aller Zeiten',
       subline: 'Scania Super — Neu definiert',
       body: 'Der Scania Super Antriebsstrang setzt neue Massstäbe in Sachen Effizienz und Leistung. Mit einem überarbeiteten 13-Liter-Motor, optimierter Aerodynamik und dem neuen Super-Getriebe erreicht Scania Kraftstoffeinsparungen von bis zu 8 % im Vergleich zur Vorgängergeneration — und das bei gleichzeitig gesteigerter Fahrleistung.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/M%C3%A4chtiges_Erscheinungsbild_-_Scania_S500_Sattelzugmaschine.jpg/1200px-M%C3%A4chtiges_Erscheinungsbild_-_Scania_S500_Sattelzugmaschine.jpg',
+      image: '/images/brand-sections/scania/hero1.jpg',
       imageAlt: 'Scania S500 Sattelzugmaschine',
       imageRight: false,
       features: [
@@ -129,7 +129,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'Nachhaltigkeit',
       headline: 'Auf dem Weg zur fossilen Emission-Null',
       body: 'Scania verfolgt eine klare Strategie zur Dekarbonisierung des Transports. Mit elektrischen, LNG- und HVO-kompatiblen Fahrzeugen sowie einem umfassenden Nachhaltigkeitsprogramm arbeitet Scania konsequent an einer saubereren Transportzukunft — auch hier in der Schweiz.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/New_generation_Scania_R_%26_S.jpg/1200px-New_generation_Scania_R_%26_S.jpg',
+      image: '/images/brand-sections/scania/sustainability.jpg',
       imageAlt: 'Neue Generation Scania R & S',
       stats: [
         { value: '50', label: '% CO2-Reduktion', suffix: '%' },
@@ -150,7 +150,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       headline: 'E-Ducato — Der elektrische Transporter',
       subline: 'Null Emission. Volle Nutzlast.',
       body: 'Der Fiat E-Ducato ist der ideale Transporter für emissionsfreie Last-Mile-Delivery. Mit einer Nutzlast von bis zu 1.375 kg, einer Reichweite von bis zu 320 km und dem robusten Fiat-Ducato-Chassis — jetzt vollständig elektrisch. Perfekt für den Einsatz in Schweizer Städten und Lieferzonen.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/2017_Fiat_Ducato_35_Multijet_II_2.3.jpg/800px-2017_Fiat_Ducato_35_Multijet_II_2.3.jpg',
+      image: '/images/brand-sections/fiat/ducato.jpg',
       imageAlt: 'Fiat Ducato Transporter',
       imageRight: true,
       features: [
@@ -180,7 +180,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'D-MAX 2024',
       headline: 'Der Isuzu D-Max — Unschlagbare Nutzlast',
       body: 'Der Isuzu D-Max überzeugt mit einer Nutzlast von bis zu 1.100 kg und einem zulässigen Gesamtgewicht von 3.500 kg. Mit dem bewährten 1.9-Liter-Diesel-Motor und permanentem Allradantrieb meistert der D-Max jedes Gelände in der Schweiz — vom Baustellen-Einsatz bis zur alpinen Forstwirtschaft.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/2020_Isuzu_D-Max_LS-U_front.jpg/900px-2020_Isuzu_D-Max_LS-U_front.jpg',
+      image: '/images/brand-sections/isuzu/dmax.jpg',
       imageAlt: 'Isuzu D-Max 2020',
       imageRight: false,
       features: [
@@ -210,7 +210,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'NEU — Elektrisch',
       headline: 'Porter NP6 Electric — Null Emission im Lieferbetrieb',
       body: 'Der Piaggio Porter NP6 Electric ist der ideale emissionsfreie Kleintransporter für Schweizer Stadtlieferungen und Gewerbetreibende. Mit einer Nutzlast von 870 kg, einer Reichweite von bis zu 160 km und kompakter Bauform kommt er auch in engen Gassen und Altstadtbereichen problemlos zurecht.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Piaggio_Porter_NP6_IMG_5961.jpg/800px-Piaggio_Porter_NP6_IMG_5961.jpg',
+      image: '/images/brand-sections/piaggio/porter.jpg',
       imageAlt: 'Piaggio Porter NP6',
       imageRight: true,
       features: [
@@ -254,7 +254,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'NEU — E-TAIL',
       headline: 'E-RAIL — Elektro-Hebebühne der Zukunft',
       body: 'Die neue Dhollandia E-RAIL Baureihe setzt auf vollständig elektrischen Antrieb ohne Hydrauliköl. Sauber, wartungsarm und zuverlässig — ideal für Lebensmittel-Logistik, Pharmabranche und alle hygienesensiblen Bereiche. Die E-RAIL ist vollständig wartungsfrei und erreicht über 500.000 Lastzyklen.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Lastbil_med_lift.JPG/900px-Lastbil_med_lift.JPG',
+      image: '/images/brand-sections/dhollandia/lift.jpg',
       imageAlt: 'LKW mit hydraulischer Hebebühne',
       imageRight: true,
       features: [
@@ -271,7 +271,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'IceStriker',
       headline: 'IceStriker — Intelligenter Winterdienst',
       body: 'Der Hilltip IceStriker ist der modernste Streu- und Sprühspreizer auf dem Markt. Mit GPS-gesteuerter Ausbringrate, integriertem Flüssig-Modul für Vorbenetzung und dem HControl-Datenmanagement-System optimiert er den Salzverbrauch um bis zu 30 % — und schützt gleichzeitig die Umwelt.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Schneepflug_Strasse_hinten.jpg/900px-Schneepflug_Strasse_hinten.jpg',
+      image: '/images/brand-sections/hilltip/snowplow.jpg',
       imageAlt: 'Hilltip Winterdienstgeräte Übersicht',
       imageRight: false,
       features: [
@@ -305,7 +305,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'Zero Emission',
       headline: 'ATX Electric — Null Emission. Volle Power.',
       body: 'Die Alkè ATX-Elektrofahrzeuge sind die perfekte Lösung für emissionsfreie Arbeitseinsätze in Innenstädten, auf Campingplätzen, in Parks und in Logistikzentren. Mit einer Nutzlast von bis zu 1.230 kg, einer Reichweite von bis zu 100 km und Höchstgeschwindigkeiten bis 50 km/h sind sie vollwertige Nutzfahrzeuge — ohne jede Emission.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Kubota_LXe_electric_tractor_20220929.jpg/900px-Kubota_LXe_electric_tractor_20220929.jpg',
+      image: '/images/brand-sections/alke/electric.jpg',
       imageAlt: 'Elektrisches Nutzfahrzeug im Einsatz',
       imageRight: false,
       features: [
@@ -335,7 +335,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'Citymaster 2000',
       headline: 'Citymaster 2000 — Die neue Stadtreinigungs-Benchmark',
       body: 'Der Hako Citymaster 2000 setzt neue Massstäbe in der kommunalen Strassenreinigung. Mit einer Arbeitsbreite von bis zu 4.50 m, einem Schmutzbehälter von 2.000 Litern und optionalem Elektroantrieb ist der Citymaster 2000 das leistungsstärkste kompakte Kehrfahrzeug auf dem Markt — und seit 2024 auch emissionsfrei verfügbar.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Street_sweeper_in_Minneapolis_neighborhood_University.jpg/900px-Street_sweeper_in_Minneapolis_neighborhood_University.jpg',
+      image: '/images/brand-sections/hako/sweeper.jpg',
       imageAlt: 'Kommunales Kehrfahrzeug im Einsatz',
       imageRight: false,
       features: [
@@ -365,7 +365,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'M7-Serie',
       headline: 'Kubota M7 — Leistung trifft japanische Präzision',
       body: 'Die Kubota M7-Traktorserie vereint beeindruckende Motorleistung von bis zu 170 PS mit dem Komfort eines modernen Kabinentraktors. Ausgestattet mit dem KVT-Stufenlosgetriebe, automatischer Hydraulikregelung und dem optionalen Kubota Precision Farming System ist der M7 der ideale Traktor für Schweizer Landwirtschaft und Kommunalbetriebe.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Kubota_M7-173_Premium_KVT_5D410071_2023_09_06_JM.jpg/900px-Kubota_M7-173_Premium_KVT_5D410071_2023_09_06_JM.jpg',
+      image: '/images/brand-sections/kubota/tractor.jpg',
       imageAlt: 'Kubota M7-173 Premium KVT',
       imageRight: false,
       features: [
@@ -395,7 +395,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'HC-Serie',
       headline: 'Greentec HC-Auslegemulcher — Reichweite neu definiert',
       body: 'Die Greentec HC-Auslegemulcher-Serie ermöglicht das Mähen und Mulchen von Böschungen, Gräben und Geländeabschnitten, die für konventionelle Maschinen unzugänglich sind. Mit einer Auslegerreichweite von bis zu 7,5 Metern und hochwertigem dänischem Engineering sind die HC-Modelle die erste Wahl für Kommunen und Strassenbauunternehmen.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/WLMMH_%28DerHexer%29_067.jpg/900px-WLMMH_%28DerHexer%29_067.jpg',
+      image: '/images/brand-sections/greentec/mulcher.jpg',
       imageAlt: 'Traktor-Anbau-Mulchgerät im Böschungseinsatz',
       imageRight: false,
       features: [
@@ -425,7 +425,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'Mounty / Muli',
       headline: 'Reform Bergfahrzeuge — Wo andere aufgeben, fängt Reform an',
       body: 'Reform Bergfahrzeuge aus Österreich sind speziell für den Einsatz in steilem Gelände konzipiert. Mit Steigfähigkeiten von bis zu 45° meistern Mounty und Muli Hänge, die für normale Traktoren absolut unzugänglich sind. Jede Reform-Maschine ist ein Unikat, handgefertigt in Österreich für extreme Anforderungen.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Tractor_with_a_snowblower_in_Kuopio.jpg/900px-Tractor_with_a_snowblower_in_Kuopio.jpg',
+      image: '/images/brand-sections/reform/mountain-tractor.jpg',
       imageAlt: 'Bergtraktor im Steilhangeinsatz',
       imageRight: false,
       features: [
@@ -455,7 +455,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'Swiss Made',
       headline: 'Zaugg Schneefräsen — Schweizer Präzision für den Winter',
       body: 'Zaugg AG Langnau fertigt seit Jahrzehnten die zuverlässigsten Schneefräsen der Welt. Mit Räumbreiten von 100 bis 300 cm und Schnitttiefen bis zu 120 cm meistern Zaugg-Maschinen die härtesten Schweizer Wintersituationen — zuverlässig, wartungsarm und made in Switzerland.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Schneefr%C3%A4se_auf_dem_Simplon_Pass.jpg/900px-Schneefr%C3%A4se_auf_dem_Simplon_Pass.jpg',
+      image: '/images/brand-sections/zaugg/snowblower.jpg',
       imageAlt: 'Schneefräse auf dem Simplon Pass, Schweiz',
       imageRight: false,
       features: [
@@ -485,7 +485,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'JS50 L',
       headline: 'Ligier Professional — Leichte Nutzfahrzeuge ohne Kompromiss',
       body: 'Die Ligier Professional JS50 L-Serie ist speziell für den professionellen Einsatz entwickelt worden. Als leichtes Nutzfahrzeug (L6e/L7e) benötigt der JS50 L in vielen Ländern keinen PKW-Führerschein — trotzdem bietet er 450 kg Nutzlast und ist in zahlreichen Aufbau-Varianten erhältlich.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Piaggio_Porter_NP6_IMG_5961.jpg/800px-Piaggio_Porter_NP6_IMG_5961.jpg',
+      image: '/images/brand-sections/ligier/vehicle.jpg',
       imageAlt: 'Leichtes gewerbliches Nutzfahrzeug',
       imageRight: true,
       features: [
@@ -515,7 +515,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'KBE-Serie',
       headline: 'Baoli Elektro-Stapler — Effizienz ohne Emission',
       body: 'Die Baoli KBE-Elektrostaplerserie bietet zuverlässige und effiziente Hubarbeit ohne lokale Emissionen. Mit Traglast von 1,0 bis 3,5 Tonnen, modernem AC-Antrieb und robuster Bauweise sind die Baoli-Stapler die wirtschaftliche Lösung für Lagerhaltung, Produktion und Logistik.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Carretilla_elevadora_electrica.jpg/900px-Carretilla_elevadora_electrica.jpg',
+      image: '/images/brand-sections/baoli/forklift.jpg',
       imageAlt: 'Elektro-Gabelstapler im Lager',
       imageRight: false,
       features: [
@@ -529,7 +529,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'Technologie',
       headline: 'Baoli CBD-Serie — Kommissionierstapler der Extraklasse',
       body: 'Die Baoli CBD-Kommissionierstapler sind speziell für den effizienten Einsatz im Hochregal-Lager entwickelt. Mit Hubhöhen bis zu 5,5 Metern, ergonomischem Fahrerstand und intuitiver Bedienung setzen sie Standards in der modernen Lagerlogistik.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Reach_truck.jpg/900px-Reach_truck.jpg',
+      image: '/images/brand-sections/baoli/reach-truck.jpg',
       imageAlt: 'Schmalgang-Stapler im Hochregal',
       specs: [
         { label: 'Traglast', value: '1,0 – 3,5 t' },
@@ -547,7 +547,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'Anbaugeräte',
       headline: 'matev — Das universelle Anbausystem',
       body: 'matev ist das Anbaugeräte-System für Kompakttraktoren und Einachser. Das einzigartige Schnellwechsel-System erlaubt den Gerätewechsel in Sekunden — ohne Werkzeug. Mit über 60 Anbaugeräten für Sommer und Winter ist matev das vielseitigste System seiner Art auf dem Markt.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/City_of_London_Cemetery_and_Crematorium_Kubota_M4-063_tractor_and_trailer_01.jpg/900px-City_of_London_Cemetery_and_Crematorium_Kubota_M4-063_tractor_and_trailer_01.jpg',
+      image: '/images/brand-sections/matev/attachment.jpg',
       imageAlt: 'Kompakttraktor mit Anbaugerät im Einsatz',
       imageRight: false,
       features: [
@@ -582,7 +582,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       headline: 'Makita XGT — Das stärkste Akku-System der Welt',
       subline: 'Über 80 Geräte. Ein Akku. Grenzenlos.',
       body: 'Das Makita XGT 40V Max-System revolutioniert professionelles Arbeiten mit Akkuwerkzeug. Mit über 80 kompatiblen Geräten — von der Kettensäge bis zum Rasenmäher — bietet XGT die Leistung von Elektrowerkzeug mit der Freiheit von Akkubetrieb. Ein Akku-Ökosystem für alle Aufgaben.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Makita_DGA504_free.jpg/800px-Makita_DGA504_free.jpg',
+      image: '/images/brand-sections/makita/tool.jpg',
       imageAlt: 'Makita Akku-Winkelschleifer DGA504',
       specs: [
         { label: 'Akkuspannung', value: '40V Max' },
@@ -597,7 +597,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'Seit 1915',
       headline: '110 Jahre Makita — Pionier der Profi-Werkzeuge',
       body: 'Makita wurde 1915 in Nagoya, Japan gegründet und ist heute einer der weltgrössten Hersteller von Elektrowerkzeugen und Gartengeräten. Von der ersten Elektrohobel-Einheit bis zum modernen XGT-40V-System steht Makita für Innovation, Qualität und die Leidenschaft für professionelles Arbeiten.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Makita_Corporation_headquarters_ac.jpg/800px-Makita_Corporation_headquarters_ac.jpg',
+      image: '/images/brand-sections/makita/headquarters.jpg',
       imageAlt: 'Makita Hauptsitz Nagoya, Japan',
       milestones: [
         { year: '1915', text: 'Gründung Makita in Nagoya, Japan — Elektromotoren-Reparatur' },
@@ -616,7 +616,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'AK-System',
       headline: 'Stihl AK-Akku-System — Profi-Power, Null Lärm',
       body: 'Das Stihl AK-Akku-System ist das leistungsstärkste 36V-System für professionelle Gartenpflege. Heckenscheren, Rasenmäher, Laubbläser, Trimmer — alle Geräte teilen sich denselben AK-Akku. Stihl-Qualität, jetzt geräuschlos und emissionsfrei.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Stihltrimmers.jpg/800px-Stihltrimmers.jpg',
+      image: '/images/brand-sections/stihl/trimmer.jpg',
       imageAlt: 'Stihl Akku-Trimmer im Einsatz',
       imageRight: false,
       features: [
@@ -647,7 +647,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'SC500B',
       headline: 'Nilfisk SC500B — Professionelle Bodenreinigung',
       body: 'Die Nilfisk SC500B ist eine kompakte Scheuersaugmaschine für professionelle Bodenreinigung in kleinen und mittleren Flächen. Mit einer Reinigungsbreite von 530 mm, einem 40-Liter-Frisch- und Schmutzwassertank und intuitiver Bedienung reinigt die SC500B bis zu 2.100 m² pro Stunde.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/HK_KTD_%E8%A7%80%E5%A1%98_Kwun_Tong_APM_mall_void_Gaussian_Robotics_autonomous_cleaning_robot_at_work_April_2022_Px3_08.jpg/900px-HK_KTD_%E8%A7%80%E5%A1%98_Kwun_Tong_APM_mall_void_Gaussian_Robotics_autonomous_cleaning_robot_at_work_April_2022_Px3_08.jpg',
+      image: '/images/brand-sections/nilfisk/cleaning-robot.jpg',
       imageAlt: 'Professionelle Reinigungsmaschine im Einsatz',
       imageRight: false,
       features: [
@@ -661,7 +661,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'Seit 1906',
       headline: 'Nilfisk — 120 Jahre Reinigungstechnologie',
       body: 'Nilfisk wurde 1906 in Kopenhagen, Dänemark gegründet und ist heute einer der weltweit führenden Anbieter von professionellen Reinigungsgeräten. Über 120 Jahre Innovation haben Nilfisk zum Synonym für professionelle Sauber-Lösungen gemacht — von industriellen Nass-Trockensaugern bis zu vollautomatischen Scheuersaugmaschinen.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Nilfisk-Factory1954.jpg/900px-Nilfisk-Factory1954.jpg',
+      image: '/images/brand-sections/nilfisk/factory1954.jpg',
       imageAlt: 'Nilfisk Fabrik 1954, Kopenhagen',
       milestones: [
         { year: '1906', text: 'Gründung Nilfisk in Kopenhagen, Dänemark' },
@@ -679,7 +679,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'NEU 2024',
       headline: 'STIGA Swift 5e — Roboter-Rasenmähen der neuen Generation',
       body: 'Der STIGA Swift 5e ist ein vollständig kabelfreier Roboter-Rasenmäher, der per GPS und STIGA-eigener Technologie ohne Begrenzungskabel auskommt. Mit einer Mähfläche bis 1.000 m² und dem integrierten STIGA-Akku-System ist der Swift 5e der ideale Einstieg in die automatisierte Rasenpflege.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Husqvarna_Automower_308_with_track_marks_in_lawn.jpg/900px-Husqvarna_Automower_308_with_track_marks_in_lawn.jpg',
+      image: '/images/brand-sections/stiga/robot-mower.jpg',
       imageAlt: 'Roboter-Rasenmäher mit GPS auf Rasenfläche',
       imageRight: false,
       features: [
@@ -711,7 +711,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'RTK GPS',
       headline: 'Segway Navimow — Roboter-Mähen ohne Begrenzungskabel',
       body: 'Der Segway Navimow nutzt RTK-GPS-Technologie für zentimetergenaue Navigation ohne Begrenzungskabel. Das EFLS-System (Exact Fusion Locating System) kombiniert RTK-GPS, IMU und Bilderkennung für höchste Genauigkeit — auch bei Bewölkung und in schwierigen Geländebedingungen.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Firefly_autonomous_lawn_mowers_at_a_golf_course.jpg/900px-Firefly_autonomous_lawn_mowers_at_a_golf_course.jpg',
+      image: '/images/brand-sections/segway/navimow.jpg',
       imageAlt: 'Autonome Roboter-Rasenmäher auf Golfplatz',
       imageRight: false,
       features: [
@@ -741,7 +741,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'L400i Elite',
       headline: 'Ambrogio L400i Elite — Professionelles RTK-Mähen bis 6.000 m²',
       body: 'Der Ambrogio L400i Elite ist der leistungsstärkste kabellose Roboterrasenmäher für professionelle Anwendungen. Mit RTK-GPS-Navigation, einer Mähfläche bis 6.000 m² und einem robusten Gehäuse für den Dauerbetrieb setzt der L400i Elite neue Standards für gewerbliche Rasenpflege.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Husqvarna_CEORA_professional_robotic_lawn_mower_at_Brastad_Arena_4.jpg/900px-Husqvarna_CEORA_professional_robotic_lawn_mower_at_Brastad_Arena_4.jpg',
+      image: '/images/brand-sections/ambrogio/robot.jpg',
       imageAlt: 'Professioneller Roboter-Rasenmäher auf Sportanlage',
       imageRight: false,
       features: [
@@ -771,7 +771,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'KI-Robotik',
       headline: 'Pudu BellaBot — Der intelligente Lieferroboter',
       body: 'Der Pudu BellaBot ist ein vollautonomer Service-Lieferroboter für Restaurants, Hotels und Pflegeeinrichtungen. Mit einer Nutzlast von bis zu 40 kg, SLAM-Navigation für autonome Bewegung ohne vorherige Kartierung und dem ionitativen Katzen-Design ist BellaBot der meistverkaufte Service-Roboter weltweit.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Service_robot_in_Japanese_restaurant.jpg/900px-Service_robot_in_Japanese_restaurant.jpg',
+      image: '/images/brand-sections/pudu-robotics/robot-restaurant.jpg',
       imageAlt: 'Service-Lieferroboter im Restaurant',
       imageRight: false,
       features: [
@@ -785,7 +785,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'KI Platform',
       headline: 'Pudu Robotics — KI-getriebene Autonomie',
       body: 'Alle Pudu-Roboter basieren auf der proprietären Pudu-AI-Plattform mit Multi-Sensor-Fusion, Deep-Learning-Hinderniserkennung und Echtzeit-Flottenmanagement. Das PuduCloud-System ermöglicht die zentrale Steuerung und Überwachung aller Roboter in Echtzeit.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Serving_Robot_in_The_Second_People%27s_Hospital_of_Shenzhen.jpg/900px-Serving_Robot_in_The_Second_People%27s_Hospital_of_Shenzhen.jpg',
+      image: '/images/brand-sections/pudu-robotics/robot-hospital.jpg',
       imageAlt: 'Service-Roboter im Spitaleinsatz Shenzhen',
       specs: [
         { label: 'Navigation', value: 'SLAM + LiDAR' },
@@ -803,7 +803,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'Edwin 3G RTK',
       headline: 'Swardman Edwin 3G — Roboter-Spindelmäher für Profis',
       body: 'Der Swardman Edwin 3G RTK ist der weltweit erste autonome Spindelmäher mit RTK-GPS-Navigation. Entwickelt für Golf-Fairways, Fussballfelder und professionelle Sportturfanlagen liefert der Edwin 3G den perfekten Spindelmäherschnitt — autonom, präzise und ohne Begrenzungskabel.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/FireFly_Automatix_AMP-L100_100-inch_electric_autonomous_reel_mower.jpg/900px-FireFly_Automatix_AMP-L100_100-inch_electric_autonomous_reel_mower.jpg',
+      image: '/images/brand-sections/swardman/reel-mower.jpg',
       imageAlt: 'Autonomer elektrischer Spindelmäher auf Sportanlage',
       imageRight: false,
       features: [
@@ -833,7 +833,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'Japanische Präzision',
       headline: 'Kaaz Mehrfachklingen-Mäher — Japanische Schnittperfektion',
       body: 'Kaaz aus Japan entwickelt seit Jahrzehnten Mehrfachklingen-Rasenmäher für professionelle Anwendungen. Die einzigartige Multi-Blade-Technologie sorgt für einen deutlich gleichmässigeren Schnitt als konventionelle Mäher — ideal für Flächen mit höchsten Ansprüchen an Rasenpflege.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Zero-turn-mowers.jpg/900px-Zero-turn-mowers.jpg',
+      image: '/images/brand-sections/kaaz/mower.jpg',
       imageAlt: 'Professioneller Rasenmäher mit Mehrfachklingen',
       imageRight: false,
       features: [
@@ -863,7 +863,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'Spindelmäher',
       headline: 'Erco Spindelmäher — Für den perfekten Rasen',
       body: 'Erco Spindelmäher sind die Wahl professioneller Rasenpfleger für höchste Ansprüche. Die Spindel-Schertechnik schneidet jeden Grashalm sauber und gleichmässig wie eine Schere — das Resultat ist ein dichter, gleichmässiger Rasen von Turnier-Qualität.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/FireFly_Automatix_AMP-L100_100-inch_electric_autonomous_reel_mower.jpg/900px-FireFly_Automatix_AMP-L100_100-inch_electric_autonomous_reel_mower.jpg',
+      image: '/images/brand-sections/erco/reel-mower.jpg',
       imageAlt: 'Professioneller Spindelmäher auf Sportanlage',
       imageRight: false,
       features: [
@@ -893,7 +893,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'RC-Technologie',
       headline: 'TIMAN — Ferngesteuerte Sicherheit am Steilhang',
       body: 'TIMAN Fernsteuer-Mäher ermöglichen das sichere Mähen von extremen Steilhängen bis 55° Neigung — ohne dass der Bediener die gefährliche Zone betreten muss. Mit dem digitalen Funksystem und bis zu 300 m Reichweite bleibt der Bediener stets in sicherer Distanz zur Maschine.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Schneefr%C3%A4se_0126.jpg/900px-Schneefr%C3%A4se_0126.jpg',
+      image: '/images/brand-sections/timan/rc-mower.jpg',
       imageAlt: 'Motorgerät an steilem Hang im Einsatz',
       imageRight: false,
       features: [
@@ -923,7 +923,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'Winterdienst',
       headline: 'Envitec Streugeräte — Effizienter Winterdienst',
       body: 'Envitec Streugeräte sind die zuverlässige Lösung für den professionellen Winterdienst. Mit präziser Streubreiten-Einstellung, robusten Edelstahlkomponenten und bewährter Technik sorgen Envitec-Geräte für sichere Strassen — auch unter härtesten Winterbedingungen.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Sneeuwschuiver.jpg/900px-Sneeuwschuiver.jpg',
+      image: '/images/brand-sections/envitec/snowplow.jpg',
       imageAlt: 'Winterdienstfahrzeug beim Strasseneinsatz',
       imageRight: false,
       features: [
@@ -953,7 +953,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'Hochleistung',
       headline: 'Springer Hochleistungsstreuer — Maximale Leistung im Winterdienst',
       body: 'Springer Hochleistungsstreuer sind speziell für den anspruchsvollen kommunalen Winterdienst entwickelt. Mit grossen Volumina, präziser Elektronik und robuster Mechanik sorgen Springer-Geräte für effizientes und gleichmässiges Streuen — auch bei extremen Winterbedingungen.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Salt_truck_Milwaukee.jpg/900px-Salt_truck_Milwaukee.jpg',
+      image: '/images/brand-sections/springer/salt-truck.jpg',
       imageAlt: 'Salzstreuer-LKW im kommunalen Winterdienst',
       imageRight: false,
       features: [
@@ -970,7 +970,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'Einachser',
       headline: 'Stema Einachser — Vielseitig im Einsatz',
       body: 'Stema Einachser und Motorgeräte sind universell einsetzbare Kraftpakete für Garten, Landwirtschaft und Kommunalbetrieb. Mit dem bewährten Motorgeräte-Konzept, robusten Anbaugeräten und einfacher Bedienung sind Stema-Maschinen die verlässliche Arbeitsgrundlage für viele Einsatzbereiche.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Two-wheel_tractor_2007.jpg/900px-Two-wheel_tractor_2007.jpg',
+      image: '/images/brand-sections/stema/tractor.jpg',
       imageAlt: 'Einachser mit Anhänger in der Landwirtschaft',
       imageRight: false,
       features: [
@@ -987,7 +987,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'Mulchtechnik',
       headline: 'Mulchy Mulchgeräte — Effiziente Vegetationspflege',
       body: 'Mulchy Mulchgeräte sind die professionelle Lösung für Böschungspflege, Strassenrandpflege und Vegetationsmanagement. Mit leistungsstarken Mulchköpfen, robusten Rotoren und vielfältigen Anbauvarianten bieten Mulchy-Geräte optimale Ergebnisse in anspruchsvollsten Pflegesituationen.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/2010-04-07_Unimog_at_Arthur_Ibbetts_machinery_dealership.jpg/900px-2010-04-07_Unimog_at_Arthur_Ibbetts_machinery_dealership.jpg',
+      image: '/images/brand-sections/mulchy/sweeper.jpg',
       imageAlt: 'Trägerfahrzeug mit Mulch-Anbaugerät',
       imageRight: false,
       features: [
@@ -1004,7 +1004,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'Seit 1966',
       headline: 'Gianni Ferrari — Italiens Spitzenmäher-Tradition',
       body: 'Gianni Ferrari wurde 1966 in der Emilia-Romagna, Italien gegründet und ist seither Spezialist für hochwertige Frontkopf-Rasenmäher und Turf-Mäher. Die Polo- und GT-Modelle gelten als Massstab für professionelle Rasenpflege auf Sportanlagen, Golf-Fairways und Parkanlagen.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Firefly_autonomous_lawn_mowers_at_a_golf_course.jpg/900px-Firefly_autonomous_lawn_mowers_at_a_golf_course.jpg',
+      image: '/images/brand-sections/gianni-ferrari/mower.jpg',
       imageAlt: 'Professionelle Rasenmäher auf Golf-Fairway',
       milestones: [
         { year: '1966', text: 'Gründung Gianni Ferrari in der Emilia-Romagna, Italien' },
@@ -1035,7 +1035,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       badge: 'Sicherheitstechnik',
       headline: 'WABCO — Weltführer in Bremssteuerungs-Technologie',
       body: 'WABCO (heute Teil der ZF-Gruppe) ist der weltweit führende Anbieter von Brems- und Fahrerassistenzsystemen für Nutzfahrzeuge. Das TEBS (Trailer Electronic Braking System) von WABCO ist der globale Standard für elektronische Anhänger-Bremssysteme — mit über 10 Millionen installierten Einheiten.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/ABS_HCU_April_2018.jpg/800px-ABS_HCU_April_2018.jpg',
+      image: '/images/brand-sections/wabco/abs-system.jpg',
       imageAlt: 'Elektronisches Bremssystem Hydraulik-Steuereinheit',
       specs: [
         { label: 'TEBS-Einheiten', value: '10 Mio. + weltweit' },

@@ -22,7 +22,7 @@ const ITEMS = [
     tag: 'Fachkompetenz',
     title: 'Zertifizierte Techniker & Markenwissen',
     text: 'Unsere Techniker sind herstellerzertifiziert und bilden sich laufend weiter. Ob Scania-Truck, Kubota-Kommunalfahrzeug oder Stihl-Motorsäge – wir beherrschen das Handwerk mit Leidenschaft.',
-    image: 'https://images.unsplash.com/photo-1632823471565-1ecdf5c6da2f?w=1200&q=85&auto=format&fit=crop',
+    image: '/images/unsplash/workshop-mechanic.jpg',
     imageAlt: 'Werkstatt Mechaniker Fachkompetenz',
   },
   {
