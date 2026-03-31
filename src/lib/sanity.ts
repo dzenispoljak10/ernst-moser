@@ -1,5 +1,7 @@
 import { createClient } from '@sanity/client'
 import { createImageUrlBuilder } from '@sanity/image-url'
+import { existsSync } from 'fs'
+import { join } from 'path'
 import localImages from './localImages.json'
 import localExternalImages from './localExternalImages.json'
 
@@ -25,6 +27,16 @@ const builder = createImageUrlBuilder(client)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function urlFor(source: any) {
   return builder.image(source)
+}
+
+/**
+ * Returns the local image path for a product slug if a main.webp exists,
+ * otherwise returns null. Checked before Sanity ref lookup.
+ */
+export function productImageBySlug(slug: string): string | null {
+  const rel = `/images/products/${slug}/main.webp`
+  const abs = join(process.cwd(), 'public', rel)
+  return existsSync(abs) ? rel : null
 }
 
 /**

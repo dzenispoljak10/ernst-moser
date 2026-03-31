@@ -1,4 +1,4 @@
-import { readClient as client, imageUrl } from '@/lib/sanity'
+import { readClient as client, imageUrl, productImageBySlug } from '@/lib/sanity'
 import { getSalespersonByBrand } from '@/lib/queries'
 import { notFound } from 'next/navigation'
 import ProductHeroClient from '@/components/ui/ProductHeroClient'
@@ -56,14 +56,13 @@ export default async function ProductPageContent({
   const center = product.center
   const sp = await getSalespersonByBrand(product.brandId, center._id)
 
-  // Image: product main → brand hero → brand first image → null
-  const imageSource =
-    product.mainImage ??
-    product.brandHeroImage ??
-    product.brandImages?.[0] ??
+  // Image: local slug file → product main → brand hero → brand first image → null
+  const productImageUrl =
+    productImageBySlug(productSlug) ??
+    (product.mainImage ? imageUrl(product.mainImage) : null) ??
+    (product.brandHeroImage ? imageUrl(product.brandHeroImage) : null) ??
+    (product.brandImages?.[0] ? imageUrl(product.brandImages[0]) : null) ??
     null
-
-  const productImageUrl = imageSource ? imageUrl(imageSource) : null
 
   const spPhotoUrl = sp?.photo ? imageUrl(sp.photo) : null
 

@@ -1,4 +1,4 @@
-import { readClient as client, imageUrl } from '@/lib/sanity'
+import { readClient as client, imageUrl, productImageBySlug } from '@/lib/sanity'
 import { getSalespersonByBrand } from '@/lib/queries'
 import { getIcon } from '@/lib/iconMap'
 import Image from 'next/image'
@@ -216,7 +216,12 @@ export default async function BrandPageContent({
             {sanityProducts.length > 0 ? (
               <AnimatedSection className="brand-products-grid" delay={0.05}>
                 {sanityProducts.map((product, i) => {
-                  const productImgSrc = product.mainImage ?? brand.heroImage ?? brand.images?.[0] ?? null
+                  const productImgUrl =
+                    productImageBySlug(product.slug?.current ?? '') ??
+                    (product.mainImage ? imageUrl(product.mainImage) : null) ??
+                    (brand.heroImage ? imageUrl(brand.heroImage) : null) ??
+                    (brand.images?.[0] ? imageUrl(brand.images[0]) : null) ??
+                    null
                   return (
                   <FloatingWrapper key={product._id} index={i}>
                     <Link
@@ -225,9 +230,9 @@ export default async function BrandPageContent({
                       style={{ ['--product-accent' as string]: center.color }}
                     >
                       <div className="brand-product-img">
-                        {productImgSrc ? (
+                        {productImgUrl ? (
                           <Image
-                            src={imageUrl(productImgSrc)}
+                            src={productImgUrl}
                             alt={product.name}
                             fill
                             style={{ objectFit: 'contain' }}
