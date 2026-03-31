@@ -59,7 +59,7 @@ export default async function Footer({ logoUrl }: { logoUrl?: string | null }) {
                   alt="Ernst Moser GmbH"
                   width={160}
                   height={32}
-                  style={{ height: 32, width: 'auto', objectFit: 'contain', filter: 'brightness(0) invert(1)', opacity: 0.9 }}
+                  style={{ height: 32, width: 'auto', objectFit: 'contain' }}
                   unoptimized
                 />
               ) : (
