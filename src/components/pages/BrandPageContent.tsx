@@ -215,7 +215,9 @@ export default async function BrandPageContent({
 
             {sanityProducts.length > 0 ? (
               <AnimatedSection className="brand-products-grid" delay={0.05}>
-                {sanityProducts.map((product, i) => (
+                {sanityProducts.map((product, i) => {
+                  const productImgSrc = product.mainImage ?? brand.heroImage ?? brand.images?.[0] ?? null
+                  return (
                   <FloatingWrapper key={product._id} index={i}>
                     <Link
                       href={`/${centerSlug}/${brandSlug}/${product.slug?.current ?? ''}`}
@@ -223,9 +225,9 @@ export default async function BrandPageContent({
                       style={{ ['--product-accent' as string]: center.color }}
                     >
                       <div className="brand-product-img">
-                        {product.mainImage ? (
+                        {productImgSrc ? (
                           <Image
-                            src={imageUrl(product.mainImage)}
+                            src={imageUrl(productImgSrc)}
                             alt={product.name}
                             fill
                             style={{ objectFit: 'contain' }}
@@ -254,7 +256,8 @@ export default async function BrandPageContent({
                       </div>
                     </Link>
                   </FloatingWrapper>
-                ))}
+                  )
+                })}
               </AnimatedSection>
             ) : (
               <AnimatedSection className="brand-products-grid" delay={0.05}>
