@@ -1,21 +1,4 @@
-'use client'
-
-import { useEffect } from 'react'
-function InstagramIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <rect x="2" y="2" width="20" height="20" rx="5" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-    </svg>
-  )
-}
-
-declare global {
-  interface Window {
-    instgrm?: { Embeds: { process(): void } }
-  }
-}
+import Image from 'next/image'
 
 const POSTS = [
   'https://www.instagram.com/p/DWgIPgbkckl/',
@@ -23,64 +6,111 @@ const POSTS = [
   'https://www.instagram.com/p/DWJEZEvDsj3/',
   'https://www.instagram.com/p/DVeS8AVDB4m/',
   'https://www.instagram.com/p/DT231QylW0E/',
+  'https://www.instagram.com/p/DUoZ8NFD-Hs/',
 ]
 
-export default function InstagramSection() {
-  useEffect(() => {
-    if (window.instgrm) {
-      window.instgrm.Embeds.process()
-    } else {
-      const script = document.createElement('script')
-      script.src = '//www.instagram.com/embed.js'
-      script.async = true
-      document.body.appendChild(script)
-    }
-  }, [])
+function InstagramIcon({ size = 32 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <rect x="2" y="2" width="20" height="20" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
+
+interface PostData {
+  url: string
+  thumbnail: string | null
+}
+
+async function fetchPosts(): Promise<PostData[]> {
+  const results = await Promise.all(
+    POSTS.map(async (url) => {
+      try {
+        const res = await fetch(
+          `https://www.instagram.com/oembed/?url=${encodeURIComponent(url)}&omitscript=true`,
+          { next: { revalidate: 3600 } }
+        )
+        if (!res.ok) return { url, thumbnail: null }
+        const data = await res.json()
+        return { url, thumbnail: (data.thumbnail_url as string) ?? null }
+      } catch {
+        return { url, thumbnail: null }
+      }
+    })
+  )
+  return results
+}
+
+export default async function InstagramSection() {
+  const posts = await fetchPosts()
 
   return (
-    <section className="ig-section">
+    <section className="ig2-section">
       <div className="container">
-        <div className="ig-header">
+
+        {/* Header */}
+        <div className="ig2-header">
           <div>
-            <div className="section-divider" style={{ background: '#E1306C' }} />
-            <div className="section-label">Social Media</div>
-            <h2 className="section-title">Folgen Sie uns auf Instagram</h2>
+            <div className="ig2-label">Social Media</div>
+            <h2 className="ig2-title">Folgen Sie uns auf Instagram</h2>
           </div>
           <a
             href="https://www.instagram.com/e.moser_gmbh"
             target="_blank"
             rel="noopener noreferrer"
-            className="ig-handle-link"
+            className="ig2-handle"
           >
-            <InstagramIcon />
-            <span>@e.moser_gmbh</span>
+            <InstagramIcon size={16} />
+            @e.moser_gmbh
           </a>
         </div>
 
-        <div className="ig-scroll-wrapper">
-          <div className="ig-grid">
-            {POSTS.map((url) => (
-              <div key={url} className="ig-post-wrap">
-                <blockquote
-                  className="instagram-media"
-                  data-instgrm-permalink={url}
-                  data-instgrm-version="14"
-                  style={{
-                    background: '#FFF',
-                    border: 0,
-                    borderRadius: 12,
-                    boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
-                    margin: 0,
-                    maxWidth: '100%',
-                    minWidth: 280,
-                    padding: 0,
-                    width: '100%',
-                  }}
+        {/* Grid */}
+        <div className="ig2-grid">
+          {posts.map((post) => (
+            <a
+              key={post.url}
+              href={post.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ig2-card"
+              aria-label="Instagram Post ansehen"
+            >
+              {post.thumbnail ? (
+                <Image
+                  src={post.thumbnail}
+                  alt="Instagram Post"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  sizes="(max-width: 640px) 50vw, (max-width: 900px) 33vw, 16vw"
+                  unoptimized
                 />
+              ) : (
+                <div className="ig2-fallback">
+                  <InstagramIcon size={36} />
+                </div>
+              )}
+              <div className="ig2-overlay">
+                <InstagramIcon size={32} />
               </div>
-            ))}
-          </div>
+            </a>
+          ))}
         </div>
+
+        {/* Footer CTA */}
+        <div className="ig2-cta-wrap">
+          <a
+            href="https://www.instagram.com/e.moser_gmbh"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ig2-cta"
+          >
+            Alle Posts auf Instagram ansehen →
+          </a>
+        </div>
+
       </div>
     </section>
   )
