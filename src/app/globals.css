@@ -203,16 +203,14 @@ a { color: inherit; }
 .megamenu-brand-logo-box {
   width: 40px; height: 24px;
   display: flex; align-items: center; justify-content: center;
-  border-radius: 6px; flex-shrink: 0;
-  transition: background var(--tr);
+  border-radius: 4px; flex-shrink: 0;
+  background: #fff;
+  padding: 2px;
 }
-.megamenu-brand-row:hover .megamenu-brand-logo-box { background: #fff; border-radius: 4px; padding: 2px; }
+.megamenu-brand-row:hover .megamenu-brand-logo-box { background: #fff; }
 .megamenu-brand-logo {
   max-width: 100%; max-height: 100%; object-fit: contain;
-  filter: brightness(0) invert(1);
-  transition: filter var(--tr);
 }
-.megamenu-brand-row:hover .megamenu-brand-logo { filter: none; }
 .megamenu-brand-logo-placeholder {
   width: 40px; height: 24px; border-radius: 4px;
   background: rgba(255,255,255,0.15); flex-shrink: 0;
