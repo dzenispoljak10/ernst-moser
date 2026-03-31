@@ -82,8 +82,8 @@ export default async function Footer({ logoUrl }: { logoUrl?: string | null }) {
             </div>
             <div className="em-footer-credit">
               Webseite realisiert durch{' '}
-              <a href="https://twynte.ch" target="_blank" rel="noopener noreferrer" className="em-footer-credit-link">
-                twynte.ch
+              <a href="https://twyne.ch" target="_blank" rel="noopener noreferrer" className="em-footer-credit-link">
+                twyne.ch
               </a>
             </div>
           </div>

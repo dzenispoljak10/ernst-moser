@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MessageCircle, X, Send } from 'lucide-react'
+import { MessageCircle, X, Send, Bot } from 'lucide-react'
 import Link from 'next/link'
 import { getResponse, ChatbotLink } from '@/lib/chatbot'
 
@@ -123,7 +123,7 @@ export default function ChatBot() {
             {/* Header */}
             <div className="chatbot-header">
               <div className="chatbot-avatar-wrap">
-                <div className="chatbot-avatar">E</div>
+                <div className="chatbot-avatar"><Bot size={18} /></div>
                 <span className="chatbot-online-dot" />
               </div>
               <div className="chatbot-header-info">
@@ -146,7 +146,7 @@ export default function ChatBot() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.22 }}
                   >
-                    {msg.role === 'bot' && <div className="chatbot-msg-avatar">E</div>}
+                    {msg.role === 'bot' && <div className="chatbot-msg-avatar"><Bot size={14} /></div>}
                     <div className={`chatbot-bubble chatbot-bubble--${msg.role}`}>
                       <span>
                         {(msg.displayText ?? msg.text).split('\n').map((line, i, arr) => (
@@ -182,7 +182,7 @@ export default function ChatBot() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.22 }}
                   >
-                    <div className="chatbot-msg-avatar">E</div>
+                    <div className="chatbot-msg-avatar"><Bot size={14} /></div>
                     <div className="chatbot-bubble chatbot-bubble--bot chatbot-typing">
                       <span className="chatbot-dot" />
                       <span className="chatbot-dot" />

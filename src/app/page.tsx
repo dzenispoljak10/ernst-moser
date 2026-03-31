@@ -10,7 +10,9 @@ import HomeLeistungen from '@/components/home/HomeLeistungen'
 import HomeZigzag from '@/components/home/HomeZigzag'
 import HomeTimeline from '@/components/home/HomeTimeline'
 import HomeKontakt from '@/components/home/HomeKontakt'
+import InstagramSection from '@/components/InstagramSection'
 import { ArrowRight, Package } from 'lucide-react'
+import { productImageBySlug } from '@/lib/serverImages'
 
 export const revalidate = 60
 
@@ -197,16 +199,19 @@ export default async function HomePage() {
             </AnimatedSection>
 
             <div className="hp-products-grid">
-              {featuredProducts.slice(0, 4).map((p, i) => (
+              {featuredProducts.slice(0, 4).map((p, i) => {
+                const localImg = productImageBySlug(p.slug.current)
+                const imgSrc = localImg ?? (p.mainImage ? imageUrl(p.mainImage) : null)
+                return (
                 <AnimatedSection key={p._id} delay={i * 0.08}>
                   <Link
                     href={`/${p.brand.center.slug.current}/${p.brand.slug.current}/${p.slug.current}`}
                     className="hp-product-card"
                   >
                     <div className="hp-product-img">
-                      {p.mainImage ? (
+                      {imgSrc ? (
                         <Image
-                          src={imageUrl(p.mainImage)}
+                          src={imgSrc}
                           alt={p.name}
                           fill
                           style={{ objectFit: 'contain' }}
@@ -236,7 +241,7 @@ export default async function HomePage() {
                     </div>
                   </Link>
                 </AnimatedSection>
-              ))}
+              )})}
             </div>
           </div>
         </section>
@@ -281,7 +286,10 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* ══ 10: KONTAKT & STANDORT ══════════════════════════════════ */}
+      {/* ══ 10: INSTAGRAM ═══════════════════════════════════════════ */}
+      <InstagramSection />
+
+      {/* ══ 11: KONTAKT & STANDORT ══════════════════════════════════ */}
       <HomeKontakt />
     </>
   )
