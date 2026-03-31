@@ -44,20 +44,15 @@ export default async function Footer({ logoUrl }: { logoUrl?: string | null }) {
   const centers = await getCenters()
 
   return (
-    <footer style={{ background: '#0f1729', color: '#fff' }}>
+    <footer className="em-footer">
 
-      {/* ── Main grid ───────────────────────────────────────────────────────── */}
-      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '64px 32px 48px' }}>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '2fr 1fr 1fr 1.4fr',
-          gap: 48,
-        }} className="footer-main-grid">
+      {/* ── Main grid ─────────────────────────────────────────────────────── */}
+      <div className="em-footer-inner">
+        <div className="em-footer-grid">
 
-          {/* ── Col 1: Brand ─────────────────────────────────────────────── */}
+          {/* Col 1: Brand */}
           <div>
-            {/* Logo */}
-            <div style={{ marginBottom: 20 }}>
+            <div className="em-footer-logo">
               {logoUrl ? (
                 <Image
                   src={logoUrl}
@@ -68,195 +63,96 @@ export default async function Footer({ logoUrl }: { logoUrl?: string | null }) {
                   unoptimized
                 />
               ) : (
-                <span style={{ fontSize: 18, fontWeight: 700, color: '#fff', letterSpacing: '-0.02em' }}>
-                  Ernst Moser GmbH
-                </span>
+                <span className="em-footer-logo-text">Ernst Moser GmbH</span>
               )}
             </div>
-
-            {/* Tagline */}
-            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.45)', lineHeight: 1.7, maxWidth: 280, marginBottom: 24 }}>
+            <p className="em-footer-tagline">
               Ihr Partner für Nutzfahrzeuge, Kommunal- und Motorgeräte im Raum Solothurn&nbsp;/ Mittelland.
             </p>
-
-            {/* Social icons */}
-            <div style={{ display: 'flex', gap: 10, marginBottom: 32 }}>
-              {[
-                { href: 'https://www.facebook.com/ernstmosergmbh', label: 'Facebook', icon: <FacebookIcon /> },
-                { href: 'https://www.instagram.com/ernstmosergmbh', label: 'Instagram', icon: <InstagramIcon /> },
-                { href: 'https://www.linkedin.com/company/ernst-moser-gmbh', label: 'LinkedIn', icon: <LinkedInIcon /> },
-              ].map(s => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={s.label}
-                  style={{
-                    width: 36, height: 36, borderRadius: '50%',
-                    border: '1px solid rgba(255,255,255,0.2)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: 'rgba(255,255,255,0.6)',
-                    textDecoration: 'none',
-                    transition: 'border-color 0.2s, color 0.2s',
-                  }}
-                  onMouseEnter={e => {
-                    (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.6)'
-                    ;(e.currentTarget as HTMLElement).style.color = '#fff'
-                  }}
-                  onMouseLeave={e => {
-                    (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.2)'
-                    ;(e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.6)'
-                  }}
-                >
-                  {s.icon}
-                </a>
-              ))}
+            <div className="em-footer-socials">
+              <a href="https://www.facebook.com/ernstmosergmbh" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="em-footer-social">
+                <FacebookIcon />
+              </a>
+              <a href="https://www.instagram.com/ernstmosergmbh" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="em-footer-social">
+                <InstagramIcon />
+              </a>
+              <a href="https://www.linkedin.com/company/ernst-moser-gmbh" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="em-footer-social">
+                <LinkedInIcon />
+              </a>
             </div>
-
-            {/* Credit */}
-            <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.25)' }}>
+            <div className="em-footer-credit">
               Webseite realisiert durch{' '}
-              <a
-                href="https://twynte.ch"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: 'rgba(255,255,255,0.4)', textDecoration: 'none' }}
-                onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.7)'}
-                onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.4)'}
-              >
+              <a href="https://twynte.ch" target="_blank" rel="noopener noreferrer" className="em-footer-credit-link">
                 twynte.ch
               </a>
             </div>
           </div>
 
-          {/* ── Col 2: Center ────────────────────────────────────────────── */}
+          {/* Col 2: Center */}
           <div>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: 20 }}>
-              Center
-            </div>
-            <nav style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div className="em-footer-col-label">Center</div>
+            <nav className="em-footer-nav">
               {centers.map(c => (
-                <Link
-                  key={c._id}
-                  href={`/${c.slug.current}`}
-                  style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', textDecoration: 'none', transition: 'color 0.15s' }}
-                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = '#fff'}
-                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.6)'}
-                >
+                <Link key={c._id} href={`/${c.slug.current}`} className="em-footer-link">
                   {c.name}
                 </Link>
               ))}
             </nav>
           </div>
 
-          {/* ── Col 3: Unternehmen ───────────────────────────────────────── */}
+          {/* Col 3: Unternehmen */}
           <div>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: 20 }}>
-              Unternehmen
-            </div>
-            <nav style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div className="em-footer-col-label">Unternehmen</div>
+            <nav className="em-footer-nav">
               {COMPANY_LINKS.map(l => (
-                <Link
-                  key={l.href}
-                  href={l.href}
-                  style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', textDecoration: 'none', transition: 'color 0.15s' }}
-                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = '#fff'}
-                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.6)'}
-                >
+                <Link key={l.href} href={l.href} className="em-footer-link">
                   {l.label}
                 </Link>
               ))}
             </nav>
           </div>
 
-          {/* ── Col 4: Kontakt ───────────────────────────────────────────── */}
+          {/* Col 4: Kontakt */}
           <div>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: 20 }}>
-              Kontakt
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                <MapPin size={14} style={{ color: 'rgba(255,255,255,0.3)', flexShrink: 0, marginTop: 2 }} />
-                <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', lineHeight: 1.6 }}>
-                  Derendingenstrasse 25<br />4563 Gerlafingen SO
-                </span>
+            <div className="em-footer-col-label">Kontakt</div>
+            <div className="em-footer-contact">
+              <div className="em-footer-contact-row">
+                <MapPin size={14} className="em-footer-icon" />
+                <span>Derendingenstrasse 25<br />4563 Gerlafingen SO</span>
               </div>
-              <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                <Phone size={14} style={{ color: 'rgba(255,255,255,0.3)', flexShrink: 0 }} />
-                <a href="tel:+41326755805" style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>
-                  +41 (0)32 675 58 05
-                </a>
+              <div className="em-footer-contact-row">
+                <Phone size={14} className="em-footer-icon" />
+                <a href="tel:+41326755805" className="em-footer-contact-link">+41 (0)32 675 58 05</a>
               </div>
-              <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                <Mail size={14} style={{ color: 'rgba(255,255,255,0.3)', flexShrink: 0 }} />
-                <a href="mailto:info@ernst-moser.ch" style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>
-                  info@ernst-moser.ch
-                </a>
+              <div className="em-footer-contact-row">
+                <Mail size={14} className="em-footer-icon" />
+                <a href="mailto:info@ernst-moser.ch" className="em-footer-contact-link">info@ernst-moser.ch</a>
               </div>
-
-              {/* Öffnungszeiten */}
-              <div style={{ marginTop: 8, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.07)' }}>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)', marginBottom: 10 }}>
-                  Öffnungszeiten
+              <div className="em-footer-hours">
+                <div className="em-footer-hours-label">Öffnungszeiten</div>
+                <div className="em-footer-hours-row">
+                  <span>Mo – Fr</span><span>07:00–12:00 / 13:15–17:30</span>
                 </div>
-                {[
-                  { day: 'Mo – Fr', time: '07:00–12:00 / 13:15–17:30' },
-                  { day: 'Samstag', time: '07:00–12:00' },
-                ].map(row => (
-                  <div key={row.day} style={{ display: 'flex', justifyContent: 'space-between', gap: 12, marginBottom: 6 }}>
-                    <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>{row.day}</span>
-                    <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', textAlign: 'right' }}>{row.time}</span>
-                  </div>
-                ))}
+                <div className="em-footer-hours-row">
+                  <span>Samstag</span><span>07:00–12:00</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ── Bottom bar ──────────────────────────────────────────────────────── */}
-      <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div style={{
-          maxWidth: 1280, margin: '0 auto', padding: '20px 32px',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12,
-        }}>
-          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', margin: 0 }}>
-            © {new Date().getFullYear()} Ernst Moser GmbH. Alle Rechte vorbehalten.
-          </p>
-          <div style={{ display: 'flex', gap: 20 }}>
-            {[
-              { label: 'Impressum', href: '/impressum' },
-              { label: 'AGB', href: '/agb' },
-              { label: 'Datenschutz', href: '/datenschutz' },
-            ].map(l => (
-              <Link
-                key={l.href}
-                href={l.href}
-                style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', textDecoration: 'none' }}
-                onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.6)'}
-                onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.3)'}
-              >
-                {l.label}
-              </Link>
-            ))}
+      {/* ── Bottom bar ────────────────────────────────────────────────────── */}
+      <div className="em-footer-bottom">
+        <div className="em-footer-bottom-inner">
+          <p className="em-footer-copy">© {new Date().getFullYear()} Ernst Moser GmbH. Alle Rechte vorbehalten.</p>
+          <div className="em-footer-legal">
+            <Link href="/impressum" className="em-footer-legal-link">Impressum</Link>
+            <Link href="/agb" className="em-footer-legal-link">AGB</Link>
+            <Link href="/datenschutz" className="em-footer-legal-link">Datenschutz</Link>
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 1024px) {
-          .footer-main-grid {
-            grid-template-columns: 1fr 1fr !important;
-          }
-        }
-        @media (max-width: 640px) {
-          .footer-main-grid {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
     </footer>
   )
 }
