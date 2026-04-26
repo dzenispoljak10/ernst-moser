@@ -19,7 +19,7 @@ type WhyItem = { icon: LucideIcon; title: string; desc: string }
 
 const CENTER_SERVICES: Record<string, ServiceItem[]> = {
   nutzfahrzeugcenter: [
-    { icon: Truck,       title: 'Fahrzeugverkauf',   desc: 'Neuwagen, Occasionen und Anhänger mit kompetenter Beratung und Probefahrt.' },
+    { icon: Truck,       title: 'Fahrzeugverkauf',   desc: 'Nutzfahrzeuge, Aufbauten und Anhänger mit kompetenter Beratung und Probefahrt.' },
     { icon: Wrench,      title: 'Werkstatt & Service', desc: 'Unsere zertifizierten Techniker übernehmen alle Wartungs- und Reparaturarbeiten.' },
     { icon: ShieldCheck, title: 'Garantie & Schutz',  desc: 'Herstellergarantien und Garantieverlängerungen für maximale Sicherheit.' },
     { icon: Clock,       title: 'Expressservice',     desc: 'Schneller Pannenservice und Notreparaturen für minimale Ausfallzeiten.' },

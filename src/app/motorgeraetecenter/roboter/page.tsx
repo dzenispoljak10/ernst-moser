@@ -10,22 +10,22 @@ const NEON = '#5aff8a'
 
 const ROBOTS = [
   {
-    slug: 'ambrogio',
-    name: 'Ambrogio',
-    logo: '/images/brands/ambrogio/logo.webp',
-    hero: '/images/products/ambrogio-smarte-funktionen-und-maximale-sicherheit/main.webp',
-    category: 'Rasenmähroboter',
-    tagline: 'Autonome Rasenpflege. Rund um die Uhr.',
-    desc: 'Ambrogio Mähroboter kartieren, mähen und kehren zurück – ohne Begrenzungskabel, ohne Aufsicht. GPS-gesteuert, leise, präzise.',
-    href: '/motorgeraetecenter/ambrogio',
-    icon: Leaf,
+    slug: 'segway',
+    name: 'Segway Navimow',
+    logo: '/images/brands/segway/logo.webp',
+    hero: '/images/products/segway-navimow-x-series/main.webp',
+    category: 'Mähroboter RTK',
+    tagline: 'Centimetergenau. Kabellos. Intelligent.',
+    desc: 'Segway Navimow nutzt RTK-GPS für millimetergenaue Navigation – komplett ohne Begrenzungsdraht. Plug & Play, App-gesteuert, sofort einsatzbereit.',
+    href: '/motorgeraetecenter/segway',
+    icon: Navigation,
     specs: [
-      { icon: Navigation, label: 'Navigation', value: 'GPS + ACS' },
-      { icon: Zap, label: 'Fläche', value: 'bis 30.000 m²' },
-      { icon: Wifi, label: 'Steuerung', value: 'App / Cloud' },
-      { icon: Shield, label: 'Schutz', value: 'IP44 / Alarm' },
+      { icon: Navigation, label: 'GPS', value: 'RTK Präzision' },
+      { icon: Zap, label: 'Fläche', value: 'bis 5.000 m²' },
+      { icon: Shield, label: 'Setup', value: 'Kabellos' },
+      { icon: Wifi, label: 'App', value: 'iMow / Segway' },
     ],
-    color: '#3d7a4f',
+    color: '#1a4a7a',
   },
   {
     slug: 'pudu-robotics',
@@ -46,22 +46,22 @@ const ROBOTS = [
     color: '#2a5a8a',
   },
   {
-    slug: 'segway',
-    name: 'Segway Navimow',
-    logo: '/images/brands/segway/logo.webp',
-    hero: '/images/products/segway-navimow-x-series/main.webp',
-    category: 'Mähroboter RTK',
-    tagline: 'Centimetergenau. Kabellos. Intelligent.',
-    desc: 'Segway Navimow nutzt RTK-GPS für millimetergenaue Navigation – komplett ohne Begrenzungsdraht. Plug & Play, App-gesteuert, sofort einsatzbereit.',
-    href: '/motorgeraetecenter/segway',
-    icon: Navigation,
+    slug: 'ambrogio',
+    name: 'Ambrogio',
+    logo: '/images/brands/ambrogio/logo.webp',
+    hero: '/images/products/ambrogio-smarte-funktionen-und-maximale-sicherheit/main.webp',
+    category: 'Rasenmähroboter',
+    tagline: 'Autonome Rasenpflege. Rund um die Uhr.',
+    desc: 'Ambrogio Mähroboter kartieren, mähen und kehren zurück – ohne Begrenzungskabel, ohne Aufsicht. GPS-gesteuert, leise, präzise.',
+    href: '/motorgeraetecenter/ambrogio',
+    icon: Leaf,
     specs: [
-      { icon: Navigation, label: 'GPS', value: 'RTK Präzision' },
-      { icon: Zap, label: 'Fläche', value: 'bis 5.000 m²' },
-      { icon: Shield, label: 'Setup', value: 'Kabellos' },
-      { icon: Wifi, label: 'App', value: 'iMow / Segway' },
+      { icon: Navigation, label: 'Navigation', value: 'GPS + ACS' },
+      { icon: Zap, label: 'Fläche', value: 'bis 30.000 m²' },
+      { icon: Wifi, label: 'Steuerung', value: 'App / Cloud' },
+      { icon: Shield, label: 'Schutz', value: 'IP44 / Alarm' },
     ],
-    color: '#1a4a7a',
+    color: '#3d7a4f',
   },
 ]
 
@@ -74,47 +74,35 @@ const STATS = [
 
 const EASE = [0.4, 0, 0.2, 1] as [number, number, number, number]
 
-/* ── Decorative SVG circuit grid ──────────────────────────────────────────── */
+/* ── Animierter Robotik-Hintergrund ────────────────────────────────────────
+ * Scrollendes Grid + pulsierende Knoten + diagonale Scan-Linie.
+ * Animations-CSS lebt in globals.css unter `.robot-bg-*`.
+ */
 function CircuitGrid() {
   return (
-    <svg
-      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.07, pointerEvents: 'none' }}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <defs>
-        <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-          <path d="M 60 0 L 0 0 0 60" fill="none" stroke={NEON} strokeWidth="0.5" />
-        </pattern>
-        <pattern id="dots" width="60" height="60" patternUnits="userSpaceOnUse">
-          <circle cx="0" cy="0" r="1.5" fill={NEON} />
-          <circle cx="60" cy="0" r="1.5" fill={NEON} />
-          <circle cx="0" cy="60" r="1.5" fill={NEON} />
-          <circle cx="60" cy="60" r="1.5" fill={NEON} />
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#grid)" />
-      <rect width="100%" height="100%" fill="url(#dots)" />
-    </svg>
-  )
-}
+    <div className="robot-bg-wrap" aria-hidden="true">
+      <div className="robot-bg-grid" />
+      <div className="robot-bg-beam" />
 
-/* ── Scan line animation ──────────────────────────────────────────────────── */
-function ScanLine() {
-  return (
-    <motion.div
-      style={{
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        height: 2,
-        background: `linear-gradient(90deg, transparent 0%, ${NEON}66 30%, ${NEON} 50%, ${NEON}66 70%, transparent 100%)`,
-        pointerEvents: 'none',
-        zIndex: 2,
-      }}
-      initial={{ top: '0%', opacity: 0 }}
-      animate={{ top: ['0%', '100%', '0%'], opacity: [0, 0.8, 0.8, 0] }}
-      transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
-    />
+      <span className="robot-bg-node" style={{ top: '12%', left: '8%' }} />
+      <span className="robot-bg-node" style={{ top: '28%', left: '22%', animationDelay: '0.6s' }} />
+      <span className="robot-bg-node" style={{ top: '46%', left: '12%', animationDelay: '1.2s' }} />
+      <span className="robot-bg-node" style={{ top: '64%', left: '32%', animationDelay: '1.8s' }} />
+      <span className="robot-bg-node" style={{ top: '82%', left: '18%', animationDelay: '2.4s' }} />
+      <span className="robot-bg-node" style={{ top: '18%', right: '14%', animationDelay: '0.4s' }} />
+      <span className="robot-bg-node" style={{ top: '40%', right: '8%', animationDelay: '1.4s' }} />
+      <span className="robot-bg-node" style={{ top: '58%', right: '22%', animationDelay: '2.2s' }} />
+      <span className="robot-bg-node" style={{ top: '76%', right: '12%', animationDelay: '0.9s' }} />
+      <span className="robot-bg-node" style={{ top: '92%', right: '34%', animationDelay: '1.7s' }} />
+
+      <span className="robot-bg-particle" style={{ top: '15%', left: '40%' }} />
+      <span className="robot-bg-particle" style={{ top: '34%', left: '58%', animationDelay: '2s' }} />
+      <span className="robot-bg-particle" style={{ top: '52%', left: '46%', animationDelay: '4s' }} />
+      <span className="robot-bg-particle" style={{ top: '70%', left: '62%', animationDelay: '6s' }} />
+      <span className="robot-bg-particle" style={{ top: '24%', left: '78%', animationDelay: '3s' }} />
+      <span className="robot-bg-particle" style={{ top: '88%', left: '50%', animationDelay: '5s' }} />
+      <span className="robot-bg-particle" style={{ top: '60%', left: '72%', animationDelay: '7s' }} />
+    </div>
   )
 }
 
@@ -125,7 +113,6 @@ export default function RoboterPage() {
       {/* ══ HERO ══════════════════════════════════════════════════════════════ */}
       <section style={{ position: 'relative', minHeight: '82vh', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
         <CircuitGrid />
-        <ScanLine />
 
         {/* Radial glow */}
         <div style={{
@@ -136,26 +123,24 @@ export default function RoboterPage() {
           pointerEvents: 'none',
         }} />
 
-        {/* Animated ring */}
-        <motion.div
+        {/* Static rings */}
+        <div
           style={{
             position: 'absolute', right: -200, top: '50%', transform: 'translateY(-50%)',
             width: 700, height: 700, borderRadius: '50%',
             border: `1px solid ${NEON}22`,
             pointerEvents: 'none',
+            opacity: 0.45,
           }}
-          animate={{ scale: [1, 1.05, 1], opacity: [0.3, 0.6, 0.3] }}
-          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
         />
-        <motion.div
+        <div
           style={{
             position: 'absolute', right: -120, top: '50%', transform: 'translateY(-50%)',
             width: 500, height: 500, borderRadius: '50%',
             border: `1px solid ${NEON}44`,
             pointerEvents: 'none',
+            opacity: 0.55,
           }}
-          animate={{ scale: [1, 1.08, 1], opacity: [0.4, 0.7, 0.4] }}
-          transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
         />
 
         <div className="container" style={{ position: 'relative', zIndex: 3, paddingTop: 80, paddingBottom: 80 }}>
@@ -267,7 +252,7 @@ export default function RoboterPage() {
         padding: '32px 0',
       }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0 }}>
+          <div className="robot-stats-grid">
             {STATS.map((s, i) => (
               <motion.div
                 key={s.label}
@@ -355,17 +340,6 @@ export default function RoboterPage() {
                       }} />
                     ))}
 
-                    {/* Scan overlay */}
-                    <motion.div
-                      style={{
-                        position: 'absolute', left: 0, right: 0, height: 80,
-                        background: `linear-gradient(180deg, transparent, ${NEON}08, transparent)`,
-                        pointerEvents: 'none',
-                      }}
-                      animate={{ top: ['0%', '100%'] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: 'linear', delay: i * 0.8 }}
-                    />
-
                     <div style={{ position: 'relative', width: '100%', maxWidth: 380, aspectRatio: '4/3' }}>
                       <Image
                         src={robot.hero}
@@ -399,9 +373,27 @@ export default function RoboterPage() {
                       </span>
                     </div>
 
-                    {/* Logo */}
-                    <div style={{ position: 'relative', height: 36, width: 160 }}>
-                      <Image src={robot.logo} alt={robot.name} fill style={{ objectFit: 'contain', objectPosition: 'left center', filter: 'brightness(0) invert(1)' }} unoptimized sizes="160px" />
+                    {/* Logo — weisser Container, damit jedes Logo unabhängig vom Format sichtbar ist */}
+                    <div
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        background: '#fff',
+                        borderRadius: 10,
+                        padding: '8px 14px',
+                        height: 44,
+                        width: 'fit-content',
+                        boxShadow: '0 2px 12px rgba(0,0,0,0.25)',
+                      }}
+                    >
+                      <Image
+                        src={robot.logo}
+                        alt={robot.name}
+                        width={140}
+                        height={28}
+                        style={{ width: 'auto', height: 28, objectFit: 'contain' }}
+                        unoptimized
+                      />
                     </div>
 
                     {/* Tagline */}
@@ -493,7 +485,7 @@ export default function RoboterPage() {
               Wir führen Ihnen unsere Roboter direkt vor Ort vor — kostenlos und unverbindlich.
             </p>
 
-            <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 28 }}>
               <a
                 href="tel:+41326755805"
                 style={{
@@ -506,18 +498,26 @@ export default function RoboterPage() {
               >
                 <Phone size={16} /> Demo vereinbaren
               </a>
-              <Link
-                href="/motorgeraetecenter"
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 10,
-                  padding: '14px 28px', borderRadius: 10,
-                  border: `1px solid rgba(255,255,255,0.15)`,
-                  color: 'rgba(255,255,255,0.7)', fontWeight: 600, fontSize: 14,
-                  textDecoration: 'none',
-                }}
-              >
-                <ArrowRight size={14} /> Zum Motorgerätecenter
-              </Link>
+            </div>
+
+            {/* Direkt-Links zu den 3 Markenseiten */}
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+              {ROBOTS.map((r) => (
+                <Link
+                  key={r.slug}
+                  href={r.href}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 8,
+                    padding: '11px 20px', borderRadius: 999,
+                    border: `1px solid ${NEON}44`,
+                    background: `${NEON}0a`,
+                    color: '#fff', fontWeight: 600, fontSize: 13,
+                    textDecoration: 'none',
+                  }}
+                >
+                  Zur {r.name}-Seite <ArrowRight size={13} color={NEON} />
+                </Link>
+              ))}
             </div>
           </motion.div>
         </div>

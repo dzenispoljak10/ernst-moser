@@ -162,6 +162,14 @@ export default function MegaMenu({ centers, brandsByCenter, logoUrl }: Props) {
                 <ChevronDown size={13} className={`nav-chevron${activeId === c._id ? ' open' : ''}`} />
               </button>
             ))}
+            <Link
+              href="/lagerfahrzeuge"
+              className="nav-btn"
+              onMouseEnter={() => setActiveId(null)}
+              onClick={() => setActiveId(null)}
+            >
+              Lagerfahrzeuge
+            </Link>
           </nav>
 
           {/* Right actions – right */}
@@ -391,6 +399,14 @@ export default function MegaMenu({ centers, brandsByCenter, logoUrl }: Props) {
                     </div>
                   )
                 })}
+                <Link
+                  href="/lagerfahrzeuge"
+                  className="mobile-center-btn"
+                  onClick={() => setMobileOpen(false)}
+                  style={{ borderLeftColor: 'transparent' }}
+                >
+                  <span>Lagerfahrzeuge</span>
+                </Link>
               </nav>
 
               {/* Shop + Social */}

@@ -1,5 +1,5 @@
 import { readClient as client, imageUrl } from '@/lib/sanity'
-import { productImageBySlug } from '@/lib/serverImages'
+import { productImageBySlug, teamPhotoByName } from '@/lib/serverImages'
 import { getSalespersonByBrand } from '@/lib/queries'
 import { getIcon } from '@/lib/iconMap'
 import Image from 'next/image'
@@ -9,8 +9,25 @@ import AnimatedSection from '@/components/ui/AnimatedSection'
 import BrandHeroContent from '@/components/ui/BrandHeroContent'
 import BrandAboutSection from '@/components/ui/BrandAboutSection'
 import BrandSalespersonSection from '@/components/ui/BrandSalespersonSection'
-import { FloatingWrapper } from '@/components/ui/FloatingWrapper'
-import BrandExtraSections from '@/components/brand/BrandExtraSections'
+import IsuzuCategorySections from '@/components/brand/IsuzuCategorySections'
+import IsuzuFleetCarousel from '@/components/brand/IsuzuFleetCarousel'
+import PiaggioProductSections from '@/components/brand/PiaggioProductSections'
+import PiaggioFleetCarousel from '@/components/brand/PiaggioFleetCarousel'
+import FiatFleetCarousel from '@/components/brand/FiatFleetCarousel'
+import DhollandiaProductSections from '@/components/brand/DhollandiaProductSections'
+import ScaniaProductSections from '@/components/brand/ScaniaProductSections'
+import ScaniaFleetCarousel from '@/components/brand/ScaniaFleetCarousel'
+import UTProductSections from '@/components/brand/UTProductSections'
+import UTFleetCarousel from '@/components/brand/UTFleetCarousel'
+import HilltipCategorySections from '@/components/brand/HilltipCategorySections'
+import HilltipFleetCarousel from '@/components/brand/HilltipFleetCarousel'
+import KommunalBrandSections from '@/components/brand/KommunalBrandSections'
+import KommunalFleetCarousel from '@/components/brand/KommunalFleetCarousel'
+import GenericFleetCarousel from '@/components/brand/GenericFleetCarousel'
+import BrandVideoSection from '@/components/brand/BrandVideoSection'
+import { KOMMUNAL_BRANDS, KOMMUNAL_CAROUSEL_SLIDES } from '@/lib/kommunal-catalogs'
+import { MOTORGERAETE_BRANDS, MOTORGERAETE_CAROUSEL_SLIDES } from '@/lib/motorgeraete-catalogs'
+import { getBrandVideo } from '@/lib/brand-videos'
 import CountUp from '@/components/ui/CountUp'
 import { ArrowRight, Package } from 'lucide-react'
 
@@ -120,9 +137,35 @@ export default async function BrandPageContent({
   const hasApplications = applications.length > 0
 
   const heroImgRaw = brand.heroImage ?? brand.images?.[0] ?? null
-  const heroImgUrl = heroImgRaw ? imageUrl(heroImgRaw) : null
+  // Locally-hosted brand hero overrides (sourced from each brand's official
+  // site, converted to WebP 85 %, stored in public/images/<brand>/).
+  //
+  // Cache-Hinweis: Next.js cached optimierte Bildvarianten in
+  // `.next/dev/cache/images` (bzw. `.next/cache/images` im Build) keyed on
+  // URL + width. Wenn eine Datei unter gleichem Pfad ersetzt wird, bleibt
+  // der Cache stehen — "altes Bild nach Datei-Swap" ist fast immer die
+  // Folge. Fix: `rm -rf .next/dev/cache/images` + Dev-Server neu starten.
+  // Alternativ Dateinamen versionieren (foo-v2.webp), wenn das häufiger
+  // nötig wird.
+  const LOCAL_HERO_OVERRIDES: Record<string, string> = {
+    fiat: '/images/fiat/hero-natural-born-workers.webp',
+    isuzu: '/images/isuzu/hero-steering-wheel.webp',
+    ut: '/images/brands/ut/hero.webp',
+    hilltip: '/images/brands/hilltip/hero.webp',
+    alk: '/images/brands/alk/hero.webp',
+    kubota: '/images/brands/kubota/hero.webp',
+    'gianni-ferrari': '/images/brands/gianni-ferrari/hero.webp',
+    'ligier-professional': '/images/brands/ligier-professional/hero.webp',
+    timan: '/images/brands/timan/hero.webp',
+    matev: '/images/brands/matev/hero.webp',
+    ecotech: '/images/brands/ecotech/hero.webp',
+  }
+  const heroImgUrl =
+    LOCAL_HERO_OVERRIDES[brandSlug] ?? (heroImgRaw ? imageUrl(heroImgRaw) : null)
   const logoUrl = brand.logo ? imageUrl(brand.logo) : null
-  const spPhotoUrl = sp?.photo ? imageUrl(sp.photo) : null
+  const spPhotoUrl =
+    teamPhotoByName(sp?.firstName, sp?.lastName) ??
+    (sp?.photo ? imageUrl(sp.photo) : null)
 
   const descBlocks = (brand.description ?? []) as PortableBlock[]
   const descText   = ptText(descBlocks)
@@ -131,15 +174,31 @@ export default async function BrandPageContent({
   return (
     <>
       {/* ═══ 1: Hero ══════════════════════════════════════════════════════ */}
+      {/* Piaggio: Vimeo video background + fixed stats (1884 / 140+ / 100+). */}
       <BrandHeroContent
         brandName={brand.name}
         centerName={center.name}
         centerSlug={centerSlug}
         centerColor={center.color}
         logoUrl={logoUrl}
+        secondLogoUrl={brandSlug === 'segway' ? '/images/brands/segway/navimow-logo.webp' : null}
+        secondLogoAlt={brandSlug === 'segway' ? 'Navimow Logo' : null}
         tagline={brand.tagline}
         heroImgUrl={heroImgUrl}
-        stats={stats}
+        videoBackground={
+          brandSlug === 'piaggio'
+            ? 'https://player.vimeo.com/video/1092462723?muted=1&autoplay=1&autopause=0&controls=0&loop=1&background=1'
+            : null
+        }
+        stats={
+          brandSlug === 'piaggio'
+            ? [
+                { _key: 'pg-1884', value: 1884, label: 'Gegründet' },
+                { _key: 'pg-years', value: 140, suffix: '+', label: 'Jahre' },
+                { _key: 'pg-countries', value: 100, suffix: '+', label: 'Länder' },
+              ]
+            : stats
+        }
       />
 
       {/* ═══ 2: Über die Marke ════════════════════════════════════════════ */}
@@ -154,12 +213,15 @@ export default async function BrandPageContent({
 
       {/* ═══ 3: Stats ═════════════════════════════════════════════════════ */}
       {hasStats && (
-        <section className="brand-stats-section">
+        <section
+          className="brand-stats-section"
+          style={{ ['--brand-stats-bg' as string]: center.color }}
+        >
           <div className="container">
             <div className="brand-stats-grid">
               {stats.map((stat) => (
                 <div key={stat._key ?? stat.label} className="brand-stat-item">
-                  <div className="brand-stat-num" style={{ color: center.color }}>
+                  <div className="brand-stat-num">
                     <CountUp to={stat.value} suffix={stat.suffix ?? ''} />
                   </div>
                   <div className="brand-stat-lbl">{stat.label}</div>
@@ -202,8 +264,68 @@ export default async function BrandPageContent({
         </section>
       )}
 
+      {/* ═══ 5a: Isuzu – Kategorien (keine Modellvarianten, externe Links) ═ */}
+      {brandSlug === 'isuzu' && <IsuzuCategorySections accent={center.color} />}
+
+      {/* ═══ 5a: Piaggio – zwei Sections (NP6 Chassis + NPE Elektro) ═════ */}
+      {brandSlug === 'piaggio' && <PiaggioProductSections accent={center.color} />}
+
+      {/* ═══ 5a: Dhollandia – sechs Hebebühnen-Kategorien ════════════════ */}
+      {brandSlug === 'dhollandia' && <DhollandiaProductSections accent={center.color} />}
+
+      {/* ═══ 5a: Scania – 10 Lkw-Baureihen ══════════════════════════════ */}
+      {brandSlug === 'scania' && <ScaniaProductSections accent={center.color} />}
+
+      {/* ═══ 5a: UT – Aufbauten-Katalog ═════════════════════════════════ */}
+      {brandSlug === 'ut' && <UTProductSections accent={center.color} />}
+
+      {/* ═══ 5a: Hilltip – 3 Fahrzeugklassen Winterdienst ═══════════════ */}
+      {brandSlug === 'hilltip' && <HilltipCategorySections accent={center.color} />}
+
+      {/* ═══ 5a: Kommunalcenter-Marken – generische Brand-Sektion ═══════ */}
+      {KOMMUNAL_BRANDS[brandSlug] && (
+        <KommunalBrandSections
+          centerSlug={centerSlug}
+          brandSlug={brandSlug}
+          brandName={KOMMUNAL_BRANDS[brandSlug].brandName}
+          accent={center.color}
+          eyebrow={KOMMUNAL_BRANDS[brandSlug].sectionEyebrow}
+          title={KOMMUNAL_BRANDS[brandSlug].sectionTitle}
+          lead={KOMMUNAL_BRANDS[brandSlug].sectionLead}
+          homepageUrl={KOMMUNAL_BRANDS[brandSlug].homepageUrl ?? null}
+          models={KOMMUNAL_BRANDS[brandSlug].products.map((p) => ({
+            slug: p.slug,
+            title: p.title,
+            shortDescription: p.shortDescription,
+            image: p.image,
+            category: p.category,
+          }))}
+        />
+      )}
+
+      {/* ═══ 5a: Motorgerätecenter-Marken (Pudu, Segway, Stihl) ═════════ */}
+      {MOTORGERAETE_BRANDS[brandSlug] && (
+        <KommunalBrandSections
+          centerSlug={centerSlug}
+          brandSlug={brandSlug}
+          brandName={MOTORGERAETE_BRANDS[brandSlug].brandName}
+          accent={center.color}
+          eyebrow={MOTORGERAETE_BRANDS[brandSlug].sectionEyebrow}
+          title={MOTORGERAETE_BRANDS[brandSlug].sectionTitle}
+          lead={MOTORGERAETE_BRANDS[brandSlug].sectionLead}
+          homepageUrl={MOTORGERAETE_BRANDS[brandSlug].homepageUrl ?? null}
+          models={MOTORGERAETE_BRANDS[brandSlug].products.map((p) => ({
+            slug: p.slug,
+            title: p.title,
+            shortDescription: p.shortDescription,
+            image: p.image,
+            category: p.category,
+          }))}
+        />
+      )}
+
       {/* ═══ 5: Produkte ══════════════════════════════════════════════════ */}
-      {hasProducts && (
+      {brandSlug !== 'isuzu' && brandSlug !== 'piaggio' && brandSlug !== 'dhollandia' && brandSlug !== 'scania' && brandSlug !== 'ut' && brandSlug !== 'hilltip' && !KOMMUNAL_BRANDS[brandSlug] && !MOTORGERAETE_BRANDS[brandSlug] && hasProducts && (
         <section id="produkte" className="section brand-products-section">
           <div className="container">
             <AnimatedSection className="section-header" style={{ marginBottom: 40 }}>
@@ -216,7 +338,7 @@ export default async function BrandPageContent({
 
             {sanityProducts.length > 0 ? (
               <AnimatedSection className="brand-products-grid" delay={0.05}>
-                {sanityProducts.map((product, i) => {
+                {sanityProducts.map((product) => {
                   const productImgUrl =
                     productImageBySlug(product.slug?.current ?? '') ??
                     (product.mainImage ? imageUrl(product.mainImage) : null) ??
@@ -224,8 +346,8 @@ export default async function BrandPageContent({
                     (brand.images?.[0] ? imageUrl(brand.images[0]) : null) ??
                     null
                   return (
-                  <FloatingWrapper key={product._id} index={i}>
                     <Link
+                      key={product._id}
                       href={`/${centerSlug}/${brandSlug}/${product.slug?.current ?? ''}`}
                       className="brand-product-card"
                       style={{ ['--product-accent' as string]: center.color }}
@@ -261,15 +383,14 @@ export default async function BrandPageContent({
                         </span>
                       </div>
                     </Link>
-                  </FloatingWrapper>
                   )
                 })}
               </AnimatedSection>
             ) : (
               <AnimatedSection className="brand-products-grid" delay={0.05}>
-                {inlineProducts.map((p, i) => (
-                  <FloatingWrapper key={p._key} index={i}>
+                {inlineProducts.map((p) => (
                     <div
+                      key={p._key}
                       className="brand-product-card brand-product-card--static"
                       style={{ ['--product-accent' as string]: center.color }}
                     >
@@ -299,13 +420,99 @@ export default async function BrandPageContent({
                         </span>
                       </div>
                     </div>
-                  </FloatingWrapper>
                 ))}
               </AnimatedSection>
             )}
           </div>
         </section>
       )}
+
+      {/* ═══ 5b: Isuzu – Flotten-Carousel (direkt nach Truck-Section) ═══ */}
+      {brandSlug === 'isuzu' && <IsuzuFleetCarousel accent={center.color} />}
+
+      {/* ═══ 5b: Piaggio – Flotten-Carousel (direkt nach NPE-Section) ═══ */}
+      {brandSlug === 'piaggio' && <PiaggioFleetCarousel accent={center.color} />}
+
+      {/* ═══ 5b: Fiat – Flotten-Carousel (direkt nach Produkt-Grid) ═════ */}
+      {brandSlug === 'fiat' && <FiatFleetCarousel accent={center.color} />}
+
+      {/* ═══ 5b: Scania – Flotten-Carousel (direkt nach Produkt-Grid) ═══ */}
+      {brandSlug === 'scania' && <ScaniaFleetCarousel accent={center.color} />}
+
+      {/* ═══ 5b: UT – Aufbauten-Carousel (direkt nach Produkt-Grid) ═════ */}
+      {brandSlug === 'ut' && <UTFleetCarousel accent={center.color} />}
+
+      {/* ═══ 5b: Hilltip – Carousel (direkt nach Kategorien-Grid) ═══════ */}
+      {brandSlug === 'hilltip' && <HilltipFleetCarousel accent={center.color} />}
+
+      {/* ═══ 5b: Kommunalcenter – generisches Karussell ═════════════════ */}
+      {KOMMUNAL_BRANDS[brandSlug] && KOMMUNAL_CAROUSEL_SLIDES[brandSlug] && (
+        <KommunalFleetCarousel
+          brandSlug={brandSlug}
+          accent={center.color}
+          eyebrow={KOMMUNAL_BRANDS[brandSlug].carouselEyebrow}
+          heading={KOMMUNAL_BRANDS[brandSlug].carouselHeading}
+          ariaLabel={KOMMUNAL_BRANDS[brandSlug].carouselAriaLabel}
+        />
+      )}
+
+      {/* ═══ 5b: Motorgerätecenter – generisches Karussell ══════════════ */}
+      {MOTORGERAETE_BRANDS[brandSlug] && MOTORGERAETE_CAROUSEL_SLIDES[brandSlug] && (
+        <KommunalFleetCarousel
+          brandSlug={brandSlug}
+          accent={center.color}
+          eyebrow={MOTORGERAETE_BRANDS[brandSlug].carouselEyebrow}
+          heading={MOTORGERAETE_BRANDS[brandSlug].carouselHeading}
+          ariaLabel={MOTORGERAETE_BRANDS[brandSlug].carouselAriaLabel}
+        />
+      )}
+
+      {/* ═══ 5b: Generisches Sanity-getriebenes Karussell (Fallback) ════ */}
+      {!['isuzu', 'piaggio', 'fiat', 'scania', 'ut', 'hilltip'].includes(brandSlug) &&
+        !KOMMUNAL_BRANDS[brandSlug] &&
+        !MOTORGERAETE_BRANDS[brandSlug] &&
+        sanityProducts.length > 0 && (
+          <GenericFleetCarousel
+            accent={center.color}
+            eyebrow={`Die ${brand.name}-Auswahl`}
+            heading={`${brand.name} im Überblick`}
+            ariaLabel={`${brand.name} Modelle`}
+            slides={sanityProducts.map((p) => {
+              const slug = p.slug?.current ?? ''
+              const img =
+                productImageBySlug(slug) ??
+                (p.mainImage ? imageUrl(p.mainImage) : null) ??
+                (brand.heroImage ? imageUrl(brand.heroImage) : null) ??
+                '/images/placeholder.png'
+              const desc =
+                p.description?.[0]?.children
+                  ?.map((c) => c.text)
+                  .join('')
+                  .slice(0, 200) ?? ''
+              return {
+                slug,
+                title: p.name,
+                description: desc,
+                image: img,
+                imageAlt: p.name,
+                detailUrl: `/${centerSlug}/${brandSlug}/${slug}`,
+              }
+            })}
+          />
+      )}
+
+      {/* ═══ 5c: Brand-Werbevideo (nur wenn Marke ein Video hat) ════════ */}
+      {(() => {
+        const video = getBrandVideo(brandSlug)
+        if (!video) return null
+        return (
+          <BrandVideoSection
+            video={video}
+            brandName={brand.name}
+            accent={center.color}
+          />
+        )
+      })()}
 
       {/* ═══ 6: Highlights / USPs ════════════════════════════════════════ */}
       {hasHighlights && (
@@ -371,7 +578,7 @@ export default async function BrandPageContent({
       )}
 
 
-      {/* ═══ 9: Verkäufer ════════════════════════════════════════════════ */}
+      {/* ═══ 9: Verkäufer (LETZTE Section — nichts danach) ══════════════ */}
       <BrandSalespersonSection
         sp={sp}
         brandName={brand.name}
@@ -379,9 +586,6 @@ export default async function BrandPageContent({
         centerSlug={centerSlug}
         photoUrl={spPhotoUrl}
       />
-
-      {/* ═══ 10: Extra Sections (Innovation, Tech, Heritage, …) ══════════ */}
-      <BrandExtraSections brandSlug={brandSlug} centerColor={center.color} />
     </>
   )
 }

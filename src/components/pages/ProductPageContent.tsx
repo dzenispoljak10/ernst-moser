@@ -1,9 +1,13 @@
 import { readClient as client, imageUrl } from '@/lib/sanity'
-import { productImageBySlug } from '@/lib/serverImages'
+import { productImageBySlug, teamPhotoByName } from '@/lib/serverImages'
 import { getSalespersonByBrand } from '@/lib/queries'
 import { notFound } from 'next/navigation'
 import ProductHeroClient from '@/components/ui/ProductHeroClient'
+import HilltipCategoryDetail from '@/components/pages/HilltipCategoryDetail'
+import { getHilltipCategory } from '@/lib/hilltip-catalog'
 import BrandSalespersonSection from '@/components/ui/BrandSalespersonSection'
+import ProductExtraSections from '@/components/product/ProductExtraSections'
+import { getProductExtras } from '@/lib/product-extras'
 
 interface PortableBlock {
   _type: string
@@ -65,31 +69,53 @@ export default async function ProductPageContent({
     (product.brandImages?.[0] ? imageUrl(product.brandImages[0]) : null) ??
     null
 
-  const spPhotoUrl = sp?.photo ? imageUrl(sp.photo) : null
+  // Lokales Team-Foto (z. B. /images/team/adrian-moser.webp) wird bevorzugt;
+  // fällt auf das Sanity-Asset zurück, wenn keine lokale Datei vorhanden ist.
+  const spPhotoUrl =
+    teamPhotoByName(sp?.firstName, sp?.lastName) ??
+    (sp?.photo ? imageUrl(sp.photo) : null)
 
   const descriptionText = ptText(product.description)
   const specs = (product.specs ?? []) as Array<{ label: string; value: string }>
 
+  // Hilltip-Kategorien rendern eine eigene reichhaltige Detail-Seite mit Highlights.
+  const hilltipCategory = getHilltipCategory(productSlug)
+
+  // Optionale Zusatz-Sections + Produkt-Video (nur für Produkte mit verifizierten Infos)
+  const extras = getProductExtras(productSlug)
+
   return (
     <>
       {/* ═══ Section 1: Product Hero ══════════════════════════════ */}
-      <ProductHeroClient
-        productName={product.name}
-        brandName={product.brandName}
-        brandSlug={product.brandSlug}
-        centerName={center.name}
-        centerSlug={centerSlug}
-        centerColor={center.color}
-        imageUrl={productImageUrl}
-        descriptionText={descriptionText}
-        specs={specs}
-        priceLabel={product.priceLabel ?? null}
-        isNew={product.isNew}
-        isOccasion={product.isOccasion}
-        salespersonEmail={sp?.email ?? 'info@ernst-moser.ch'}
-      />
+      {hilltipCategory ? (
+        <HilltipCategoryDetail
+          category={hilltipCategory}
+          brandName={product.brandName}
+          brandSlug={product.brandSlug}
+          centerName={center.name}
+          centerSlug={centerSlug}
+          centerColor={center.color}
+        />
+      ) : (
+        <ProductHeroClient
+          productName={product.name}
+          productSlug={productSlug}
+          brandName={product.brandName}
+          brandSlug={product.brandSlug}
+          centerName={center.name}
+          centerSlug={centerSlug}
+          centerColor={center.color}
+          imageUrl={productImageUrl}
+          descriptionText={descriptionText}
+          specs={specs}
+          priceLabel={product.priceLabel ?? null}
+          isNew={product.isNew}
+          isOccasion={product.isOccasion}
+          salespersonEmail={sp?.email ?? 'info@ernst-moser.ch'}
+        />
+      )}
 
-      {/* ═══ Section 2: Salesperson Contact ═══════════════════════ */}
+      {/* ═══ Section 2: Persönliche Beratung — direkt nach CTA ════ */}
       <BrandSalespersonSection
         sp={sp}
         brandName={product.name}
@@ -100,6 +126,16 @@ export default async function ProductPageContent({
         backHref={`/${centerSlug}/${product.brandSlug}`}
         backLabel={`Zurück zu ${product.brandName}`}
       />
+
+      {/* ═══ Section 3: Optionale Zusatz-Sections + Produkt-Video ═ */}
+      {extras && !hilltipCategory && (
+        <ProductExtraSections
+          extras={extras}
+          brandName={product.brandName}
+          productName={product.name}
+          centerColor={center.color}
+        />
+      )}
     </>
   )
 }

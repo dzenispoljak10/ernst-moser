@@ -5,7 +5,7 @@ import {
   Navigation, Sparkles, Snowflake, Scissors, BarChart2, Building, DollarSign,
   Droplets, Fuel, Phone, Mail, User, ChevronRight, ArrowRight, TreePine,
   Tractor, Recycle, FlaskConical, Layers, Cpu, Wind, Car, Bike, HardHat,
-  Factory, Warehouse, GanttChart, CheckCircle2, MapPin, Sun, Camera,
+  Factory, Warehouse, GanttChart, CheckCircle2, MapPin, Sun, Camera, Gauge,
 } from 'lucide-react'
 
 export const ICON_MAP: Record<string, LucideIcon> = {
@@ -14,7 +14,7 @@ export const ICON_MAP: Record<string, LucideIcon> = {
   Navigation, Sparkles, Snowflake, Scissors, BarChart2, Building, DollarSign,
   Droplets, Fuel, Phone, Mail, User, ChevronRight, ArrowRight, TreePine,
   Tractor, Recycle, FlaskConical, Layers, Cpu, Wind, Car, Bike, HardHat,
-  Factory, Warehouse, GanttChart, CheckCircle2, MapPin, Sun, Camera,
+  Factory, Warehouse, GanttChart, CheckCircle2, MapPin, Sun, Camera, Gauge,
 }
 
 export function getIcon(name?: string): LucideIcon {

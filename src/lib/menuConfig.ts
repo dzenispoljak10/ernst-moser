@@ -20,10 +20,10 @@ export const MENU_CONFIG: CenterMenuConfig[] = [
       {
         label: 'Entdecken',
         links: [
-          { label: 'UT Aufbauten & Mulden', href: '/nutzfahrzeugcenter/entdecken' },
-          { label: 'Anhänger', href: '/nutzfahrzeugcenter/entdecken' },
-          { label: 'Wohnmobile', href: '/nutzfahrzeugcenter/entdecken' },
-          { label: 'Wohnwagen', href: '/nutzfahrzeugcenter/entdecken' },
+          { label: 'UT Aufbauten & Mulden', href: '/nutzfahrzeugcenter/ut' },
+          { label: 'Anhänger', href: '/nutzfahrzeugcenter/anhaenger' },
+          { label: 'Wohnmobile', href: '/nutzfahrzeugcenter/wohnmobile-wohnwagen-camper' },
+          { label: 'Wohnwagen', href: '/nutzfahrzeugcenter/wohnmobile-wohnwagen-camper' },
         ],
       },
       {
@@ -36,12 +36,11 @@ export const MENU_CONFIG: CenterMenuConfig[] = [
       {
         label: 'Kaufen',
         links: [
-          { label: 'Kaufberatung', href: '/nutzfahrzeugcenter/kaufen' },
-          { label: 'Finanzierung', href: '/nutzfahrzeugcenter/kaufen' },
-          { label: 'Nutzfahrzeug-Abo', href: '/nutzfahrzeugcenter/kaufen' },
-          { label: 'E-Mobilität', href: '/nutzfahrzeugcenter/kaufen' },
+          { label: 'Kaufberatung', href: '/nutzfahrzeugcenter/kaufen#kaufberatung' },
+          { label: 'Finanzierung', href: '/nutzfahrzeugcenter/kaufen#finanzierung' },
+          { label: 'Nutzfahrzeug-Abo', href: '/nutzfahrzeugcenter/kaufen#nutzfahrzeug-abo' },
+          { label: 'E-Mobilität', href: '/nutzfahrzeugcenter/kaufen#e-mobilitaet' },
           { label: 'Aktionen', href: '/nutzfahrzeugcenter/kaufen' },
-          { label: 'Neuwagen & Occasion', href: '/nutzfahrzeugcenter/kaufen' },
           { label: 'Webshop Scania', href: '/nutzfahrzeugcenter/kaufen' },
         ],
       },

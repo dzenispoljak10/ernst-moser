@@ -90,8 +90,9 @@ export default function HomeAbout() {
               in der Region Solothurn&nbsp;/ Mittelland.
             </p>
             <p className="home-about-text">
-              Unter der Leitung von <strong>Adrian Moser</strong> führen wir das Familienunternehmen
-              mit über 45&nbsp;Jahren Erfahrung in die Zukunft – mit einem eingespielten Team aus
+              Unter der Leitung von <strong>Adrian Moser</strong>{' '}
+              führen wir das Familienunternehmen mit über 50&nbsp;Jahren Erfahrung in die Zukunft –
+              mit einem eingespielten Team aus
               zertifizierten Fachleuten und denselben Werten, die uns seit Beginn auszeichnen:
               persönliche Beratung, Fachkompetenz und erstklassiger Service.
             </p>

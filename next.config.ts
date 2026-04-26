@@ -7,6 +7,15 @@ const nextConfig: NextConfig = {
       { protocol: 'http',  hostname: '**' },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/nutzfahrzeugcenter/ut-aufbauten',
+        destination: '/nutzfahrzeugcenter/ut',
+        permanent: false,
+      },
+    ]
+  },
 }
 
 export default nextConfig

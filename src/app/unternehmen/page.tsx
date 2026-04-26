@@ -143,13 +143,13 @@ export default async function UnternehmenPage() {
       </div>
 
       {/* ══ WERTE ════════════════════════════════════════════════ */}
-      <section className="section" style={{ background: '#0f1c3a' }}>
+      <section className="section" style={{ background: 'var(--c-bg-2)' }}>
         <div className="container">
           <AnimatedSection className="section-header" style={{ marginBottom: 48 }}>
             <div>
               <div className="section-divider" style={{ background: '#4A7C59' }} />
-              <div className="section-label" style={{ color: 'rgba(255,255,255,0.5)' }}>Unsere Werte</div>
-              <h2 className="section-title" style={{ color: '#fff' }}>Was uns antreibt</h2>
+              <div className="section-label">Unsere Werte</div>
+              <h2 className="section-title">Was uns antreibt</h2>
             </div>
           </AnimatedSection>
           <div className="unternehmen-values-grid">
@@ -271,12 +271,12 @@ export default async function UnternehmenPage() {
       </section>
 
       {/* ══ OFFENE STELLEN ═══════════════════════════════════════ */}
-      <section className="section" style={{ background: 'var(--c-dark)', position: 'relative', overflow: 'hidden' }}>
+      <section className="section" style={{ background: 'var(--c-bg)', position: 'relative', overflow: 'hidden' }}>
         <div
           style={{
             position: 'absolute', inset: 0,
-            background: 'linear-gradient(135deg, #1B2D5B 0%, #0d1a36 60%, #4A7C59 100%)',
-            opacity: 0.95,
+            background: 'linear-gradient(135deg, #1B2D5B 0%, #2a4480 55%, #4A7C59 100%)',
+            opacity: 1,
           }}
         />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>

@@ -38,7 +38,7 @@ export default function HomeTimeline() {
           transition={{ duration: 0.6, ease: EASE }}
         >
           <div className="home-timeline-eyebrow">Geschichte</div>
-          <h2 className="home-timeline-title">45 Jahre<br />Erfolgsgeschichte</h2>
+          <h2 className="home-timeline-title">50 Jahre<br />Erfolgsgeschichte</h2>
           <p className="home-timeline-sub">
             Von der kleinen Garage in Biberist zum führenden Spezialisten der Region –
             eine Familiengeschichte voller Leidenschaft.

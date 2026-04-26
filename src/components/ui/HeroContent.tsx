@@ -32,7 +32,7 @@ export default function HeroContent() {
 
       <motion.p className="hero-sub" variants={item}>
         Ernst Moser GmbH – seit über 50 Jahren Ihr kompetenter Ansprechpartner
-        für Fahrzeuge, Maschinen und Service in der Zentralschweiz.
+        für Fahrzeuge, Maschinen und Service in der Region Solothurn / Mittelland.
       </motion.p>
 
       <motion.div className="hero-ctas" variants={item}>

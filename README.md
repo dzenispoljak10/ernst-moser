@@ -20,6 +20,40 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Produktbilder aktualisieren
+
+Fetch-Scripts für lokale Produktbilder liegen unter `scripts/`:
+
+- `scripts/fetch-isuzu-product-images.mjs` — Isuzu D-Max + Truck (6 Bilder)
+- `scripts/fetch-isuzu-category-images.mjs` — Isuzu Kategorien (alternativ)
+- `scripts/convert-isuzu-hero.mjs` — Isuzu Hero
+- `scripts/convert-hero.js` — Fiat Hero
+- `scripts/update-fiat-products.mjs` — Fiat Produktbilder + Sanity-Patch
+
+Alle Scripts schreiben nach `public/images/<brand>/...` und leeren danach den
+Next.js-Image-Optimizer-Cache (`.next/dev/cache/images`, `.next/cache/images`)
+automatisch.
+
+**Wichtig:** Nach dem Script-Run muss der Dev-Server neu gestartet werden,
+damit der In-Memory-Image-Cache ebenfalls flushed:
+
+```bash
+# 1. Bilder neu holen + Disk-Cache leeren:
+node scripts/fetch-isuzu-product-images.mjs
+
+# 2. Dev-Server bouncen:
+# (TaskStop / Ctrl+C, dann)
+npm run dev
+```
+
+**Warum das nötig ist:** Next.js cached optimierte Bild-Derivate keyed auf
+URL + Breite, nicht auf Datei-mtime. Wird eine Datei unter gleichem Pfad
+ersetzt, liefert der Optimizer ohne Cache-Clear die alte Version weiter —
+bis der Browser das Bild in einer anderen Breite anfordert (z. B. nach
+Resize), was aussieht wie „das Bild aktualisiert sich nach Navigation".
+Alternative: Dateinamen versionieren (`foo-v2.webp`), dann ist ein Cache-
+Clear nicht nötig, weil die URL selbst sich ändert.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

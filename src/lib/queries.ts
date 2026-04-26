@@ -51,10 +51,16 @@ export interface SanityAsset {
 }
 
 // Fetch all centers
+const CENTER_ORDER = ['nutzfahrzeugcenter', 'kommunalcenter', 'motorgeraetecenter']
 export async function getCenters(): Promise<SanityCenter[]> {
-  return client.fetch(`*[_type == "center"] | order(name asc) {
+  const centers: SanityCenter[] = await client.fetch(`*[_type == "center"] {
     _id, name, slug, color, description, heroImage
   }`)
+  return centers.sort((a, b) => {
+    const ai = CENTER_ORDER.indexOf(a.slug.current)
+    const bi = CENTER_ORDER.indexOf(b.slug.current)
+    return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi)
+  })
 }
 
 // Fetch all brands grouped by center

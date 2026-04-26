@@ -94,6 +94,7 @@ export default function LeistungenPageContent({ centerSlug }: { centerSlug: stri
     <>
       {/* Hero */}
       <div
+        className="page-hero-wrap"
         style={{
           background: `linear-gradient(135deg, ${meta.color} 0%, ${meta.color}cc 100%)`,
           padding: '100px 0 72px',
@@ -129,7 +130,7 @@ export default function LeistungenPageContent({ centerSlug }: { centerSlug: stri
             </div>
           </AnimatedSection>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24 }}>
+          <div className="leistungen-services-grid">
             {leistungen.map((svc, i) => {
               const Icon = svc.icon
               return (

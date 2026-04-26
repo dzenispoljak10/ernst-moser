@@ -3,7 +3,36 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ChevronRight, Package, Send, ArrowLeft } from 'lucide-react'
+import { ChevronRight, Package, Send, ExternalLink } from 'lucide-react'
+
+import { getFiatQuoteUrlForProduct } from '@/lib/fiat-models'
+import { getPiaggioExternalUrl } from '@/lib/piaggio-external'
+import {
+  getDhollandiaExternalUrl,
+  getDhollandiaAnfrageMailto,
+} from '@/lib/dhollandia-catalog'
+import {
+  getScaniaExternalUrl,
+  getScaniaAnfrageMailto,
+} from '@/lib/scania-catalog'
+import {
+  getUTExternalUrl,
+  getUTAnfrageMailto,
+} from '@/lib/ut-catalog'
+import {
+  getKommunalExternalUrl,
+  getKommunalExternalLabel,
+  getKommunalAnfrageMailto,
+} from '@/lib/kommunal-catalogs'
+import {
+  getMotorgeraeteExternalUrl,
+  getMotorgeraeteExternalLabel,
+  getMotorgeraeteAnfrageMailto,
+} from '@/lib/motorgeraete-catalogs'
+import {
+  getHakoExternalUrl,
+  getHakoAnfrageMailto,
+} from '@/lib/hako-external'
 
 export interface ProductSpec {
   label: string
@@ -12,6 +41,7 @@ export interface ProductSpec {
 
 interface Props {
   productName: string
+  productSlug: string
   brandName: string
   brandSlug: string
   centerName: string
@@ -30,6 +60,7 @@ const EASE = [0.4, 0, 0.2, 1] as [number, number, number, number]
 
 export default function ProductHeroClient({
   productName,
+  productSlug,
   brandName,
   brandSlug,
   centerName,
@@ -43,12 +74,34 @@ export default function ProductHeroClient({
   isOccasion,
   salespersonEmail,
 }: Props) {
+  const fiatQuoteUrl = getFiatQuoteUrlForProduct(productSlug)
+  const piaggioExternalUrl = getPiaggioExternalUrl(productSlug)
+  const dhollandiaExternalUrl = getDhollandiaExternalUrl(productSlug)
+  const dhollandiaMailto = getDhollandiaAnfrageMailto(productSlug, productName)
+  const scaniaExternalUrl = getScaniaExternalUrl(productSlug)
+  const scaniaMailto = getScaniaAnfrageMailto(productSlug, productName)
+  const utExternalUrl = getUTExternalUrl(productSlug)
+  const utMailto = getUTAnfrageMailto(productSlug, productName)
+  const kommunalExternalUrl = getKommunalExternalUrl(productSlug)
+  const kommunalExternalLabel = getKommunalExternalLabel(productSlug)
+  const kommunalMailto = getKommunalAnfrageMailto(productSlug, productName)
+  const motorgeraeteExternalUrl = getMotorgeraeteExternalUrl(productSlug)
+  const motorgeraeteExternalLabel = getMotorgeraeteExternalLabel(productSlug)
+  const motorgeraeteMailto = getMotorgeraeteAnfrageMailto(productSlug, productName)
+  const hakoExternalUrl = getHakoExternalUrl(productSlug)
+  const hakoMailto = getHakoAnfrageMailto(productSlug, productName)
+  const mailtoHref =
+    dhollandiaMailto ??
+    scaniaMailto ??
+    utMailto ??
+    kommunalMailto ??
+    motorgeraeteMailto ??
+    hakoMailto ??
+    `mailto:${salespersonEmail}?subject=${encodeURIComponent(`Ich interessiere mich für ${productName}`)}`
   return (
     <section
-      style={{
-        padding: '60px 0 80px',
-        background: 'var(--c-bg)',
-      }}
+      className="product-hero-section"
+      style={{ background: 'var(--c-bg)' }}
     >
       <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px' }}>
         {/* ── 2-column grid ──────────────────────────────────────── */}
@@ -170,12 +223,12 @@ export default function ProductHeroClient({
                 color: 'var(--c-text-muted)',
               }}
             >
-              <Link href="/" className="breadcrumb-link">Home</Link>
-              <ChevronRight size={11} style={{ opacity: 0.5 }} />
-              <Link href={`/${centerSlug}`} className="breadcrumb-link">{centerName}</Link>
-              <ChevronRight size={11} style={{ opacity: 0.5 }} />
-              <Link href={`/${centerSlug}/${brandSlug}`} className="breadcrumb-link">{brandName}</Link>
-              <ChevronRight size={11} style={{ opacity: 0.5 }} />
+              <Link href="/" className="breadcrumb-link--light">Home</Link>
+              <ChevronRight size={11} style={{ color: '#9ca3af' }} />
+              <Link href={`/${centerSlug}`} className="breadcrumb-link--light">{centerName}</Link>
+              <ChevronRight size={11} style={{ color: '#9ca3af' }} />
+              <Link href={`/${centerSlug}/${brandSlug}`} className="breadcrumb-link--light">{brandName}</Link>
+              <ChevronRight size={11} style={{ color: '#9ca3af' }} />
               <span style={{ color: centerColor, fontWeight: 600 }}>{productName}</span>
             </nav>
 
@@ -304,65 +357,340 @@ export default function ProductHeroClient({
               </div>
             )}
 
-            {/* CTA Buttons — nebeneinander */}
+            {/* CTA Buttons */}
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 4 }}>
+              {fiatQuoteUrl && (
+                <a
+                  href={fiatQuoteUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 9,
+                    padding: '13px 26px',
+                    borderRadius: 10,
+                    fontSize: 14,
+                    fontWeight: 700,
+                    textDecoration: 'none',
+                    color: '#fff',
+                    background: centerColor,
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'
+                    ;(e.currentTarget as HTMLElement).style.boxShadow = '0 10px 28px rgba(0,0,0,0.22)'
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLElement).style.transform = 'none'
+                    ;(e.currentTarget as HTMLElement).style.boxShadow = 'none'
+                  }}
+                >
+                  Offerte einholen
+                  <ExternalLink size={14} />
+                </a>
+              )}
               <a
-                href={`mailto:${salespersonEmail}?subject=${encodeURIComponent(`Ich interessiere mich für ${productName}`)}`}
+                href={mailtoHref}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: 9,
-                  padding: '13px 26px',
+                  padding: fiatQuoteUrl ? '12px 24px' : '13px 26px',
                   borderRadius: 10,
                   fontSize: 14,
-                  fontWeight: 700,
+                  fontWeight: fiatQuoteUrl ? 600 : 700,
                   textDecoration: 'none',
-                  color: '#fff',
-                  background: centerColor,
-                  transition: 'transform 0.2s, box-shadow 0.2s',
+                  color: fiatQuoteUrl ? '#374151' : '#fff',
+                  background: fiatQuoteUrl ? 'transparent' : centerColor,
+                  border: fiatQuoteUrl ? '1.5px solid #d1d5db' : 'none',
+                  transition: 'transform 0.2s, background 0.2s, box-shadow 0.2s, border-color 0.2s',
                   whiteSpace: 'nowrap',
                 }}
                 onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'
-                  ;(e.currentTarget as HTMLElement).style.boxShadow = '0 10px 28px rgba(0,0,0,0.22)'
+                  const el = e.currentTarget as HTMLElement
+                  el.style.transform = 'translateY(-2px)'
+                  if (fiatQuoteUrl) {
+                    el.style.background = '#f9fafb'
+                    el.style.borderColor = '#9ca3af'
+                  } else {
+                    el.style.boxShadow = '0 10px 28px rgba(0,0,0,0.22)'
+                  }
                 }}
                 onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.transform = 'none'
-                  ;(e.currentTarget as HTMLElement).style.boxShadow = 'none'
+                  const el = e.currentTarget as HTMLElement
+                  el.style.transform = 'none'
+                  if (fiatQuoteUrl) {
+                    el.style.background = 'transparent'
+                    el.style.borderColor = '#d1d5db'
+                  } else {
+                    el.style.boxShadow = 'none'
+                  }
                 }}
               >
                 <Send size={15} />
                 Anfrage stellen
               </a>
-              <Link
-                href={`/${centerSlug}/${brandSlug}`}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 9,
-                  padding: '12px 24px',
-                  borderRadius: 10,
-                  border: `2px solid ${centerColor}`,
-                  fontSize: 14,
-                  fontWeight: 700,
-                  textDecoration: 'none',
-                  color: centerColor,
-                  background: 'transparent',
-                  transition: 'transform 0.2s, background 0.2s',
-                  whiteSpace: 'nowrap',
-                }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'
-                  ;(e.currentTarget as HTMLElement).style.background = 'rgba(0,0,0,0.04)'
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.transform = 'none'
-                  ;(e.currentTarget as HTMLElement).style.background = 'transparent'
-                }}
-              >
-                <ArrowLeft size={15} />
-                Zurück zur Marke
-              </Link>
+              {piaggioExternalUrl && (
+                <a
+                  href={piaggioExternalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 9,
+                    padding: '12px 24px',
+                    borderRadius: 10,
+                    fontSize: 14,
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                    color: centerColor,
+                    background: 'transparent',
+                    border: `1.5px solid ${centerColor}`,
+                    transition: 'transform 0.2s, background 0.2s, color 0.2s',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'translateY(-2px)'
+                    el.style.background = centerColor
+                    el.style.color = '#fff'
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'none'
+                    el.style.background = 'transparent'
+                    el.style.color = centerColor
+                  }}
+                >
+                  Auf Piaggio ansehen
+                  <ExternalLink size={14} />
+                </a>
+              )}
+              {dhollandiaExternalUrl && (
+                <a
+                  href={dhollandiaExternalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 9,
+                    padding: '12px 24px',
+                    borderRadius: 10,
+                    fontSize: 14,
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                    color: centerColor,
+                    background: 'transparent',
+                    border: `1.5px solid ${centerColor}`,
+                    transition: 'transform 0.2s, background 0.2s, color 0.2s',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'translateY(-2px)'
+                    el.style.background = centerColor
+                    el.style.color = '#fff'
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'none'
+                    el.style.background = 'transparent'
+                    el.style.color = centerColor
+                  }}
+                >
+                  Auf Dhollandia ansehen
+                  <ExternalLink size={14} />
+                </a>
+              )}
+              {scaniaExternalUrl && (
+                <a
+                  href={scaniaExternalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 9,
+                    padding: '12px 24px',
+                    borderRadius: 10,
+                    fontSize: 14,
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                    color: centerColor,
+                    background: 'transparent',
+                    border: `1.5px solid ${centerColor}`,
+                    transition: 'transform 0.2s, background 0.2s, color 0.2s',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'translateY(-2px)'
+                    el.style.background = centerColor
+                    el.style.color = '#fff'
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'none'
+                    el.style.background = 'transparent'
+                    el.style.color = centerColor
+                  }}
+                >
+                  Bei Scania ansehen
+                  <ExternalLink size={14} />
+                </a>
+              )}
+              {utExternalUrl && (
+                <a
+                  href={utExternalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 9,
+                    padding: '12px 24px',
+                    borderRadius: 10,
+                    fontSize: 14,
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                    color: centerColor,
+                    background: 'transparent',
+                    border: `1.5px solid ${centerColor}`,
+                    transition: 'transform 0.2s, background 0.2s, color 0.2s',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'translateY(-2px)'
+                    el.style.background = centerColor
+                    el.style.color = '#fff'
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'none'
+                    el.style.background = 'transparent'
+                    el.style.color = centerColor
+                  }}
+                >
+                  Bei UT ansehen
+                  <ExternalLink size={14} />
+                </a>
+              )}
+              {kommunalExternalUrl && (
+                <a
+                  href={kommunalExternalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 9,
+                    padding: '12px 24px',
+                    borderRadius: 10,
+                    fontSize: 14,
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                    color: centerColor,
+                    background: 'transparent',
+                    border: `1.5px solid ${centerColor}`,
+                    transition: 'transform 0.2s, background 0.2s, color 0.2s',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'translateY(-2px)'
+                    el.style.background = centerColor
+                    el.style.color = '#fff'
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'none'
+                    el.style.background = 'transparent'
+                    el.style.color = centerColor
+                  }}
+                >
+                  {kommunalExternalLabel ?? 'Bei Hersteller ansehen'}
+                  <ExternalLink size={14} />
+                </a>
+              )}
+              {motorgeraeteExternalUrl && (
+                <a
+                  href={motorgeraeteExternalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 9,
+                    padding: '12px 24px',
+                    borderRadius: 10,
+                    fontSize: 14,
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                    color: centerColor,
+                    background: 'transparent',
+                    border: `1.5px solid ${centerColor}`,
+                    transition: 'transform 0.2s, background 0.2s, color 0.2s',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'translateY(-2px)'
+                    el.style.background = centerColor
+                    el.style.color = '#fff'
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'none'
+                    el.style.background = 'transparent'
+                    el.style.color = centerColor
+                  }}
+                >
+                  {motorgeraeteExternalLabel ?? 'Bei Hersteller ansehen'}
+                  <ExternalLink size={14} />
+                </a>
+              )}
+              {hakoExternalUrl && (
+                <a
+                  href={hakoExternalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 9,
+                    padding: '12px 24px',
+                    borderRadius: 10,
+                    fontSize: 14,
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                    color: centerColor,
+                    background: 'transparent',
+                    border: `1.5px solid ${centerColor}`,
+                    transition: 'transform 0.2s, background 0.2s, color 0.2s',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'translateY(-2px)'
+                    el.style.background = centerColor
+                    el.style.color = '#fff'
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'none'
+                    el.style.background = 'transparent'
+                    el.style.color = centerColor
+                  }}
+                >
+                  Bei Hako ansehen
+                  <ExternalLink size={14} />
+                </a>
+              )}
             </div>
 
           </motion.div>

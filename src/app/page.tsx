@@ -1,5 +1,5 @@
 import { getCenters, getAllBrands } from '@/lib/queries'
-import { readClient as client, imageUrl } from '@/lib/sanity'
+import { imageUrl } from '@/lib/sanity'
 import Image from 'next/image'
 import Link from 'next/link'
 import CountUp from '@/components/ui/CountUp'
@@ -11,20 +11,10 @@ import HomeZigzag from '@/components/home/HomeZigzag'
 import HomeTimeline from '@/components/home/HomeTimeline'
 import HomeKontakt from '@/components/home/HomeKontakt'
 import InstagramSection from '@/components/InstagramSection'
-import { ArrowRight, Package } from 'lucide-react'
-import { productImageBySlug } from '@/lib/serverImages'
+import { ArrowRight, Package, Tag } from 'lucide-react'
+import { getRabattaktionen } from '@/lib/rabattaktionen'
 
 export const revalidate = 60
-
-interface FeaturedProduct {
-  _id: string
-  name: string
-  slug: { current: string }
-  mainImage?: { asset: { _ref: string } }
-  priceLabel?: string
-  brand: { name: string; slug: { current: string }; center: { slug: { current: string } } }
-  description?: Array<{ _type: string; children?: Array<{ text: string }> }>
-}
 
 const STATS = [
   { value: 48, suffix: '+', label: 'Jahre Erfahrung' },
@@ -34,16 +24,10 @@ const STATS = [
 ]
 
 export default async function HomePage() {
-  const [centers, allBrands, featuredProducts] = await Promise.all([
+  const [centers, allBrands, rabattCards] = await Promise.all([
     getCenters(),
     getAllBrands(),
-    client.fetch<FeaturedProduct[]>(
-      `*[_type == "product"] | order(_createdAt desc)[0..5] {
-        _id, name, slug, mainImage, priceLabel,
-        "brand": brand->{ name, slug, "center": center->{ slug } },
-        "description": description[0..0]
-      }`
-    ).catch(() => [] as FeaturedProduct[]),
+    getRabattaktionen(4),
   ])
 
   return (
@@ -130,13 +114,13 @@ export default async function HomePage() {
                                 <Image
                                   src={imageUrl(brand.logo)}
                                   alt={brand.name}
-                                  width={30}
-                                  height={18}
-                                  style={{ objectFit: 'contain', maxHeight: 18, width: 'auto', filter: 'brightness(0) invert(1)' }}
+                                  width={60}
+                                  height={24}
+                                  className="hp-center-brand-logo"
                                   unoptimized
                                 />
                               ) : (
-                                <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>
+                                <span style={{ fontSize: 10, color: '#1f2937', fontWeight: 700 }}>
                                   {brand.name.slice(0, 3).toUpperCase()}
                                 </span>
                               )}
@@ -157,7 +141,71 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ══ 4: STATS BAR ════════════════════════════════════════════ */}
+      {/* ══ 4: RABATTAKTIONEN ═══════════════════════════════════════ */}
+      {rabattCards.length > 0 && (
+        <section className="section hp-products-section">
+          <div className="container">
+            <AnimatedSection className="section-header" style={{ marginBottom: 48 }}>
+              <div>
+                <div className="section-divider" style={{ background: '#C0392B' }} />
+                <div className="section-label">Aktuelle Angebote</div>
+                <h2 className="section-title">Rabattaktionen</h2>
+              </div>
+              <Link href="/rabattaktionen" className="btn-outline-dark">
+                Alle anzeigen <ArrowRight size={14} />
+              </Link>
+            </AnimatedSection>
+
+            <div className="hp-products-grid">
+              {rabattCards.map((c, i) => (
+                <AnimatedSection key={c.id} delay={i * 0.08}>
+                  <Link href="/rabattaktionen" className="hp-product-card">
+                    <div className="hp-product-img">
+                      {c.badgeLabel && (
+                        <span className="hp-product-badge">
+                          <Tag size={11} /> {c.badgeLabel}
+                        </span>
+                      )}
+                      {c.imageUrl ? (
+                        <Image
+                          src={c.imageUrl}
+                          alt={c.title}
+                          fill
+                          style={{ objectFit: 'contain' }}
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                          unoptimized
+                        />
+                      ) : (
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--c-text-muted)' }}>
+                          <Package size={40} opacity={0.2} />
+                        </div>
+                      )}
+                    </div>
+                    <div className="hp-product-body">
+                      {c.subtitle && <div className="hp-product-brand">{c.subtitle}</div>}
+                      <div className="hp-product-name">{c.title}</div>
+                      {c.description && (
+                        <div className="hp-product-desc">
+                          {c.description.slice(0, 80)}
+                          {c.description.length > 80 ? '…' : ''}
+                        </div>
+                      )}
+                    </div>
+                    <div className="hp-product-footer">
+                      <span className="hp-product-price">{c.priceLabel ?? ''}</span>
+                      <span className="hp-product-more">
+                        Mehr dazu <ArrowRight size={12} />
+                      </span>
+                    </div>
+                  </Link>
+                </AnimatedSection>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ══ 5: STATS BAR ════════════════════════════════════════════ */}
       <div className="stats-bar">
         <div className="container">
           <AnimatedSection className="stats-grid">
@@ -174,78 +222,14 @@ export default async function HomePage() {
         </div>
       </div>
 
-      {/* ══ 5: LEISTUNGEN ════════════════════════════════════════════ */}
+      {/* ══ 6: LEISTUNGEN ════════════════════════════════════════════ */}
       <HomeLeistungen />
 
-      {/* ══ 6: WARUM ERNST MOSER (ZIGZAG) ════════════════════════════ */}
+      {/* ══ 7: WARUM ERNST MOSER (ZIGZAG) ════════════════════════════ */}
       <HomeZigzag />
 
-      {/* ══ 7: GESCHICHTE TIMELINE ══════════════════════════════════ */}
+      {/* ══ 8: GESCHICHTE TIMELINE ══════════════════════════════════ */}
       <HomeTimeline />
-
-      {/* ══ 8: AKTUELLE PRODUKTE ════════════════════════════════════ */}
-      {featuredProducts.length > 0 && (
-        <section className="section hp-products-section">
-          <div className="container">
-            <AnimatedSection className="section-header" style={{ marginBottom: 48 }}>
-              <div>
-                <div className="section-divider" style={{ background: '#C0392B' }} />
-                <div className="section-label">Aktuelle Fahrzeuge & Geräte</div>
-                <h2 className="section-title">Aus unserem<br />Sortiment</h2>
-              </div>
-              <Link href="/nutzfahrzeugcenter" className="btn-outline-dark">
-                Alle anzeigen <ArrowRight size={14} />
-              </Link>
-            </AnimatedSection>
-
-            <div className="hp-products-grid">
-              {featuredProducts.slice(0, 4).map((p, i) => {
-                const localImg = productImageBySlug(p.slug.current)
-                const imgSrc = localImg ?? (p.mainImage ? imageUrl(p.mainImage) : null)
-                return (
-                <AnimatedSection key={p._id} delay={i * 0.08}>
-                  <Link
-                    href={`/${p.brand.center.slug.current}/${p.brand.slug.current}/${p.slug.current}`}
-                    className="hp-product-card"
-                  >
-                    <div className="hp-product-img">
-                      {imgSrc ? (
-                        <Image
-                          src={imgSrc}
-                          alt={p.name}
-                          fill
-                          style={{ objectFit: 'contain' }}
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                          unoptimized
-                        />
-                      ) : (
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--c-text-muted)' }}>
-                          <Package size={40} opacity={0.2} />
-                        </div>
-                      )}
-                    </div>
-                    <div className="hp-product-body">
-                      <div className="hp-product-brand">{p.brand.name}</div>
-                      <div className="hp-product-name">{p.name}</div>
-                      {p.description?.[0]?.children && (
-                        <div className="hp-product-desc">
-                          {p.description[0].children.map(c => c.text).join('').slice(0, 80)}…
-                        </div>
-                      )}
-                    </div>
-                    <div className="hp-product-footer">
-                      <span className="hp-product-price">{p.priceLabel ?? ''}</span>
-                      <span className="hp-product-more">
-                        Details <ArrowRight size={12} />
-                      </span>
-                    </div>
-                  </Link>
-                </AnimatedSection>
-              )})}
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* ══ 9: MARKENPARTNER ════════════════════════════════════════ */}
       {allBrands.length > 0 && (

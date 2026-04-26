@@ -132,8 +132,8 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       image: '/images/brand-sections/scania/sustainability.jpg',
       imageAlt: 'Neue Generation Scania R & S',
       stats: [
-        { value: '50', label: '% CO2-Reduktion', suffix: '%' },
-        { value: '350', label: 'km Reichweite elektrisch', suffix: 'km' },
+        { value: '50', label: 'CO₂-Reduktion', suffix: '%' },
+        { value: '350', label: 'Reichweite elektrisch', suffix: ' km' },
         { value: '2030', label: 'Ziel: Majoritär elektrisch', suffix: '' },
       ],
       features: [
@@ -146,7 +146,6 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
   fiat: [
     {
       type: 'innovation',
-      badge: 'NEU 2024',
       headline: 'E-Ducato — Der elektrische Transporter',
       subline: 'Null Emission. Volle Nutzlast.',
       body: 'Der Fiat E-Ducato ist der ideale Transporter für emissionsfreie Last-Mile-Delivery. Mit einer Nutzlast von bis zu 1.375 kg, einer Reichweite von bis zu 320 km und dem robusten Fiat-Ducato-Chassis — jetzt vollständig elektrisch. Perfekt für den Einsatz in Schweizer Städten und Lieferzonen.',
@@ -169,26 +168,13 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
         { year: '1978', text: 'Einführung des legendären Fiat Ducato' },
         { year: '2001', text: 'Gründung der Marke Fiat Professional' },
         { year: '2021', text: 'Launch des vollelektrischen E-Ducato' },
-        { year: '2024', text: 'Neue Generation E-Ducato mit 320 km Reichweite' },
       ],
     },
   ],
 
   isuzu: [
-    {
-      type: 'innovation',
-      badge: 'D-MAX 2024',
-      headline: 'Der Isuzu D-Max — Unschlagbare Nutzlast',
-      body: 'Der Isuzu D-Max überzeugt mit einer Nutzlast von bis zu 1.100 kg und einem zulässigen Gesamtgewicht von 3.500 kg. Mit dem bewährten 1.9-Liter-Diesel-Motor und permanentem Allradantrieb meistert der D-Max jedes Gelände in der Schweiz — vom Baustellen-Einsatz bis zur alpinen Forstwirtschaft.',
-      image: '/images/brand-sections/isuzu/dmax.jpg',
-      imageAlt: 'Isuzu D-Max 2020',
-      imageRight: false,
-      features: [
-        { icon: 'Truck', title: '1.100 kg Nutzlast', text: 'Klasse-führende Nutzlast in der Pick-up-Klasse für maximale Transportkapazität.' },
-        { icon: 'Settings', title: '1.9-Liter-Diesel', text: 'Moderner, emissionsarmer Vierzylinder-Dieselmotor mit 163 PS und 360 Nm Drehmoment.' },
-        { icon: 'Mountain', title: 'Permanenter 4x4', text: 'Serienmässig mit Allradantrieb und Geländeuntersetzung für anspruchsvollste Offroad-Situationen.' },
-      ],
-    },
+    // Innovation-Section "Unschlagbare Nutzlast" durch das Flotten-Carousel
+    // auf der Brand-Seite ersetzt (siehe IsuzuFleetCarousel).
     {
       type: 'heritage',
       badge: 'Seit 1916',
@@ -234,66 +220,9 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
     },
   ],
 
-  dhollandia: [
-    {
-      type: 'tech',
-      badge: 'Technologie',
-      headline: 'Dhollandia Hebebühnen — Präzision ohne Kompromiss',
-      subline: 'Belgische Ingenieurskunst seit 1969',
-      body: 'Dhollandia ist Europas führender Hersteller von Fahrzeug-Hebebühnen. Mit über 50 Jahren Erfahrung und Produktionsstandorten in Belgien entwickelt Dhollandia Lösungen für jede Anforderung — vom einfachen Flurfördermittel bis zur Hochleistungs-Hebebühne für 3.000 kg Nutzlast.',
-      specs: [
-        { label: 'Nutzlast', value: 'bis 3.000 kg' },
-        { label: 'Plattformbreite', value: 'bis 2.500 mm' },
-        { label: 'Gegründet', value: '1969 in Belgien' },
-        { label: 'Modelle', value: '200+ Varianten' },
-      ],
-      features: [],
-    },
-    {
-      type: 'innovation',
-      badge: 'NEU — E-TAIL',
-      headline: 'E-RAIL — Elektro-Hebebühne der Zukunft',
-      body: 'Die neue Dhollandia E-RAIL Baureihe setzt auf vollständig elektrischen Antrieb ohne Hydrauliköl. Sauber, wartungsarm und zuverlässig — ideal für Lebensmittel-Logistik, Pharmabranche und alle hygienesensiblen Bereiche. Die E-RAIL ist vollständig wartungsfrei und erreicht über 500.000 Lastzyklen.',
-      image: '/images/brand-sections/dhollandia/lift.jpg',
-      imageAlt: 'LKW mit hydraulischer Hebebühne',
-      imageRight: true,
-      features: [
-        { icon: 'Zap', title: 'Kein Hydrauliköl', text: 'Vollständig elektrisch betrieben — keine Leckagen, kein Ölwechsel, perfekt für Lebensmittellogistik.' },
-        { icon: 'Settings', title: '500.000 Lastzyklen', text: 'Ausgelegt für jahrzehntelangen Dauerbetrieb in anspruchsvollsten Logistikumgebungen.' },
-        { icon: 'ShieldCheck', title: 'TÜV-zertifiziert', text: 'Alle Dhollandia-Produkte entsprechen den höchsten europäischen Sicherheitsstandards.' },
-      ],
-    },
-  ],
+  dhollandia: [],
 
-  hilltip: [
-    {
-      type: 'innovation',
-      badge: 'IceStriker',
-      headline: 'IceStriker — Intelligenter Winterdienst',
-      body: 'Der Hilltip IceStriker ist der modernste Streu- und Sprühspreizer auf dem Markt. Mit GPS-gesteuerter Ausbringrate, integriertem Flüssig-Modul für Vorbenetzung und dem HControl-Datenmanagement-System optimiert er den Salzverbrauch um bis zu 30 % — und schützt gleichzeitig die Umwelt.',
-      image: '/images/brand-sections/hilltip/snowplow.jpg',
-      imageAlt: 'Hilltip Winterdienstgeräte Übersicht',
-      imageRight: false,
-      features: [
-        { icon: 'Navigation', title: 'GPS-gesteuerte Streurate', text: 'Automatische Anpassung der Ausbringmenge an Fahrgeschwindigkeit und Route für maximale Effizienz.' },
-        { icon: 'Droplets', title: 'Integriertes Flüssig-Modul', text: 'Vorbenetzung des Streuguts für bessere Haftung und bis zu 30% Salzersparnis.' },
-        { icon: 'Wifi', title: 'HControl Telematik', text: 'Echtzeit-Datenmanagement: Streumengen, Routen und Verbrauch per App auswerten.' },
-      ],
-    },
-    {
-      type: 'tech',
-      badge: 'SnowStriker',
-      headline: 'SnowStriker Schneepflüge — Kompromisslose Räumleistung',
-      body: 'Hilltip SnowStriker-Schneepflüge sind für den professionellen Winterdienst auf Kommunal- und Betriebsgelände konzipiert. Gerader Pflug, V-Pflug oder Kombipflug — alle Modelle sind aus hochwertigem Stahl gefertigt und an alle gängigen Trägerfahrzeuge anpassbar.',
-      specs: [
-        { label: 'Räumbreite', value: '2.3 – 4.4 m' },
-        { label: 'Ausführungen', value: 'Gerade / V-Form / Kombi' },
-        { label: 'Anschluss', value: 'Universal-Adapter' },
-        { label: 'Material', value: 'Hochverschleiss-Stahl' },
-      ],
-      features: [],
-    },
-  ],
+  hilltip: [],
 
   // ════════════════════════════════════════════════════════════════
   // KOMMUNALCENTER
@@ -399,7 +328,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       imageAlt: 'Traktor-Anbau-Mulchgerät im Böschungseinsatz',
       imageRight: false,
       features: [
-        { icon: 'Settings', title: 'Bis 7,5 m Ausleicherweite', text: 'Massgebende Reichweite für die Böschungspflege ohne Sicherheitsrisiko.' },
+        { icon: 'Settings', title: 'Bis 7,5 m Auslegerreichweite', text: 'Massgebende Reichweite für die Böschungspflege ohne Sicherheitsrisiko.' },
         { icon: 'Leaf', title: 'Präzisions-Mulchen', text: 'Gleichmässiges Mulchergebnis auch an steilsten Böschungen dank intelligenter Druckregelung.' },
         { icon: 'Wrench', title: 'Universalanbau', text: 'Kompatibel mit allen gängigen Trägern von 40–200 PS — maximale Flexibilität.' },
       ],
@@ -410,7 +339,7 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
       headline: 'Precision-Cut Technologie',
       body: 'Greentec Maschinen sind konsequent auf maximale Schnittqualität und Langlebigkeit ausgelegt. Die proprietäre Klingen-Geometrie und der gehärtete Rotorkörper garantieren saubere Schnittergebnisse auch im härtesten Dauerbetrieb — made in Dänemark seit 1993.',
       specs: [
-        { label: 'Ausleicherweite max.', value: '7,5 m' },
+        { label: 'Auslegerreichweite max.', value: '7,5 m' },
         { label: 'Hydraulikbedarf', value: '80–220 l/min' },
         { label: 'Träger-Kompatibilität', value: '40–200 PS' },
         { label: 'Hergestellt', value: 'Dänemark seit 1993' },

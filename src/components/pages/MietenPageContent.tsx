@@ -52,6 +52,7 @@ export default function MietenPageContent({ centerSlug }: { centerSlug: string }
     <>
       {/* Hero */}
       <div
+        className="page-hero-wrap"
         style={{
           background: `linear-gradient(135deg, ${meta.color} 0%, ${meta.color}cc 100%)`,
           padding: '100px 0 72px',
@@ -113,7 +114,7 @@ export default function MietenPageContent({ centerSlug }: { centerSlug: string }
 
           {/* Vorteile + Tarife */}
           <AnimatedSection delay={0.08}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40 }}>
+            <div className="miet-vorteile-tarife-grid">
               {/* Vorteile */}
               <div style={{ background: 'var(--c-bg-2)', borderRadius: 16, padding: 36 }}>
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 22, fontWeight: 700, marginBottom: 24, color: 'var(--c-text)' }}>

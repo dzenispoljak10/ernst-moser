@@ -60,12 +60,8 @@ export default function BrandSalespersonSection({ sp, brandName, center, centerS
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.65, delay: 0.08, ease: EASE }}
         >
-          {/* Photo – floating animation */}
-          <motion.div
-            className="brand-sp-photo-wrap"
-            animate={{ y: [0, -6, 0] }}
-            transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
-          >
+          {/* Photo */}
+          <div className="brand-sp-photo-wrap">
             {photoUrl ? (
               <Image
                 src={photoUrl}
@@ -81,7 +77,7 @@ export default function BrandSalespersonSection({ sp, brandName, center, centerS
               </div>
             )}
             <div className="brand-sp-photo-accent" style={{ background: center.color }} />
-          </motion.div>
+          </div>
 
           {/* Info */}
           <div className="brand-sp-info">
