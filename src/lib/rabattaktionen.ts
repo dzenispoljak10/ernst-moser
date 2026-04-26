@@ -21,12 +21,19 @@ interface SanityProductLite {
   brand?: { name?: string; slug?: { current: string }; center?: { slug?: { current: string } } }
 }
 
+const EXCLUDED_BRAND_SLUGS = ['ambrogio']
+
 async function fetchRandomProductCards(limit: number): Promise<RabattCard[]> {
   const products = await client.fetch<SanityProductLite[]>(
-    `*[_type == "product" && defined(brand->slug.current) && defined(brand->center->slug.current)]{
+    `*[_type == "product"
+        && defined(brand->slug.current)
+        && defined(brand->center->slug.current)
+        && !(brand->slug.current in $excluded)
+        && defined(mainImage)]{
       _id, name, slug, mainImage, priceLabel,
       "brand": brand->{ name, slug, "center": center->{ slug } }
-    }`
+    }`,
+    { excluded: EXCLUDED_BRAND_SLUGS }
   ).catch(() => [] as SanityProductLite[])
 
   const shuffled = [...products].sort(() => Math.random() - 0.5).slice(0, limit)
