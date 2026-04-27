@@ -546,7 +546,16 @@ a { color: inherit; }
   gap: 40px;
 }
 @media (max-width: 1024px) { .brand-hero-split { padding: 0 40px 72px; } }
-@media (max-width: 768px)  { .brand-hero-split { padding: 64px 16px 36px; gap: 0; } }
+@media (max-width: 768px) {
+  .brand-hero-split {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-end;
+    padding: 120px 16px 32px;
+    gap: 0;
+    min-height: inherit;
+  }
+}
 
 /* Left 55% */
 .brand-hero-left {
@@ -558,6 +567,9 @@ a { color: inherit; }
 }
 @media (max-width: 900px) {
   .brand-hero-left { flex: 0 0 100%; max-width: 100%; }
+}
+@media (max-width: 768px) {
+  .brand-hero-left { flex: 0 0 auto; }
 }
 
 /* Category badge pill */
