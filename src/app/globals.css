@@ -277,6 +277,11 @@ a { color: inherit; }
 }
 
 .hero-ctas { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+@media (max-width: 560px) {
+  .hero-ctas { flex-direction: column; align-items: stretch; width: 100%; max-width: 320px; }
+  .hero-ctas .btn-primary,
+  .hero-ctas .btn-ghost { justify-content: center; width: 100%; }
+}
 
 .btn-primary {
   display: inline-flex; align-items: center; gap: 8px;
@@ -394,6 +399,11 @@ a { color: inherit; }
 .center-hero-media { position: absolute; inset: 0; object-fit: cover; }
 .center-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.87) 0%, rgba(0,0,0,0.4) 55%, rgba(0,0,0,0.1) 100%); }
 .center-hero-content { position: relative; z-index: 2; padding: 48px 0; width: 100%; }
+@media (max-width: 768px) {
+  .center-hero { min-height: 320px; height: 50vh; }
+  .center-hero-content { padding: 24px 0; }
+  .center-hero-desc { font-size: 14px; }
+}
 .center-hero-tag { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 100px; font-family: var(--font-body, sans-serif); font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.75); border: 1px solid rgba(255,255,255,0.22); margin-bottom: 12px; }
 .center-hero-title { font-family: var(--font-heading, Arial, sans-serif); font-size: clamp(32px, 5vw, 56px); font-weight: 700; color: #fff; letter-spacing: -0.04em; line-height: 1.08; margin-bottom: 12px; }
 .center-hero-desc { font-size: 17px; color: rgba(255,255,255,0.6); max-width: 540px; line-height: 1.6; }
@@ -419,7 +429,7 @@ a { color: inherit; }
   overflow: hidden;
   background: #0a0a0a;
 }
-@media (max-width: 768px) { .brand-hero { height: 60vh; min-height: 380px; } }
+@media (max-width: 768px) { .brand-hero { height: auto; min-height: 540px; } }
 
 /* Parallax image wrapper */
 .brand-hero-img-wrap {
@@ -478,7 +488,12 @@ a { color: inherit; }
   text-shadow: 0 1px 3px rgba(0,0,0,0.4);
 }
 @media (max-width: 768px) {
-  .brand-hero-breadcrumb { left: 20px; right: 20px; top: calc(var(--header-h) + var(--topbar-h) + 12px); font-size: 12px; }
+  .brand-hero-breadcrumb {
+    left: 16px; right: 16px;
+    top: calc(var(--header-h) + 10px);
+    font-size: 11px;
+    gap: 4px;
+  }
 }
 .brand-hero-breadcrumb .breadcrumb-link {
   color: rgba(255,255,255,0.6);
@@ -531,7 +546,7 @@ a { color: inherit; }
   gap: 40px;
 }
 @media (max-width: 1024px) { .brand-hero-split { padding: 0 40px 72px; } }
-@media (max-width: 768px)  { .brand-hero-split { padding: 0 20px 64px; } }
+@media (max-width: 768px)  { .brand-hero-split { padding: 64px 16px 36px; gap: 0; } }
 
 /* Left 55% */
 .brand-hero-left {
@@ -580,8 +595,13 @@ a { color: inherit; }
   display: block;
 }
 @media (max-width: 768px) {
-  .brand-hero-logo-box { max-height: 64px; max-width: 180px; }
-  .brand-hero-logo-wrap { padding: 10px 14px !important; gap: 10px !important; }
+  .brand-hero-logo-box { max-height: 50px; max-width: 140px; }
+  .brand-hero-logo-wrap {
+    padding: 8px 12px !important;
+    gap: 10px !important;
+    margin-bottom: 14px;
+    border-radius: 10px;
+  }
 }
 
 /* Accent line – scaleX animated, origin left */
@@ -644,9 +664,21 @@ a { color: inherit; }
   border-color: rgba(255,255,255,0.85);
   background: rgba(255,255,255,0.22);
 }
-@media (max-width: 480px) {
-  .brand-hero-ctas { flex-direction: column; }
-  .brand-hero-btn { justify-content: center; }
+@media (max-width: 768px) {
+  .brand-hero-accent { margin: 14px 0; height: 2px; width: 56px; }
+  .brand-hero-tagline { font-size: 14px; margin: 0 0 22px; line-height: 1.6; }
+  .brand-hero-ctas {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 320px;
+  }
+  .brand-hero-btn {
+    justify-content: center;
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 14px;
+  }
 }
 
 /* Right side – glassmorphism stats card */
@@ -737,6 +769,7 @@ a { color: inherit; }
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
+@media (max-width: 768px) { .hero-scroll { display: none !important; } }
 
 .brand-body { max-width: 1280px; margin: 0 auto; padding: 64px 24px; }
 .brand-body-grid { display: grid; grid-template-columns: 1fr 340px; gap: 60px; align-items: start; }
