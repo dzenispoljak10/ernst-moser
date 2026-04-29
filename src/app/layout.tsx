@@ -35,7 +35,7 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const logo = await getLogoAsset()
-  const logoUrl = logo?.url ?? 'https://test.eprofis.ch/wp-content/uploads/2025/12/Element-3Logo-EMoser.avif'
+  const logoUrl = logo?.url ?? '/brand/logo.webp'
 
   return (
     <html

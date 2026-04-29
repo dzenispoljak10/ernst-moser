@@ -23,7 +23,7 @@ export default async function AdminLayout({
   children: React.ReactNode
 }) {
   const [session, logo] = await Promise.all([auth(), getLogoAsset()])
-  const logoUrl = logo?.url ?? 'https://test.eprofis.ch/wp-content/uploads/2025/12/Element-3Logo-EMoser.avif'
+  const logoUrl = logo?.url ?? '/brand/logo.webp'
 
   return (
     <div
