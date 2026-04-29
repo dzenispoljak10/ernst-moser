@@ -35,9 +35,21 @@ export default async function HomePage() {
       {/* ══ 1: HERO ══════════════════════════════════════════════════ */}
       <section className="hero">
         <div className="hero-bg">
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, #0a0a0a 0%, #1B2D5B 55%, #0a0a0a 100%)' }} />
+          <video
+            className="hero-bg-video"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster="/video/hero-dji-poster.webp"
+          >
+            <source src="/video/hero-dji.mp4" type="video/mp4" />
+          </video>
         </div>
         <div className="hero-overlay" />
+        <div className="hero-overlay-left" />
+        <div className="hero-overlay-bottom" />
         <HeroContent />
         <div className="hero-scroll">
           <div className="hero-scroll-line" />

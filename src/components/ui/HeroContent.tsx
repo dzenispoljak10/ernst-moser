@@ -20,7 +20,16 @@ const item = {
 export default function HeroContent() {
   return (
     <motion.div className="container hero-content" variants={container} initial="hidden" animate="visible">
-      <motion.div className="hero-badge" variants={item}>
+      <motion.div
+        className="hero-badge"
+        variants={item}
+        style={{
+          background: 'rgba(255,255,255,0.15)',
+          border: '1px solid rgba(255,255,255,0.20)',
+          backdropFilter: 'blur(8px)',
+          color: '#fff',
+        }}
+      >
         <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#4a9eff', display: 'inline-block' }} />
         Gerlafingen, Schweiz
       </motion.div>
@@ -30,17 +39,27 @@ export default function HeroContent() {
         <RotatingText />
       </motion.h1>
 
-      <motion.p className="hero-sub" variants={item}>
+      <motion.p className="hero-sub" variants={item} style={{ color: 'rgba(255,255,255,0.9)' }}>
         Ernst Moser GmbH – seit über 50 Jahren Ihr kompetenter Ansprechpartner
         für Fahrzeuge, Maschinen und Service in der Region Solothurn / Mittelland.
       </motion.p>
 
       <motion.div className="hero-ctas" variants={item}>
-        <Link href="#center" className="btn-primary">
+        <Link href="#center" className="btn-primary" style={{ borderRadius: 9999, padding: '12px 24px', fontWeight: 600 }}>
           Unsere Center entdecken
           <ArrowRight size={16} />
         </Link>
-        <a href="tel:+41326755805" className="btn-ghost">
+        <a
+          href="tel:+41326755805"
+          className="btn-ghost"
+          style={{
+            borderRadius: 9999,
+            padding: '12px 24px',
+            background: 'transparent',
+            border: '1px solid rgba(255,255,255,0.5)',
+            color: '#fff',
+          }}
+        >
           <Phone size={15} />
           +41 (0)32 675 58 05
         </a>

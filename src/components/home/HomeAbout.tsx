@@ -44,7 +44,7 @@ export default function HomeAbout() {
           >
             <div className="home-about-img-box">
               <Image
-                src="/images/unsplash/workshop.jpg"
+                src="/images/home/warum-1.webp"
                 alt="Ernst Moser GmbH – Firmengelände Gerlafingen"
                 fill
                 style={{ objectFit: 'cover' }}

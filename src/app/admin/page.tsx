@@ -111,10 +111,10 @@ export default async function AdminDashboardPage() {
 
   return (
     <PageWrapper>
-      <div className="px-8 py-6">
+      <div className="px-4 sm:px-8 py-6">
 
         {/* Stats Row */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {statCards.map(({ label, sub, count, icon: Icon, iconBg, iconColor, delay }) => (
             <div
               key={label}
@@ -141,11 +141,11 @@ export default async function AdminDashboardPage() {
         </div>
 
         {/* Two Column Layout */}
-        <div className="grid grid-cols-3 gap-5 mt-5">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-5">
 
           {/* Schnellzugriff */}
           <div
-            className="col-span-2 bg-white rounded-xl border border-gray-100 p-5"
+            className="lg:col-span-2 bg-white rounded-xl border border-gray-100 p-5"
             style={{
               animation: 'fadeUp 0.25s ease both',
               animationDelay: '0.18s',

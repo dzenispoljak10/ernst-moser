@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const WORDS = [
-  { text: 'Nutzfahrzeuge.', color: '#1B2D5B' },
-  { text: 'Kommunalgeräte.', color: '#C0392B' },
-  { text: 'Motorgeräte.', color: '#4A7C59' },
+  { text: 'Nutzfahrzeuge.', color: '#4A7FD4' },
+  { text: 'Kommunalgeräte.', color: '#E74C3C' },
+  { text: 'Motorgeräte.', color: '#5FAD6E' },
 ]
 
 export default function RotatingText() {

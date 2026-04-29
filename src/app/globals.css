@@ -251,8 +251,12 @@ a { color: inherit; }
 .hero { position: relative; height: 100svh; min-height: 600px; max-height: 920px; display: flex; align-items: center; overflow: hidden; background: var(--c-dark); }
 .hero-bg { position: absolute; inset: 0; z-index: 0; }
 .hero-bg-img { object-fit: cover; width: 100%; height: 100%; opacity: 0.25; }
-.hero-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(10,10,10,0.96) 0%, rgba(27,45,91,0.7) 55%, rgba(10,10,10,0.92) 100%); }
-.hero-content { position: relative; z-index: 2; max-width: 760px; }
+.hero-bg-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+.hero-overlay { position: absolute; inset: 0; z-index: 1; background: rgba(0,0,0,0.55); }
+.hero-overlay-left { position: absolute; inset: 0; z-index: 1; background: linear-gradient(to right, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 60%); }
+.hero-overlay-bottom { position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 50%); }
+.hero-content { position: relative; z-index: 2; max-width: 672px; margin: 0 auto; padding: 0 24px; text-align: left; }
+.hero-content .hero-ctas { justify-content: flex-start; }
 
 .hero-badge {
   display: inline-flex; align-items: center; gap: 7px;
@@ -3064,8 +3068,12 @@ a.rabatt-card:hover .rabatt-card-more { color: var(--c-text); }
 .em-footer-contact { display: flex; flex-direction: column; gap: 14px; }
 .em-footer-contact-row { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: #6b7280; }
 .em-footer-icon { color: #9ca3af; flex-shrink: 0; margin-top: 2px; }
+.em-footer-icon--alert { color: #C0392B; }
 .em-footer-contact-link { color: #6b7280; text-decoration: none; }
 .em-footer-contact-link:hover { color: #111827; }
+.em-footer-contact-link--alert { color: #C0392B; font-weight: 600; }
+.em-footer-contact-link--alert:hover { color: #8b2920; }
+.em-footer-contact-tag { display: inline-block; margin-left: 6px; padding: 2px 7px; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #C0392B; background: rgba(192,57,43,0.1); border-radius: 4px; }
 .em-footer-hours { margin-top: 8px; padding-top: 16px; border-top: 1px solid #e5e7eb; }
 .em-footer-hours-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9ca3af; margin-bottom: 10px; }
 .em-footer-hours-row { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 6px; font-size: 13px; color: #6b7280; }

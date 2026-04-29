@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { MapPin, Mail, Phone } from 'lucide-react'
+import { MapPin, Mail, Phone, AlertCircle } from 'lucide-react'
 import { getCenters } from '@/lib/queries'
 
 function FacebookIcon() {
@@ -123,6 +123,12 @@ export default async function Footer({ logoUrl }: { logoUrl?: string | null }) {
               <div className="em-footer-contact-row">
                 <Phone size={14} className="em-footer-icon" />
                 <a href="tel:+41326755805" className="em-footer-contact-link">+41 (0)32 675 58 05</a>
+              </div>
+              <div className="em-footer-contact-row">
+                <AlertCircle size={14} className="em-footer-icon em-footer-icon--alert" />
+                <a href="tel:+41794856645" className="em-footer-contact-link em-footer-contact-link--alert">
+                  +41 (0)79 485 66 45 <span className="em-footer-contact-tag">Notfall&nbsp;/ Pikett</span>
+                </a>
               </div>
               <div className="em-footer-contact-row">
                 <Mail size={14} className="em-footer-icon" />
