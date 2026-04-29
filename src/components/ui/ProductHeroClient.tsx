@@ -33,6 +33,10 @@ import {
   getHakoExternalUrl,
   getHakoAnfrageMailto,
 } from '@/lib/hako-external'
+import {
+  getWabcoExternalUrl,
+  getWabcoAnfrageMailto,
+} from '@/lib/wabco-external'
 
 export interface ProductSpec {
   label: string
@@ -90,6 +94,8 @@ export default function ProductHeroClient({
   const motorgeraeteMailto = getMotorgeraeteAnfrageMailto(productSlug, productName)
   const hakoExternalUrl = getHakoExternalUrl(productSlug)
   const hakoMailto = getHakoAnfrageMailto(productSlug, productName)
+  const wabcoExternalUrl = getWabcoExternalUrl(productSlug)
+  const wabcoMailto = getWabcoAnfrageMailto(productSlug, productName)
   const mailtoHref =
     dhollandiaMailto ??
     scaniaMailto ??
@@ -97,6 +103,7 @@ export default function ProductHeroClient({
     kommunalMailto ??
     motorgeraeteMailto ??
     hakoMailto ??
+    wabcoMailto ??
     `mailto:${salespersonEmail}?subject=${encodeURIComponent(`Ich interessiere mich für ${productName}`)}`
   return (
     <section
@@ -688,6 +695,43 @@ export default function ProductHeroClient({
                   }}
                 >
                   Bei Hako ansehen
+                  <ExternalLink size={14} />
+                </a>
+              )}
+              {wabcoExternalUrl && (
+                <a
+                  href={wabcoExternalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 9,
+                    padding: '12px 24px',
+                    borderRadius: 10,
+                    fontSize: 14,
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                    color: centerColor,
+                    background: 'transparent',
+                    border: `1.5px solid ${centerColor}`,
+                    transition: 'transform 0.2s, background 0.2s, color 0.2s',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'translateY(-2px)'
+                    el.style.background = centerColor
+                    el.style.color = '#fff'
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'none'
+                    el.style.background = 'transparent'
+                    el.style.color = centerColor
+                  }}
+                >
+                  Bei Wabco ansehen
                   <ExternalLink size={14} />
                 </a>
               )}

@@ -317,7 +317,7 @@ const SPRINGER: KommunalBrand = {
   brandSlug: 'springer',
   brandName: 'Springer',
   externalCtaLabel: 'Bei Springer ansehen',
-  homepageUrl: 'https://www.springer-fahrzeuge.de/',
+  homepageUrl: 'https://springer-ku.com/',
   carouselEyebrow: 'Springer Streutechnik',
   carouselHeading: 'Streumaschinen und Spezialfahrzeuge',
   carouselAriaLabel: 'Springer Modelle',
@@ -326,14 +326,14 @@ const SPRINGER: KommunalBrand = {
   sectionLead:
     'Springer fertigt professionelle Streumaschinen und Spezialfahrzeuge für Winterdienst und Kommunalanwendungen — robust, wirtschaftlich, einsatzbewährt.',
   products: [
-    { slug: 'springer-as-100-185', title: 'Springer AS 100 – 185', shortDescription: 'Anhängestreuer der Mittelklasse — vielseitig einsetzbar für Winterdienst und Streckenpflege.', longDescription: ['Der AS 100–185 ist ein Anhängestreuer der Mittelklasse.', 'Vielseitig einsetzbar für Winterdienst, Streckenpflege und Kommunalanwendungen.'], image: '/images/products/springer-as-100-185/main.webp', sourceImageUrl: 'https://placeholder.springer.local', externalUrl: 'https://www.springer-fahrzeuge.de/' },
-    { slug: 'springer-as-150-280', title: 'Springer AS 150 – 280', shortDescription: 'Anhängestreuer mit grösserem Volumen für intensiven Winterdiensteinsatz.', longDescription: ['Der AS 150–280 hat grösseres Behältervolumen.', 'Für intensiven Winterdiensteinsatz auf grösseren Strecken konzipiert.'], image: '/images/products/springer-as-150-280/main.webp', sourceImageUrl: 'https://placeholder.springer.local', externalUrl: 'https://www.springer-fahrzeuge.de/' },
-    { slug: 'springer-as-400', title: 'Springer AS 400', shortDescription: 'Grossvolumen-Anhängestreuer für anspruchsvolle Winterdienst-Streuaufgaben.', longDescription: ['Der AS 400 ist Springers Grossvolumen-Anhängestreuer.', 'Für anspruchsvolle Winterdienst-Streuaufgaben auf langen Strecken.'], image: '/images/products/springer-as-400/main.webp', sourceImageUrl: 'https://placeholder.springer.local', externalUrl: 'https://www.springer-fahrzeuge.de/' },
-    { slug: 'springer-ase-225-280', title: 'Springer ASE 225 – 280', shortDescription: 'Aufbau-Streumaschine für direkten Lkw-Einsatz mit 225–280 L Volumen.', longDescription: ['Die ASE 225–280 ist eine Aufbau-Streumaschine für Lkw.', '225–280 L Volumen, optimiert für direkten Aufbau-Einsatz.'], image: '/images/products/springer-ase-225-280/main.webp', sourceImageUrl: 'https://placeholder.springer.local', externalUrl: 'https://www.springer-fahrzeuge.de/' },
-    { slug: 'springer-ase-400', title: 'Springer ASE 400', shortDescription: 'Grossvolumen-Aufbau-Streumaschine — direkter Lkw-Einsatz mit 400 L Volumen.', longDescription: ['Die ASE 400 ist eine Grossvolumen-Aufbau-Streumaschine.', '400 L Volumen für direkten Lkw-Einsatz auf grossen Strecken.'], image: '/images/products/springer-ase-400/main.webp', sourceImageUrl: 'https://placeholder.springer.local', externalUrl: 'https://www.springer-fahrzeuge.de/' },
-    { slug: 'springer-sta', title: 'Springer STA', shortDescription: 'Spezialaufbau für Traktor-Streufahrzeuge — flexibel konfigurierbar.', longDescription: ['Der Springer STA ist ein Spezialaufbau für Traktor-Streufahrzeuge.', 'Flexibel konfigurierbar für unterschiedliche Streuanforderungen.'], image: '/images/products/springer-sta/main.webp', sourceImageUrl: 'https://placeholder.springer.local', externalUrl: 'https://www.springer-fahrzeuge.de/' },
-    { slug: 'springer-traktor-doppelkammer-selbstladestreuer', title: 'Springer Traktor Doppelkammer-Selbstladestreuer', shortDescription: 'Doppelkammer-Selbstladestreuer für Traktoren mit getrennter Salz-/Sand-Lagerung.', longDescription: ['Doppelkammer-Selbstladestreuer ermöglicht getrennte Salz- und Sand-Lagerung.', 'Für Traktoren konzipiert, optimiert für effizienten Winterdienst.'], image: '/images/products/springer-traktor-doppelkammer-selbstladestreuer/main.webp', sourceImageUrl: 'https://placeholder.springer.local', externalUrl: 'https://www.springer-fahrzeuge.de/' },
-    { slug: 'springer-traktor-selbstladewalzenstreuer', title: 'Springer Traktor Selbstladewalzenstreuer', shortDescription: 'Selbstladewalzenstreuer für Traktoren — präzise Streumengensteuerung über Walzendrehzahl.', longDescription: ['Selbstladewalzenstreuer mit präziser Streumengensteuerung über Walzendrehzahl.', 'Für Traktoren konzipiert mit hohem Bedienungskomfort.'], image: '/images/products/springer-traktor-selbstladewalzenstreuer/main.webp', sourceImageUrl: 'https://placeholder.springer.local', externalUrl: 'https://www.springer-fahrzeuge.de/' },
+    { slug: 'springer-as-100-185', title: 'Springer AS 100 – 185', shortDescription: 'Anhängestreuer der Mittelklasse — vielseitig einsetzbar für Winterdienst und Streckenpflege.', longDescription: ['Der AS 100–185 ist ein Anhängestreuer der Mittelklasse.', 'Vielseitig einsetzbar für Winterdienst, Streckenpflege und Kommunalanwendungen.'], image: '/images/products/springer-as-100-185/main.webp', sourceImageUrl: 'https://placeholder.springer.local', externalUrl: 'https://springer-ku.com/produkte/aufsatz-streuautomat-100-185/' },
+    { slug: 'springer-as-150-280', title: 'Springer AS 150 – 280', shortDescription: 'Anhängestreuer mit grösserem Volumen für intensiven Winterdiensteinsatz.', longDescription: ['Der AS 150–280 hat grösseres Behältervolumen.', 'Für intensiven Winterdiensteinsatz auf grösseren Strecken konzipiert.'], image: '/images/products/springer-as-150-280/main.webp', sourceImageUrl: 'https://placeholder.springer.local', externalUrl: 'https://springer-ku.com/produkte/aufsatz-streuautomat-150-280/' },
+    { slug: 'springer-as-400', title: 'Springer AS 400', shortDescription: 'Grossvolumen-Anhängestreuer für anspruchsvolle Winterdienst-Streuaufgaben.', longDescription: ['Der AS 400 ist Springers Grossvolumen-Anhängestreuer.', 'Für anspruchsvolle Winterdienst-Streuaufgaben auf langen Strecken.'], image: '/images/products/springer-as-400/main.webp', sourceImageUrl: 'https://placeholder.springer.local', externalUrl: 'https://springer-ku.com/produkte/aufsatz-streuautomat-400/' },
+    { slug: 'springer-ase-225-280', title: 'Springer ASE 225 – 280', shortDescription: 'Aufbau-Streumaschine für direkten Lkw-Einsatz mit 225–280 L Volumen.', longDescription: ['Die ASE 225–280 ist eine Aufbau-Streumaschine für Lkw.', '225–280 L Volumen, optimiert für direkten Aufbau-Einsatz.'], image: '/images/products/springer-ase-225-280/main.webp', sourceImageUrl: 'https://placeholder.springer.local', externalUrl: 'https://springer-ku.com/produkte/aufsatz-streuautomat-ase-225-280/' },
+    { slug: 'springer-ase-400', title: 'Springer ASE 400', shortDescription: 'Grossvolumen-Aufbau-Streumaschine — direkter Lkw-Einsatz mit 400 L Volumen.', longDescription: ['Die ASE 400 ist eine Grossvolumen-Aufbau-Streumaschine.', '400 L Volumen für direkten Lkw-Einsatz auf grossen Strecken.'], image: '/images/products/springer-ase-400/main.webp', sourceImageUrl: 'https://placeholder.springer.local', externalUrl: 'https://springer-ku.com/produkte/' },
+    { slug: 'springer-sta', title: 'Springer STA', shortDescription: 'Spezialaufbau für Traktor-Streufahrzeuge — flexibel konfigurierbar.', longDescription: ['Der Springer STA ist ein Spezialaufbau für Traktor-Streufahrzeuge.', 'Flexibel konfigurierbar für unterschiedliche Streuanforderungen.'], image: '/images/products/springer-sta/main.webp', sourceImageUrl: 'https://placeholder.springer.local', externalUrl: 'https://springer-ku.com/produkte/einschnecken-streuautomat-sta/' },
+    { slug: 'springer-traktor-doppelkammer-selbstladestreuer', title: 'Springer Traktor Doppelkammer-Selbstladestreuer', shortDescription: 'Doppelkammer-Selbstladestreuer für Traktoren mit getrennter Salz-/Sand-Lagerung.', longDescription: ['Doppelkammer-Selbstladestreuer ermöglicht getrennte Salz- und Sand-Lagerung.', 'Für Traktoren konzipiert, optimiert für effizienten Winterdienst.'], image: '/images/products/springer-traktor-doppelkammer-selbstladestreuer/main.webp', sourceImageUrl: 'https://placeholder.springer.local', externalUrl: 'https://springer-ku.com/produkte/traktor-doppelkammer-selbstladestreuer/' },
+    { slug: 'springer-traktor-selbstladewalzenstreuer', title: 'Springer Traktor Selbstladewalzenstreuer', shortDescription: 'Selbstladewalzenstreuer für Traktoren — präzise Streumengensteuerung über Walzendrehzahl.', longDescription: ['Selbstladewalzenstreuer mit präziser Streumengensteuerung über Walzendrehzahl.', 'Für Traktoren konzipiert mit hohem Bedienungskomfort.'], image: '/images/products/springer-traktor-selbstladewalzenstreuer/main.webp', sourceImageUrl: 'https://placeholder.springer.local', externalUrl: 'https://springer-ku.com/produkte/traktor-selbstladewalzenstreuer/' },
   ],
 }
 
@@ -375,12 +375,45 @@ export function getKommunalProduct(productSlug: string): {
   return PRODUCT_INDEX[productSlug] ?? null
 }
 
+// ─── Zusätzliche Marken (Greentec mit Deep-Links, Stema/Zaugg/Hako-Spezialfall: Hako läuft separat) ─
+
+const EXTRA_PRODUCT_URLS: Record<string, { url: string; label: string }> = {
+  // Greentec — Profi-Astsägen / Mulcher
+  'greentec-fox': { url: 'https://greentec.eu/de/produkt/fox/', label: 'Bei Greentec ansehen' },
+  'greentec-puma-2303': { url: 'https://greentec.eu/de/produkt/puma-2303/', label: 'Bei Greentec ansehen' },
+  'greentec-scorpion-330-plus': { url: 'https://greentec.eu/de/produkt/scorpion-330-plus/', label: 'Bei Greentec ansehen' },
+  'greentec-scorpion-430-plus-basic-front': { url: 'https://greentec.eu/de/produkt/scorpion-430-plus/', label: 'Bei Greentec ansehen' },
+  'greentec-scorpion-490-plus': { url: 'https://greentec.eu/de/produkt/scorpion-490-plus/', label: 'Bei Greentec ansehen' },
+  'greentec-scorpion-630-plus': { url: 'https://greentec.eu/de/produkt/scorpion-630-plus/', label: 'Bei Greentec ansehen' },
+  'greentec-spider-620-plus': { url: 'https://greentec.eu/de/produkt/spider-620-plus/', label: 'Bei Greentec ansehen' },
+}
+
+const EXTRA_BRAND_HOMEPAGES: Array<{ slug: string; homepage: string; label: string; brandName: string }> = [
+  { slug: 'greentec', homepage: 'https://greentec.eu/de/', label: 'Bei Greentec ansehen', brandName: 'Greentec' },
+  { slug: 'stema', homepage: 'https://www.stema.ch/', label: 'Bei Stema ansehen', brandName: 'Stema' },
+  { slug: 'zaugg', homepage: 'https://www.zaugg.swiss/', label: 'Bei Zaugg ansehen', brandName: 'Zaugg' },
+]
+
+function findExtraBrandFallback(productSlug: string) {
+  return EXTRA_BRAND_HOMEPAGES.find((b) => productSlug.startsWith(`${b.slug}-`)) ?? null
+}
+
 export function getKommunalExternalUrl(productSlug: string): string | null {
-  return PRODUCT_INDEX[productSlug]?.product.externalUrl ?? null
+  return (
+    PRODUCT_INDEX[productSlug]?.product.externalUrl ??
+    EXTRA_PRODUCT_URLS[productSlug]?.url ??
+    findExtraBrandFallback(productSlug)?.homepage ??
+    null
+  )
 }
 
 export function getKommunalExternalLabel(productSlug: string): string | null {
-  return PRODUCT_INDEX[productSlug]?.brand.externalCtaLabel ?? null
+  return (
+    PRODUCT_INDEX[productSlug]?.brand.externalCtaLabel ??
+    EXTRA_PRODUCT_URLS[productSlug]?.label ??
+    findExtraBrandFallback(productSlug)?.label ??
+    null
+  )
 }
 
 const KOMMUNAL_CONTACT_EMAIL = 'michael.peter@ernst-moser.ch'
@@ -390,10 +423,18 @@ export function getKommunalAnfrageMailto(
   productName: string,
 ): string | null {
   const ref = PRODUCT_INDEX[productSlug]
-  if (!ref) return null
-  const trimmed = productName.startsWith(ref.brand.brandName)
+  let brandName: string | null = null
+  if (ref) {
+    brandName = ref.brand.brandName
+  } else {
+    const fallback = findExtraBrandFallback(productSlug)
+    if (fallback) brandName = fallback.brandName
+    else if (EXTRA_PRODUCT_URLS[productSlug]) brandName = 'Greentec'
+  }
+  if (!brandName) return null
+  const trimmed = productName.startsWith(brandName)
     ? productName
-    : `${ref.brand.brandName} ${productName}`
+    : `${brandName} ${productName}`
   const subject = `Anfrage ${trimmed}`
   return `mailto:${KOMMUNAL_CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`
 }
