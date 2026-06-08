@@ -44,7 +44,6 @@ export async function POST(req: NextRequest) {
     await syncTeamMemberToSanity(member)
 
     revalidatePath('/unternehmen')
-    revalidatePath('/unternehmen/team')
 
     return NextResponse.json(member, { status: 201 })
   } catch {

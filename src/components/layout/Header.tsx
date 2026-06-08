@@ -6,13 +6,13 @@ export default async function Header({ logoUrl }: { logoUrl?: string | null }) {
   const { centers, brandsByCenter } = await getHeaderData()
 
   return (
-    <>
+    <div className="site-header">
       <Topbar />
       <MegaMenu
         centers={centers}
         brandsByCenter={brandsByCenter}
         logoUrl={logoUrl}
       />
-    </>
+    </div>
   )
 }

@@ -1,5 +1,8 @@
 import Link from 'next/link'
 import AnimatedSection from '@/components/ui/AnimatedSection'
+import BrandSalespersonSection from '@/components/ui/BrandSalespersonSection'
+import { readClient as client, imageUrl } from '@/lib/sanity'
+import { teamPhotoByName } from '@/lib/serverImages'
 import {
   Truck, Wrench, ShieldCheck, Clock,
   Leaf, Award, Settings, Users,
@@ -15,7 +18,7 @@ const LEISTUNGEN: Record<string, ServiceItem[]> = {
     {
       icon: Truck, title: 'Fahrzeugverkauf',
       desc: 'Wir verkaufen Nutzfahrzeuge, Aufbauten, Anhänger und Wohnmobile führender Marken.',
-      bullets: ['Neuwagen mit Herstellergarantie', 'Geprüfte Occasionen', 'Probefahrten möglich', 'Finanzierungs- & Leasingangebote'],
+      bullets: ['Neuwagen mit Herstellergarantie', 'Probefahrten möglich', 'Finanzierungs- & Leasingangebote'],
     },
     {
       icon: Wrench, title: 'Werkstatt & Reparatur',
@@ -85,10 +88,29 @@ const CENTER_META: Record<string, { name: string; color: string; slug: string }>
   motorgeraetecenter: { name: 'Motorgerätecenter',  color: '#4A7C59', slug: 'motorgeraetecenter' },
 }
 
-export default function LeistungenPageContent({ centerSlug }: { centerSlug: string }) {
+const CENTER_CONTACT_EMAIL: Record<string, string> = {
+  motorgeraetecenter: 'raphael.maurer@ernst-moser.ch',
+  kommunalcenter: 'michael.peter@ernst-moser.ch',
+  nutzfahrzeugcenter: 'roland.burkhalter@ernst-moser.ch',
+}
+
+interface LeistungSp { firstName: string; lastName: string; title?: string; phone?: string; email?: string; photo?: { _type: 'image'; asset: { _ref: string } } }
+
+export default async function LeistungenPageContent({ centerSlug }: { centerSlug: string }) {
   const meta = CENTER_META[centerSlug] ?? CENTER_META.nutzfahrzeugcenter
   const leistungen = LEISTUNGEN[centerSlug] ?? LEISTUNGEN.nutzfahrzeugcenter
   const accentAlpha = `${meta.color}1a`
+
+  const contactEmail = CENTER_CONTACT_EMAIL[centerSlug]
+  const sp: LeistungSp | null = contactEmail
+    ? await client.fetch(
+        `*[_type == "salesperson" && email == $email][0]{ firstName, lastName, title, phone, email, photo }`,
+        { email: contactEmail },
+      )
+    : null
+  const spPhotoUrl =
+    teamPhotoByName(sp?.firstName, sp?.lastName) ??
+    (sp?.photo ? imageUrl(sp.photo) : null)
 
   return (
     <>
@@ -177,8 +199,20 @@ export default function LeistungenPageContent({ centerSlug }: { centerSlug: stri
         </div>
       </section>
 
+      {/* Persönliche Beratung / Ansprechpartner */}
+      {sp && (
+        <BrandSalespersonSection
+          sp={sp}
+          brandName={`Kaufberatung ${meta.name}`}
+          center={{ name: meta.name, color: meta.color }}
+          centerSlug={meta.slug}
+          photoUrl={spPhotoUrl}
+          emailSubject={`Kaufberatung – ${meta.name}`}
+        />
+      )}
+
       {/* CTA */}
-      <section className="center-cta-section">
+      <section className="center-cta-section" style={{ ['--center-color' as string]: meta.color }}>
         <div className="center-cta-deco" />
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: meta.color }} />
         <div className="container">

@@ -34,10 +34,11 @@ const itemVariant: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE } },
 }
 
-function Section({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+function Section({ children, className = '', style }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) {
   return (
     <motion.section
       className={`bx-section section ${className}`}
+      style={style}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '-60px' }}
@@ -115,7 +116,7 @@ function InnovationBlock({ s, color }: { s: InnovationSection; color: string }) 
 function TechBlock({ s, color }: { s: TechSection; color: string }) {
   const accentAlpha = `${color}1a`
   return (
-    <Section className="bx-tech-section">
+    <Section className="bx-tech-section" style={{ ['--center-color' as string]: color }}>
       <div className="container">
         <SectionHeader badge={s.badge} headline={s.headline} subline={s.subline} color={color} />
         <div className="bx-tech-split">
@@ -270,7 +271,7 @@ function SustainabilityBlock({ s, color }: { s: SustainabilitySection; color: st
 function VideoBlock({ s, color }: { s: VideoSection; color: string }) {
   const accentAlpha = `${color}1a`
   return (
-    <Section className="bx-video-section">
+    <Section className="bx-video-section" style={{ ['--center-color' as string]: color }}>
       <div className="container">
         <SectionHeader badge={s.badge} headline={s.headline} color={color} />
         {s.body && <motion.p className="bx-body bx-video-body" variants={itemVariant}>{s.body}</motion.p>}

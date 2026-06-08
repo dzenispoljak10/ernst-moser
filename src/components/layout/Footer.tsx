@@ -33,7 +33,7 @@ function LinkedInIcon() {
 
 const COMPANY_LINKS = [
   { label: 'Über uns',    href: '/unternehmen' },
-  { label: 'Team',        href: '/unternehmen/team' },
+  { label: 'Team',        href: '/unternehmen#team' },
   { label: 'Karriere',    href: '/karriere' },
   { label: 'Impressum',   href: '/impressum' },
   { label: 'AGB',         href: '/agb' },

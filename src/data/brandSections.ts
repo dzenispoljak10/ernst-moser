@@ -258,35 +258,6 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
     },
   ],
 
-  hako: [
-    {
-      type: 'innovation',
-      badge: 'Citymaster 2000',
-      headline: 'Citymaster 2000 — Die neue Stadtreinigungs-Benchmark',
-      body: 'Der Hako Citymaster 2000 setzt neue Massstäbe in der kommunalen Strassenreinigung. Mit einer Arbeitsbreite von bis zu 4.50 m, einem Schmutzbehälter von 2.000 Litern und optionalem Elektroantrieb ist der Citymaster 2000 das leistungsstärkste kompakte Kehrfahrzeug auf dem Markt — und seit 2024 auch emissionsfrei verfügbar.',
-      image: '/images/brand-sections/hako/sweeper.jpg',
-      imageAlt: 'Kommunales Kehrfahrzeug im Einsatz',
-      imageRight: false,
-      features: [
-        { icon: 'Settings', title: '4,50 m Arbeitsbreite', text: 'Grösste Kehrbreite in der Klasse — maximale Flächenleistung bei minimalem Zeitaufwand.' },
-        { icon: 'Package', title: '2.000 L Schmutzbehälter', text: 'Grosser Schmutzbehälter reduziert Entleerungsfahrten und erhöht die Netto-Kehrzeit.' },
-        { icon: 'Zap', title: 'Optional vollelektrisch', text: 'Elektrischer Citymaster 2000 für emissionsfreie Stadtreinigung in Umweltzonen.' },
-      ],
-    },
-    {
-      type: 'heritage',
-      badge: 'Seit 1948',
-      headline: '75 Jahre Hako — Pionier der Reinigungstechnik',
-      body: 'Hako wurde 1948 in Bad Oldesloe gegründet und ist seither ein Synonym für professionelle Reinigungsmaschinen. Was mit einfachen Handgeräten begann, ist heute ein weltweit agierendes Unternehmen mit über 1.800 Mitarbeitenden und Produkten für Kommunen, Industrie und Gebäudereinigung.',
-      milestones: [
-        { year: '1948', text: 'Gründung Hako in Bad Oldesloe, Deutschland' },
-        { year: '1966', text: 'Einführung der ersten Kehrmaschine' },
-        { year: '1985', text: 'Markteinführung des Citymaster — Branchenrevolution' },
-        { year: '2003', text: 'Hako wird international: Expansion in 50 Länder' },
-        { year: '2024', text: 'Citymaster 2000 E: Das erste vollelektrische Modell' },
-      ],
-    },
-  ],
 
   kubota: [
     {
@@ -927,36 +898,6 @@ export const BRAND_EXTRA_SECTIONS: Record<string, BrandSection[]> = {
     },
   ],
 
-  'gianni-ferrari': [
-    {
-      type: 'heritage',
-      badge: 'Seit 1966',
-      headline: 'Gianni Ferrari — Italiens Spitzenmäher-Tradition',
-      body: 'Gianni Ferrari wurde 1966 in der Emilia-Romagna, Italien gegründet und ist seither Spezialist für hochwertige Frontkopf-Rasenmäher und Turf-Mäher. Die Polo- und GT-Modelle gelten als Massstab für professionelle Rasenpflege auf Sportanlagen, Golf-Fairways und Parkanlagen.',
-      image: '/images/brand-sections/gianni-ferrari/mower.jpg',
-      imageAlt: 'Professionelle Rasenmäher auf Golf-Fairway',
-      milestones: [
-        { year: '1966', text: 'Gründung Gianni Ferrari in der Emilia-Romagna, Italien' },
-        { year: '1975', text: 'Einführung des ersten Frontkopf-Mähers — Markenzeichen' },
-        { year: '1990', text: 'Polo-Serie: Benchmark für Profi-Rasenmäher' },
-        { year: '2005', text: 'GT-Serie: Höchstleistung für Sportrasen und Golf' },
-        { year: '2024', text: 'Neue GT-Generation mit verbesserter Schnittqualität' },
-      ],
-    },
-    {
-      type: 'tech',
-      badge: 'Frontkopf-System',
-      headline: 'Frontkopf-Technologie — Der Gianni Ferrari Unterschied',
-      body: 'Das Gianni Ferrari Frontkopf-System positioniert das Mähwerk vorne für optimale Sicht und maximale Manövrierbarkeit. Das Ergebnis: gleichmässiger Schnitt auch an Hindernissen, Bäumen und Rasenrändern — für professionelle Ergebnisse in jedem Garten.',
-      specs: [
-        { label: 'System', value: 'Frontkopf-Mähwerk' },
-        { label: 'Modelle', value: 'Polo, GT, Record' },
-        { label: 'Schnitthöhe', value: '25 – 100 mm' },
-        { label: 'Herkunft', value: 'Emilia-Romagna, Italien' },
-      ],
-      features: [],
-    },
-  ],
 
   wabco: [
     {

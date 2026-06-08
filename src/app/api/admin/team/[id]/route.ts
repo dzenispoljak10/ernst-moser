@@ -53,7 +53,6 @@ export async function PUT(
 
     // Revalidate public pages
     revalidatePath('/unternehmen')
-    revalidatePath('/unternehmen/team')
 
     return NextResponse.json(member)
   } catch {
@@ -76,7 +75,6 @@ export async function DELETE(
     await markSanityTeamMemberInactive(member.firstName, member.lastName)
 
     revalidatePath('/unternehmen')
-    revalidatePath('/unternehmen/team')
 
     return NextResponse.json({ success: true })
   } catch {

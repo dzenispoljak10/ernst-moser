@@ -32,8 +32,8 @@ const CENTER_LABELS: Record<string, string> = {
 
 const CENTER_COLORS: Record<string, { bg: string; color: string }> = {
   nutzfahrzeugcenter: { bg: '#EEF2FF', color: '#1B2D5B' },
-  kommunalcenter:     { bg: '#ECFDF5', color: '#4A7C59' },
-  motorgeraetecenter: { bg: '#FEF2F2', color: '#C0392B' },
+  kommunalcenter:     { bg: '#FEF2F2', color: '#C0392B' },
+  motorgeraetecenter: { bg: '#ECFDF5', color: '#4A7C59' },
 }
 
 export default async function SalespersonPage() {

@@ -65,27 +65,21 @@ const rules: Rule[] = [
   },
   {
     keywords: ['kommunal', 'municipal', 'kommunalcenter', 'michael', 'peter', 'kehrmaschine', 'kommunalfahrzeug'],
-    answer: 'Unser Kommunalcenter bietet kommunale Maschinen und Fahrzeuge:\n🔴 Marken: Hako, Kubota, Reform, Zaugg, Greentec, Baoli, Alkè u.v.m.\nIhr Ansprechpartner: Michael Peter',
+    answer: 'Unser Kommunalcenter bietet kommunale Maschinen und Fahrzeuge:\n🔴 Marken: Kubota, Reform, Zaugg, Greentec, Baoli, Alkè u.v.m.\nIhr Ansprechpartner: Michael Peter',
     links: [{ label: 'Zum Kommunalcenter', href: '/kommunalcenter' }],
-    chips: ['Kubota', 'Hako', 'Mieten'],
+    chips: ['Kubota', 'Baoli', 'Mieten'],
   },
   {
     keywords: ['kubota', 'b-serie', 'l-serie', 'm-serie', 'gr-serie', 'z-serie', 'traktor', 'kompakttraktor'],
     answer: 'Kubota bietet Traktoren und Kommunalgeräte.\nModelle: B-Serie (Kompakttraktoren), L-Serie, M-Serie, GR-Serie (Rasenmäher), Z-Serie.\nFür Landwirtschaft und Kommunalbetriebe.',
     links: [{ label: 'Zum Kommunalcenter', href: '/kommunalcenter' }],
-    chips: ['Hako', 'Reform', 'Kommunal'],
-  },
-  {
-    keywords: ['hako', 'citymaster', 'multicar', 'jonas', 'aufsitzkehrmaschine'],
-    answer: 'Hako ist Spezialist für Reinigung und Kommunaltechnik.\nModelle: Citymaster (Kehrmaschinen), Multicar M31/M41, Jonas (Aufsitzkehrmaschine).\nFür Gemeinden und Betriebe.',
-    links: [{ label: 'Zum Kommunalcenter', href: '/kommunalcenter' }],
-    chips: ['Kubota', 'Reform', 'Kommunal'],
+    chips: ['Baoli', 'Reform', 'Kommunal'],
   },
   {
     keywords: ['baoli', 'gabelstapler', 'stapler', 'lagertechnik', 'kion', 'kbd', 'kbe', 'kbp'],
     answer: 'Baoli ist Teil der KION Group und bietet Gabelstapler und Lagertechnik.\nModelle: KBD-Serie, KBE-Serie, KBP-Serie.\nElektrisch und Verbrennungsmotor.',
     links: [{ label: 'Zum Kommunalcenter', href: '/kommunalcenter' }],
-    chips: ['Hako', 'Kubota', 'Kommunal'],
+    chips: ['Reform', 'Kubota', 'Kommunal'],
   },
   {
     keywords: ['alkè', 'alke', 'elektrisch', 'atx', 'elektrofahrzeug', 'zero emission'],
@@ -97,7 +91,7 @@ const rules: Rule[] = [
     keywords: ['reform', 'metrac', 'bergmäher', 'bergmaher', 'steilhang', 'h60', 'h70', 'h75', 'h95'],
     answer: 'Reform Metrac – Bergmäher für steiles Gelände.\nModelle: Metrac H60, H70, H75, H95.\nFür Steilhänge bis 50° Neigung.\nÖsterreichische Qualität seit Jahrzehnten.',
     links: [{ label: 'Zum Kommunalcenter', href: '/kommunalcenter' }],
-    chips: ['Kubota', 'Hako', 'Kommunal'],
+    chips: ['Kubota', 'Reform', 'Kommunal'],
   },
   {
     keywords: ['greentec', 'auslegemulcher', 'böschungsmäher', 'boschmungsmaher', 'scorpion', 'spider', 'fox', 'mulcher'],
@@ -178,13 +172,13 @@ const rules: Rule[] = [
     chips: ['Kontakt', 'Öffnungszeiten', 'Nutzfahrzeuge'],
   },
   {
-    keywords: ['preis', 'kosten', 'kaufen', 'occasion', 'neu', 'angebot', 'offerte', 'anfrage', 'budget', 'günstig', 'gunstig', 'gebraucht'],
+    keywords: ['preis', 'kosten', 'kaufen', 'neu', 'angebot', 'offerte', 'anfrage', 'budget', 'günstig', 'gunstig'],
     answer: 'Für Preisauskünfte und individuelle Angebote kontaktieren Sie uns direkt – wir beraten Sie persönlich und finden die beste Lösung für Ihre Anforderungen.\n📞 +41(0)32 675 58 05',
     chips: ['Finanzierung', 'Kontakt', 'Nutzfahrzeuge'],
   },
   {
-    keywords: ['finanzierung', 'leasing', 'abo', 'nutzfahrzeugabo', 'ratenzahlung', 'kredit', 'förderung', 'forderung', 'emobilität', 'e-mobilität'],
-    answer: 'Ernst Moser bietet verschiedene Finanzierungsmöglichkeiten:\n💳 Klassische Finanzierung\n💳 Nutzfahrzeug-Abo\n💳 E-Mobilität Förderungen\nSprechen Sie uns an für ein persönliches Angebot.',
+    keywords: ['finanzierung', 'leasing', 'ratenzahlung', 'kredit', 'förderung', 'forderung', 'emobilität', 'e-mobilität'],
+    answer: 'Ernst Moser bietet verschiedene Finanzierungsmöglichkeiten:\n💳 Klassische Finanzierung\n💳 Leasing\n💳 E-Mobilität Förderungen\nSprechen Sie uns an für ein persönliches Angebot.',
     links: [{ label: 'Kaufberatung', href: '/nutzfahrzeugcenter/kaufen' }],
     chips: ['Kontakt', 'Nutzfahrzeuge', 'Angebot'],
   },
@@ -202,7 +196,7 @@ const rules: Rule[] = [
   {
     keywords: ['team', 'mitarbeiter', 'ansprechpartner', 'mitarbeitende', 'kontaktperson'],
     answer: 'Unser erfahrenes Team steht Ihnen gerne zur Verfügung:\n👤 Adrian Moser – Geschäftsführer\n👤 Roland Burkhalter – Nutzfahrzeuge\n👤 Michael Peter – Kommunal & Leichtnutzfahrzeuge\n👤 Raphael Maurer – Robotertechnik & Motorgeräte',
-    links: [{ label: 'Unser Team', href: '/unternehmen/team' }],
+    links: [{ label: 'Unser Team', href: '/unternehmen#team' }],
     chips: ['Kontakt', 'Über uns', 'Karriere'],
   },
   {

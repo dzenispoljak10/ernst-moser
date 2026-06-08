@@ -42,7 +42,7 @@ const FEATURES = [
     icon: ShieldCheck,
     title: 'Geprüfte Qualität',
     text:
-      'Neuanhänger renommierter Hersteller mit voller Herstellergarantie sowie geprüfte Occasionen mit transparenter Historie.',
+      'Neuanhänger renommierter Hersteller mit voller Herstellergarantie und transparenter Produktinformation.',
   },
   {
     icon: Users,

@@ -63,7 +63,7 @@ const STATS = [
 
 export default async function UnternehmenPage() {
   const team = await client.fetch<SanityTeamMember[]>(
-    `*[_type == "teamMember" && isActive != false] | order(order asc, lastName asc)[0..7] {
+    `*[_type == "teamMember" && isActive != false] | order(order asc, lastName asc) {
       _id, firstName, lastName, role, photo, email, phone, order,
       center->{ _id, name, slug, color }
     }`
@@ -74,8 +74,8 @@ export default async function UnternehmenPage() {
       {/* ══ HERO ══════════════════════════════════════════════════ */}
       <section className="unternehmen-hero">
         <Image
-          src="/images/unsplash/workshop.jpg"
-          alt="Ernst Moser GmbH Firmengelände"
+          src="/images/unternehmen/jubilaeum-hero.webp"
+          alt="Ernst Moser GmbH Team – 50-Jahre-Jubiläum"
           fill
           style={{ objectFit: 'cover' }}
           priority
@@ -104,7 +104,7 @@ export default async function UnternehmenPage() {
         <div className="container">
           <AnimatedSection className="section-header" style={{ marginBottom: 64 }}>
             <div>
-              <div className="section-divider" style={{ background: '#1B2D5B' }} />
+              <div className="section-divider" style={{ background: '#1a1a1a' }} />
               <div className="section-label">Geschichte</div>
               <h2 className="section-title">Von Biberist nach<br />Gerlafingen – seit 1976</h2>
             </div>
@@ -172,7 +172,7 @@ export default async function UnternehmenPage() {
       </section>
 
       {/* ══ TEAM ═════════════════════════════════════════════════ */}
-      <section className="section" style={{ background: '#fff' }}>
+      <section id="team" className="section" style={{ background: '#fff', scrollMarginTop: 'calc(var(--header-h, 84px) + var(--topbar-h, 44px))' }}>
         <div className="container">
           <AnimatedSection className="section-header" style={{ marginBottom: 48 }}>
             <div>
@@ -214,6 +214,20 @@ export default async function UnternehmenPage() {
                         {member.firstName} {member.lastName}
                       </div>
                       <div className="team-preview-role">{member.role}</div>
+                      {(member.email || member.phone) && (
+                        <div className="team-preview-contact">
+                          {member.email && (
+                            <a href={`mailto:${member.email}`} className="team-preview-contact-link" title={member.email}>
+                              <Mail size={13} /> {member.email}
+                            </a>
+                          )}
+                          {member.phone && (
+                            <a href={`tel:${member.phone.replace(/\s/g, '')}`} className="team-preview-contact-link" title={member.phone}>
+                              <Phone size={13} /> {member.phone}
+                            </a>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </AnimatedSection>
@@ -247,26 +261,6 @@ export default async function UnternehmenPage() {
               ))
             )}
           </div>
-
-          {/* CTA Button */}
-          <AnimatedSection delay={0.3}>
-            <div style={{ textAlign: 'center', marginTop: 48 }}>
-              <Link
-                href="/unternehmen/team"
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 10,
-                  background: '#1B2D5B', color: '#fff',
-                  padding: '14px 32px', borderRadius: 8,
-                  fontWeight: 700, fontSize: 14, letterSpacing: '0.04em',
-                  textDecoration: 'none',
-                  transition: 'background 0.2s, transform 0.2s',
-                }}
-                className="team-cta-btn"
-              >
-                Team kennenlernen <ArrowRight size={16} />
-              </Link>
-            </div>
-          </AnimatedSection>
         </div>
       </section>
 
@@ -275,7 +269,9 @@ export default async function UnternehmenPage() {
         <div
           style={{
             position: 'absolute', inset: 0,
-            background: 'linear-gradient(135deg, #1B2D5B 0%, #2a4480 55%, #4A7C59 100%)',
+            background: 'linear-gradient(135deg, #f5f6f8 0%, #eef0f3 100%)',
+            borderTop: '1px solid var(--c-border)',
+            borderBottom: '1px solid var(--c-border)',
             opacity: 1,
           }}
         />
@@ -287,7 +283,7 @@ export default async function UnternehmenPage() {
                   style={{
                     display: 'inline-block', fontSize: 10, fontWeight: 800,
                     letterSpacing: '0.15em', textTransform: 'uppercase',
-                    color: 'rgba(255,255,255,0.5)', marginBottom: 14,
+                    color: 'var(--c-text-muted)', marginBottom: 14,
                   }}
                 >
                   Karriere
@@ -295,12 +291,12 @@ export default async function UnternehmenPage() {
                 <h2
                   style={{
                     fontSize: 'clamp(22px, 3.5vw, 36px)', fontWeight: 900,
-                    color: '#fff', lineHeight: 1.2, marginBottom: 14,
+                    color: 'var(--c-text)', lineHeight: 1.2, marginBottom: 14,
                   }}
                 >
                   Werden Sie Teil<br />unseres Teams
                 </h2>
-                <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.55)', maxWidth: 460, lineHeight: 1.65 }}>
+                <p style={{ fontSize: 15, color: 'var(--c-text-2)', maxWidth: 460, lineHeight: 1.65 }}>
                   Wir suchen engagierte Fachleute, die gemeinsam mit uns wachsen wollen –
                   ob Mechaniker, Verkäufer oder Lernende. Jetzt offene Stellen ansehen.
                 </p>
@@ -310,7 +306,7 @@ export default async function UnternehmenPage() {
                   href="/karriere"
                   style={{
                     display: 'inline-flex', alignItems: 'center', gap: 8,
-                    background: '#fff', color: '#1B2D5B',
+                    background: '#1a1a1a', color: '#fff',
                     padding: '13px 28px', borderRadius: 8,
                     fontWeight: 800, fontSize: 13, letterSpacing: '0.04em',
                     textDecoration: 'none', whiteSpace: 'nowrap',
@@ -322,10 +318,10 @@ export default async function UnternehmenPage() {
                   href="mailto:info@ernst-moser.ch"
                   style={{
                     display: 'inline-flex', alignItems: 'center', gap: 8,
-                    background: 'rgba(255,255,255,0.1)', color: '#fff',
+                    background: 'transparent', color: '#1a1a1a',
                     padding: '13px 28px', borderRadius: 8,
                     fontWeight: 700, fontSize: 13, letterSpacing: '0.04em',
-                    textDecoration: 'none', border: '1.5px solid rgba(255,255,255,0.2)',
+                    textDecoration: 'none', border: '1.5px solid rgba(0,0,0,0.18)',
                     whiteSpace: 'nowrap',
                   }}
                 >
@@ -342,7 +338,7 @@ export default async function UnternehmenPage() {
         <div className="container">
           <AnimatedSection className="section-header" style={{ marginBottom: 48 }}>
             <div>
-              <div className="section-divider" style={{ background: '#1B2D5B' }} />
+              <div className="section-divider" style={{ background: '#1a1a1a' }} />
               <div className="section-label">Standort & Infrastruktur</div>
               <h2 className="section-title">Besuchen Sie uns<br />in Gerlafingen</h2>
             </div>

@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ChevronRight, ExternalLink, Send } from 'lucide-react'
+import { ChevronRight, ExternalLink, Send, FileText } from 'lucide-react'
 
 interface Props {
   categorySlug: string
@@ -13,6 +13,7 @@ interface Props {
   longDescription: string[]
   imageUrl: string
   externalUrl: string
+  prospektUrl: string
   mailtoHref: string
   centerColor: string
 }
@@ -26,6 +27,7 @@ export default function IsuzuModelHero({
   longDescription,
   imageUrl,
   externalUrl,
+  prospektUrl,
   mailtoHref,
   centerColor,
 }: Props) {
@@ -186,6 +188,43 @@ export default function IsuzuModelHero({
                 Auf isuzu.ch ansehen
                 <ExternalLink size={14} />
               </a>
+              {prospektUrl && (
+                <a
+                  href={prospektUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 9,
+                    padding: '12px 24px',
+                    borderRadius: 10,
+                    fontSize: 14,
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                    color: centerColor,
+                    background: 'transparent',
+                    border: `1.5px solid ${centerColor}`,
+                    transition: 'transform 0.2s, background 0.2s, color 0.2s',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'translateY(-2px)'
+                    el.style.background = centerColor
+                    el.style.color = '#fff'
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'none'
+                    el.style.background = 'transparent'
+                    el.style.color = centerColor
+                  }}
+                >
+                  <FileText size={15} />
+                  Prospekt &amp; technische Daten
+                </a>
+              )}
               <a
                 href={mailtoHref}
                 style={{

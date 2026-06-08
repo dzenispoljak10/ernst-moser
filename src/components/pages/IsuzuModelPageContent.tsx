@@ -46,6 +46,7 @@ export default async function IsuzuModelPageContent({ categorySlug, modelSlug }:
         longDescription={model.longDescription}
         imageUrl={model.image}
         externalUrl={model.externalUrl}
+        prospektUrl={model.prospektUrl}
         mailtoHref={mailtoHref}
         centerColor={center.color}
       />

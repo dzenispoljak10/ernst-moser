@@ -300,7 +300,7 @@ function VideoBlock({
             style={{
               borderRadius: 18,
               overflow: 'hidden',
-              background: '#000',
+              background: '#1B2D5B',
               boxShadow: '0 24px 80px rgba(0,0,0,0.18)',
               border: `1px solid ${centerColor}33`,
               maxWidth: 1100,

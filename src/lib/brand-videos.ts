@@ -30,14 +30,9 @@ export const BRAND_VIDEOS: Record<string, BrandVideo> = {
     caption: 'Die Ameise als Sinnbild für Stärke und Ausdauer der Fiat Professional Flotte.',
   },
   piaggio: {
-    youtubeId: 'J-vq0wKCHMw',
+    youtubeId: 'Ca_uOK2bWzA',
     heading: 'Piaggio Porter NP6 – Der CityTruck',
     caption: 'Die neue Generation des Porter NP6, vollständig neu konzipiert.',
-  },
-  isuzu: {
-    youtubeId: 'yG04GnJ-oVM',
-    heading: 'Isuzu D-Max – Built tough',
-    caption: 'Robuste Pickup-Plattform für Gewerbe, Bau und Kommune.',
   },
   'pudu-robotics': {
     youtubeId: 'z-WcJTlnaP4',
@@ -45,7 +40,7 @@ export const BRAND_VIDEOS: Record<string, BrandVideo> = {
     caption: 'Der BellaBot in seinem Element – charmant, präzise, zuverlässig.',
   },
   segway: {
-    youtubeId: 'GzHaG_UUIjM',
+    youtubeId: 'opxEJrBJwiQ',
     heading: 'Segway Navimow – Das ist Mährobotik',
     caption: 'Drahtfrei, RTK-präzise, leise – die nächste Generation Mähroboter.',
   },
@@ -59,11 +54,6 @@ export const BRAND_VIDEOS: Record<string, BrandVideo> = {
     heading: 'Kubota – We are Kubota',
     caption: 'Die Brand-Story eines globalen Herstellers für Land- und Kommunaltechnik.',
   },
-  hako: {
-    youtubeId: 'TE5N19BK3eo',
-    heading: 'Hako Citymaster 1650 – Im Einsatz',
-    caption: 'Multifunktionale Saugkehrmaschine für die professionelle Stadtreinigung.',
-  },
   ambrogio: {
     youtubeId: 'XBegt3bjPfI',
     heading: 'Ambrogio AI – Smart Mowing',
@@ -75,9 +65,19 @@ export const BRAND_VIDEOS: Record<string, BrandVideo> = {
     caption: 'Aufsitzmäher der Zukunft: leise, emissionsfrei, kraftvoll.',
   },
   alk: {
-    youtubeId: 'ObfN5N54SbI',
-    heading: 'Alkè ATX4 – Goodbye traditional vans',
-    caption: 'Vollelektrische Profi-Nutzfahrzeuge für Industrie und Kommune.',
+    youtubeId: 'EZDPncAXUys',
+    heading: 'Alkè ATX340EH – Müllmodul & Hochdruckreiniger',
+    caption: 'Vollelektrisches Profi-Nutzfahrzeug im kommunalen Einsatz.',
+  },
+  zaugg: {
+    youtubeId: 'SF7JYqaBV5A',
+    heading: 'Zaugg – Schneeräumtechnik im Einsatz',
+    caption: 'Schneepflüge und Schneefrässchleudern für den professionellen Winterdienst.',
+  },
+  nilfisk: {
+    youtubeId: '47TX5OFBDf0',
+    heading: 'Nilfisk – Reinigungstechnik im Einsatz',
+    caption: 'Professionelle Reinigungslösungen aus Dänemark – seit über 100 Jahren.',
   },
 }
 

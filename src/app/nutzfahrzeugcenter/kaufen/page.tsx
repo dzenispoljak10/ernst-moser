@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import AnimatedSection from '@/components/ui/AnimatedSection'
+import BrandSalespersonSection from '@/components/ui/BrandSalespersonSection'
 import {
   ChevronRight,
   Compass,
   Wallet,
-  Repeat,
   Zap,
   CheckCircle2,
   Send,
@@ -16,12 +16,12 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Kaufen – Nutzfahrzeugcenter Ernst Moser',
   description:
-    'Kaufberatung, Finanzierung, Nutzfahrzeug-Abo und E-Mobilität bei Ernst Moser GmbH – Ihr Partner für Nutzfahrzeuge in der Region Solothurn.',
+    'Kaufberatung, Finanzierung & Leasing und E-Mobilität bei Ernst Moser GmbH – Ihr Partner für Nutzfahrzeuge in der Region Solothurn.',
 }
 
 const COLOR = '#1B2D5B'
 const ALPHA = `${COLOR}1a`
-const CONTACT_EMAIL = 'roland.burkhalter@ernst-moser.ch'
+const CONTACT_EMAIL = 'michael.peter@ernst-moser.ch'
 
 interface Section {
   id: string
@@ -63,21 +63,6 @@ const SECTIONS: Section[] = [
       'Keine versteckten Kosten – alles transparent',
     ],
     mailSubject: 'Anfrage Finanzierung & Leasing',
-  },
-  {
-    id: 'nutzfahrzeug-abo',
-    icon: Repeat,
-    title: 'Nutzfahrzeug-Abo',
-    description:
-      'Das All-Inclusive-Abo für Nutzfahrzeuge: kein Kaufrisiko, maximale Flexibilität. Mit monatlich kalkulierbaren Fixkosten, kurzen oder längeren Laufzeiten und der Möglichkeit, das Fahrzeug bei veränderten Anforderungen zu wechseln, bleiben Sie agil.',
-    features: [
-      'Monatliche Fixkosten – planbar und transparent',
-      'Service, Versicherung und Steuern bereits inklusive',
-      'Flexible Laufzeiten ab wenigen Monaten',
-      'Fahrzeugwechsel bei veränderten Bedürfnissen',
-      'Kein Kapitalbinder – schont Liquidität',
-    ],
-    mailSubject: 'Anfrage Nutzfahrzeug-Abo',
   },
   {
     id: 'e-mobilitaet',
@@ -304,6 +289,24 @@ export default function NfzKaufenPage() {
           </section>
         )
       })}
+
+      {/* ─── Ansprechpartner: Michael Peter ─────────────────── */}
+      <BrandSalespersonSection
+        sp={{
+          firstName: 'Michael',
+          lastName: 'Peter',
+          title: 'Verkauf / Aussendienst',
+          phone: '+41 79 485 89 12',
+          email: CONTACT_EMAIL,
+        }}
+        brandName="Ihren Fahrzeugkauf"
+        center={{ name: 'Nutzfahrzeugcenter', color: COLOR }}
+        centerSlug="nutzfahrzeugcenter"
+        photoUrl="/images/team/michael-peter.webp"
+        emailSubject="Anfrage Kaufberatung"
+        backHref="/nutzfahrzeugcenter"
+        backLabel="Zurück zum Nutzfahrzeugcenter"
+      />
     </>
   )
 }

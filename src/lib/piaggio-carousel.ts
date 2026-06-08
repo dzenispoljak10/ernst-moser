@@ -50,6 +50,36 @@ export const PIAGGIO_CAROUSEL_SLIDES: CarouselSlide[] = [
     ],
   },
   {
+    slug: 'porter-np6-pickup',
+    category: 'Porter NP6',
+    title: 'Pickup',
+    description:
+      'Der Porter NP6 als Pickup mit offener Ladefläche und niedriger Ladekante – schnell be- und entladen. Wahlweise mit Benzin- oder CNG-Motorisierung (Gas), in Einzel- oder Doppelrad.',
+    image: '/images/products/piaggio-porter-np6-pickup/main.webp',
+    imageAlt: 'Piaggio Porter NP6 Pickup',
+    detailUrl: '/nutzfahrzeugcenter/piaggio/piaggio-porter-np6-pickup',
+    specs: [
+      { icon: Package, value: 'Offene Ladefläche', label: 'Niedrige Ladekante' },
+      { icon: Gauge, value: 'Benzin / CNG', label: 'Gas-Option erhältlich' },
+      { icon: Ruler, value: 'Einzel / Doppelrad', label: 'Je nach Nutzlast' },
+    ],
+  },
+  {
+    slug: 'porter-np6-dreiseitenkipper',
+    category: 'Porter NP6',
+    title: '3-Seitenkipper',
+    description:
+      'Der Porter NP6 als 3-Seitenkipper – kippbar nach hinten und zu beiden Seiten. Maximale Flexibilität beim Entladen. Benzin oder CNG (Gas), Einzel- oder Doppelrad.',
+    image: '/images/products/piaggio-porter-np6-dreiseitenkipper/main.webp',
+    imageAlt: 'Piaggio Porter NP6 3-Seitenkipper',
+    detailUrl: '/nutzfahrzeugcenter/piaggio/piaggio-porter-np6-dreiseitenkipper',
+    specs: [
+      { icon: Truck, value: '3-Seitenkipper', label: 'Hinten und beidseitig' },
+      { icon: Gauge, value: 'Benzin / CNG', label: 'Gas-Option erhältlich' },
+      { icon: Shield, value: 'Hohe Nutzlast', label: 'Robust für Bau & Garten' },
+    ],
+  },
+  {
     slug: 'porter-npe-chassis-einzelbereifung',
     category: 'Porter NPE',
     title: 'NPE Chassis Einzelbereifung',
@@ -92,21 +122,6 @@ export const PIAGGIO_CAROUSEL_SLIDES: CarouselSlide[] = [
       { icon: Zap, value: 'Elektro-Antrieb', label: 'Auch Hydraulik elektrisch' },
       { icon: Truck, value: 'Heckkipper', label: 'Hydraulisches Entleeren' },
       { icon: Shield, value: 'Werkhof-tauglich', label: 'Robust für Dauereinsatz' },
-    ],
-  },
-  {
-    slug: 'porter-npe-heckkipper-grasfanggitter',
-    category: 'Porter NPE',
-    title: 'NPE Heckkipper mit Grasfanggitter',
-    description:
-      'Heckkipper mit montiertem Fanggitter für leichtes Material – Rasenschnitt, Laub, kleines Schnittgut. Spezifisch für kommunale Grünpflege und Gartenbau-Unterhalt.',
-    image: '/images/products/piaggio-porter-npe-heckkipper-grasfanggitter/main.webp',
-    imageAlt: 'Piaggio Porter NPE Heckkipper mit Grasfanggitter',
-    detailUrl: '/nutzfahrzeugcenter/piaggio/piaggio-porter-npe-heckkipper-grasfanggitter',
-    specs: [
-      { icon: Package, value: 'Fanggitter', label: 'Grösseres Volumen für Grünschnitt' },
-      { icon: Zap, value: 'Elektro-Antrieb', label: 'Geräuscharm in Wohngebieten' },
-      { icon: Truck, value: 'Kippfunktion', label: 'Hydraulisches Entleeren' },
     ],
   },
 ]

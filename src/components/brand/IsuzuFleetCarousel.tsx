@@ -116,6 +116,7 @@ export default function IsuzuFleetCarousel({ accent }: { accent: string }) {
                         sizes="(max-width: 1024px) 100vw, 50vw"
                         className="isuzu-carousel-image"
                         priority={idx === 0}
+                        unoptimized
                       />
                     </div>
                   </div>

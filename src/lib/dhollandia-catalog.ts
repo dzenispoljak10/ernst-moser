@@ -613,7 +613,6 @@ export function getDhollandiaExternalUrl(productSlug: string): string | null {
 }
 
 const ROLAND_EMAIL = 'roland.burkhalter@ernst-moser.ch'
-const MICHAEL_EMAIL = 'michael.peter@ernst-moser.ch'
 
 export function getDhollandiaAnfrageMailto(
   productSlug: string,
@@ -621,7 +620,8 @@ export function getDhollandiaAnfrageMailto(
 ): string | null {
   const model = BY_SLUG[productSlug]
   if (!model) return null
-  const recipient = model.weightClass === 'light' ? MICHAEL_EMAIL : ROLAND_EMAIL
+  // Alle Dhollandia-Anfragen gehen an Roland Burkhalter (unabhängig von der Gewichtsklasse).
+  const recipient = ROLAND_EMAIL
   const subject = `Anfrage ${productName}`
   return `mailto:${recipient}?subject=${encodeURIComponent(subject)}`
 }

@@ -172,7 +172,7 @@ export default function MietenPageContent({ centerSlug }: { centerSlug: string }
       </section>
 
       {/* CTA */}
-      <section className="center-cta-section">
+      <section className="center-cta-section" style={{ ['--center-color' as string]: meta.color }}>
         <div className="center-cta-deco" />
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: meta.color }} />
         <div className="container">

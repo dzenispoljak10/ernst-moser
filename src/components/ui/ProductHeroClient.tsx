@@ -3,10 +3,10 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ChevronRight, Package, Send, ExternalLink } from 'lucide-react'
+import { ChevronRight, Package, Send, ExternalLink, FileText } from 'lucide-react'
 
-import { getFiatQuoteUrlForProduct } from '@/lib/fiat-models'
-import { getPiaggioExternalUrl } from '@/lib/piaggio-external'
+import { getFiatQuoteUrlForProduct, getFiatPricelistUrlForProduct } from '@/lib/fiat-models'
+import { getPiaggioExternalUrl, getPiaggioDatenblattUrl } from '@/lib/piaggio-external'
 import {
   getDhollandiaExternalUrl,
   getDhollandiaAnfrageMailto,
@@ -23,20 +23,22 @@ import {
   getKommunalExternalUrl,
   getKommunalExternalLabel,
   getKommunalAnfrageMailto,
+  getKommunalProspektUrl,
 } from '@/lib/kommunal-catalogs'
 import {
   getMotorgeraeteExternalUrl,
   getMotorgeraeteExternalLabel,
   getMotorgeraeteAnfrageMailto,
+  getMotorgeraeteDokumentationUrl,
 } from '@/lib/motorgeraete-catalogs'
-import {
-  getHakoExternalUrl,
-  getHakoAnfrageMailto,
-} from '@/lib/hako-external'
 import {
   getWabcoExternalUrl,
   getWabcoAnfrageMailto,
 } from '@/lib/wabco-external'
+import {
+  getHilltipSnowplowExternalUrl,
+  getHilltipSnowplowAnfrageMailto,
+} from '@/lib/hilltip-catalog'
 
 export interface ProductSpec {
   label: string
@@ -56,7 +58,6 @@ interface Props {
   specs: ProductSpec[]
   priceLabel: string | null
   isNew?: boolean
-  isOccasion?: boolean
   salespersonEmail: string
 }
 
@@ -75,11 +76,12 @@ export default function ProductHeroClient({
   specs,
   priceLabel,
   isNew,
-  isOccasion,
   salespersonEmail,
 }: Props) {
   const fiatQuoteUrl = getFiatQuoteUrlForProduct(productSlug)
+  const fiatPricelistUrl = getFiatPricelistUrlForProduct(productSlug)
   const piaggioExternalUrl = getPiaggioExternalUrl(productSlug)
+  const piaggioDatenblattUrl = getPiaggioDatenblattUrl(productSlug)
   const dhollandiaExternalUrl = getDhollandiaExternalUrl(productSlug)
   const dhollandiaMailto = getDhollandiaAnfrageMailto(productSlug, productName)
   const scaniaExternalUrl = getScaniaExternalUrl(productSlug)
@@ -89,21 +91,23 @@ export default function ProductHeroClient({
   const kommunalExternalUrl = getKommunalExternalUrl(productSlug)
   const kommunalExternalLabel = getKommunalExternalLabel(productSlug)
   const kommunalMailto = getKommunalAnfrageMailto(productSlug, productName)
+  const kommunalProspektUrl = getKommunalProspektUrl(productSlug)
   const motorgeraeteExternalUrl = getMotorgeraeteExternalUrl(productSlug)
   const motorgeraeteExternalLabel = getMotorgeraeteExternalLabel(productSlug)
   const motorgeraeteMailto = getMotorgeraeteAnfrageMailto(productSlug, productName)
-  const hakoExternalUrl = getHakoExternalUrl(productSlug)
-  const hakoMailto = getHakoAnfrageMailto(productSlug, productName)
+  const motorgeraeteDokUrl = getMotorgeraeteDokumentationUrl(productSlug)
   const wabcoExternalUrl = getWabcoExternalUrl(productSlug)
   const wabcoMailto = getWabcoAnfrageMailto(productSlug, productName)
+  const hilltipSnowplowExternalUrl = getHilltipSnowplowExternalUrl(productSlug)
+  const hilltipSnowplowMailto = getHilltipSnowplowAnfrageMailto(productSlug, productName)
   const mailtoHref =
     dhollandiaMailto ??
     scaniaMailto ??
     utMailto ??
     kommunalMailto ??
     motorgeraeteMailto ??
-    hakoMailto ??
     wabcoMailto ??
+    hilltipSnowplowMailto ??
     `mailto:${salespersonEmail}?subject=${encodeURIComponent(`Ich interessiere mich für ${productName}`)}`
   return (
     <section
@@ -130,34 +134,19 @@ export default function ProductHeroClient({
             style={{ position: 'relative' }}
           >
             {/* Badges above the image box */}
-            {(isNew || isOccasion) && (
+            {isNew && (
               <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
-                {isNew && (
-                  <span style={{
-                    display: 'inline-flex',
-                    padding: '4px 12px',
-                    borderRadius: 100,
-                    fontSize: 10,
-                    fontWeight: 800,
-                    letterSpacing: '0.15em',
-                    textTransform: 'uppercase',
-                    color: '#fff',
-                    background: centerColor,
-                  }}>NEU</span>
-                )}
-                {isOccasion && (
-                  <span style={{
-                    display: 'inline-flex',
-                    padding: '4px 12px',
-                    borderRadius: 100,
-                    fontSize: 10,
-                    fontWeight: 800,
-                    letterSpacing: '0.15em',
-                    textTransform: 'uppercase',
-                    color: '#fff',
-                    background: '#7c3aed',
-                  }}>OCCASION</span>
-                )}
+                <span style={{
+                  display: 'inline-flex',
+                  padding: '4px 12px',
+                  borderRadius: 100,
+                  fontSize: 10,
+                  fontWeight: 800,
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  color: '#fff',
+                  background: centerColor,
+                }}>NEU</span>
               </div>
             )}
 
@@ -375,70 +364,104 @@ export default function ProductHeroClient({
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: 9,
-                    padding: '13px 26px',
+                    padding: '12px 24px',
                     borderRadius: 10,
                     fontSize: 14,
-                    fontWeight: 700,
+                    fontWeight: 600,
                     textDecoration: 'none',
-                    color: '#fff',
-                    background: centerColor,
-                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    color: centerColor,
+                    background: 'transparent',
+                    border: `1.5px solid ${centerColor}`,
+                    transition: 'transform 0.2s, background 0.2s, color 0.2s',
                     whiteSpace: 'nowrap',
                   }}
                   onMouseEnter={e => {
-                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'
-                    ;(e.currentTarget as HTMLElement).style.boxShadow = '0 10px 28px rgba(0,0,0,0.22)'
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'translateY(-2px)'
+                    el.style.background = centerColor
+                    el.style.color = '#fff'
                   }}
                   onMouseLeave={e => {
-                    (e.currentTarget as HTMLElement).style.transform = 'none'
-                    ;(e.currentTarget as HTMLElement).style.boxShadow = 'none'
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'none'
+                    el.style.background = 'transparent'
+                    el.style.color = centerColor
                   }}
                 >
                   Offerte einholen
                   <ExternalLink size={14} />
                 </a>
               )}
+              {/* Anfrage stellen — einheitlicher Primär-Button, immer an erster Stelle */}
               <a
                 href={mailtoHref}
                 style={{
+                  order: -1,
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: 9,
-                  padding: fiatQuoteUrl ? '12px 24px' : '13px 26px',
+                  padding: '13px 26px',
                   borderRadius: 10,
                   fontSize: 14,
-                  fontWeight: fiatQuoteUrl ? 600 : 700,
+                  fontWeight: 700,
                   textDecoration: 'none',
-                  color: fiatQuoteUrl ? '#374151' : '#fff',
-                  background: fiatQuoteUrl ? 'transparent' : centerColor,
-                  border: fiatQuoteUrl ? '1.5px solid #d1d5db' : 'none',
-                  transition: 'transform 0.2s, background 0.2s, box-shadow 0.2s, border-color 0.2s',
+                  color: '#fff',
+                  background: centerColor,
+                  border: 'none',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
                   whiteSpace: 'nowrap',
                 }}
                 onMouseEnter={e => {
                   const el = e.currentTarget as HTMLElement
                   el.style.transform = 'translateY(-2px)'
-                  if (fiatQuoteUrl) {
-                    el.style.background = '#f9fafb'
-                    el.style.borderColor = '#9ca3af'
-                  } else {
-                    el.style.boxShadow = '0 10px 28px rgba(0,0,0,0.22)'
-                  }
+                  el.style.boxShadow = '0 10px 28px rgba(0,0,0,0.22)'
                 }}
                 onMouseLeave={e => {
                   const el = e.currentTarget as HTMLElement
                   el.style.transform = 'none'
-                  if (fiatQuoteUrl) {
-                    el.style.background = 'transparent'
-                    el.style.borderColor = '#d1d5db'
-                  } else {
-                    el.style.boxShadow = 'none'
-                  }
+                  el.style.boxShadow = 'none'
                 }}
               >
                 <Send size={15} />
                 Anfrage stellen
               </a>
+              {fiatPricelistUrl && (
+                <a
+                  href={fiatPricelistUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 9,
+                    padding: '12px 24px',
+                    borderRadius: 10,
+                    fontSize: 14,
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                    color: centerColor,
+                    background: 'transparent',
+                    border: `1.5px solid ${centerColor}`,
+                    transition: 'transform 0.2s, background 0.2s, box-shadow 0.2s',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onMouseEnter={e => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'translateY(-2px)'
+                    el.style.background = `${centerColor}12`
+                    el.style.boxShadow = '0 8px 22px rgba(0,0,0,0.12)'
+                  }}
+                  onMouseLeave={e => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'none'
+                    el.style.background = 'transparent'
+                    el.style.boxShadow = 'none'
+                  }}
+                >
+                  <FileText size={15} />
+                  Preisliste
+                </a>
+              )}
               {piaggioExternalUrl && (
                 <a
                   href={piaggioExternalUrl}
@@ -472,7 +495,81 @@ export default function ProductHeroClient({
                     el.style.color = centerColor
                   }}
                 >
-                  Auf Piaggio ansehen
+                  Bei Piaggio ansehen
+                  <ExternalLink size={14} />
+                </a>
+              )}
+              {piaggioDatenblattUrl && (
+                <a
+                  href={piaggioDatenblattUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 9,
+                    padding: '12px 24px',
+                    borderRadius: 10,
+                    fontSize: 14,
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                    color: centerColor,
+                    background: 'transparent',
+                    border: `1.5px solid ${centerColor}`,
+                    transition: 'transform 0.2s, background 0.2s, color 0.2s',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'translateY(-2px)'
+                    el.style.background = centerColor
+                    el.style.color = '#fff'
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'none'
+                    el.style.background = 'transparent'
+                    el.style.color = centerColor
+                  }}
+                >
+                  <FileText size={15} />
+                  Technische Daten
+                </a>
+              )}
+              {hilltipSnowplowExternalUrl && (
+                <a
+                  href={hilltipSnowplowExternalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 9,
+                    padding: '12px 24px',
+                    borderRadius: 10,
+                    fontSize: 14,
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                    color: centerColor,
+                    background: 'transparent',
+                    border: `1.5px solid ${centerColor}`,
+                    transition: 'transform 0.2s, background 0.2s, color 0.2s',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'translateY(-2px)'
+                    el.style.background = centerColor
+                    el.style.color = '#fff'
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'none'
+                    el.style.background = 'transparent'
+                    el.style.color = centerColor
+                  }}
+                >
+                  Bei Hilltip ansehen
                   <ExternalLink size={14} />
                 </a>
               )}
@@ -509,7 +606,7 @@ export default function ProductHeroClient({
                     el.style.color = centerColor
                   }}
                 >
-                  Auf Dhollandia ansehen
+                  Bei Dhollandia ansehen
                   <ExternalLink size={14} />
                 </a>
               )}
@@ -624,6 +721,44 @@ export default function ProductHeroClient({
                   <ExternalLink size={14} />
                 </a>
               )}
+              {kommunalProspektUrl && (
+                <a
+                  href={kommunalProspektUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 9,
+                    padding: '12px 24px',
+                    borderRadius: 10,
+                    fontSize: 14,
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                    color: centerColor,
+                    background: 'transparent',
+                    border: `1.5px solid ${centerColor}`,
+                    transition: 'transform 0.2s, background 0.2s, color 0.2s',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'translateY(-2px)'
+                    el.style.background = centerColor
+                    el.style.color = '#fff'
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.transform = 'none'
+                    el.style.background = 'transparent'
+                    el.style.color = centerColor
+                  }}
+                >
+                  <FileText size={15} />
+                  Prospekt
+                </a>
+              )}
               {motorgeraeteExternalUrl && (
                 <a
                   href={motorgeraeteExternalUrl}
@@ -661,11 +796,12 @@ export default function ProductHeroClient({
                   <ExternalLink size={14} />
                 </a>
               )}
-              {hakoExternalUrl && (
+              {motorgeraeteDokUrl && (
                 <a
-                  href={hakoExternalUrl}
+                  href={motorgeraeteDokUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  download
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -694,8 +830,8 @@ export default function ProductHeroClient({
                     el.style.color = centerColor
                   }}
                 >
-                  Bei Hako ansehen
-                  <ExternalLink size={14} />
+                  <FileText size={15} />
+                  Dokumentation
                 </a>
               )}
               {wabcoExternalUrl && (

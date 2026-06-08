@@ -11,6 +11,7 @@ import BrandAboutSection from '@/components/ui/BrandAboutSection'
 import BrandSalespersonSection from '@/components/ui/BrandSalespersonSection'
 import IsuzuCategorySections from '@/components/brand/IsuzuCategorySections'
 import IsuzuFleetCarousel from '@/components/brand/IsuzuFleetCarousel'
+import IsuzuVideoSection from '@/components/brand/IsuzuVideoSection'
 import PiaggioProductSections from '@/components/brand/PiaggioProductSections'
 import PiaggioFleetCarousel from '@/components/brand/PiaggioFleetCarousel'
 import FiatFleetCarousel from '@/components/brand/FiatFleetCarousel'
@@ -20,8 +21,12 @@ import ScaniaFleetCarousel from '@/components/brand/ScaniaFleetCarousel'
 import UTProductSections from '@/components/brand/UTProductSections'
 import UTFleetCarousel from '@/components/brand/UTFleetCarousel'
 import HilltipCategorySections from '@/components/brand/HilltipCategorySections'
+import HilltipSnowplowsSection from '@/components/brand/HilltipSnowplowsSection'
 import HilltipFleetCarousel from '@/components/brand/HilltipFleetCarousel'
 import KommunalBrandSections from '@/components/brand/KommunalBrandSections'
+import StihlShowcase from '@/components/brand/StihlShowcase'
+import PuduFilterGrid from '@/components/brand/PuduFilterGrid'
+import { getMotorgeraeteBrand } from '@/lib/motorgeraete-catalogs'
 import KommunalFleetCarousel from '@/components/brand/KommunalFleetCarousel'
 import GenericFleetCarousel from '@/components/brand/GenericFleetCarousel'
 import BrandVideoSection from '@/components/brand/BrandVideoSection'
@@ -29,7 +34,7 @@ import { KOMMUNAL_BRANDS, KOMMUNAL_CAROUSEL_SLIDES } from '@/lib/kommunal-catalo
 import { MOTORGERAETE_BRANDS, MOTORGERAETE_CAROUSEL_SLIDES } from '@/lib/motorgeraete-catalogs'
 import { getBrandVideo } from '@/lib/brand-videos'
 import CountUp from '@/components/ui/CountUp'
-import { ArrowRight, Package } from 'lucide-react'
+import { ArrowRight, ExternalLink, Package } from 'lucide-react'
 
 // ─── Typen ────────────────────────────────────────────────────────────────────
 
@@ -91,6 +96,74 @@ function ptText(blocks?: PortableBlock[]): string {
     .trim()
 }
 
+// Zusätzliche Features pro Marke, die den Sanity-Features vorangestellt werden
+// (Duplikate per Titel werden übersprungen). Macht z. B. bei Dhollandia sichtbar,
+// dass wir die Hubladebühnen auch reparieren.
+const BRAND_EXTRA_FEATURES: Record<string, SanityFeature[]> = {
+  dhollandia: [
+    {
+      _key: 'dh-reparatur',
+      icon: 'Wrench',
+      title: 'Reparatur & Service',
+      desc: 'Wir reparieren, warten und unterhalten Dhollandia-Hubladebühnen aller Typen – fachgerecht in unserer Werkstatt in Gerlafingen.',
+    },
+  ],
+}
+
+// Feste Produkt-Reihenfolge pro Marke (Slug-Liste). Produkte in dieser Liste
+// werden in genau dieser Reihenfolge zuerst gezeigt, der Rest danach.
+// Fiat: nach Fahrzeuggrösse – klein zuerst, gross zuletzt.
+// Zusätzliche „Weitere Produkte"-Karte (externer Link, KEINE eigene Unterseite),
+// die ans Ende des Produkt-Grids angehängt wird.
+const BRAND_EXTRA_LINK_CARDS: Record<string, { name: string; desc?: string; url: string; image: string }> = {
+  stema: {
+    name: 'Weitere Produkte',
+    desc: 'Das komplette Stema-Sortiment auf stema.ch ansehen.',
+    url: 'https://www.stema.ch/produkte/',
+    image: '/images/brands/stema/hero.webp',
+  },
+  reform: {
+    name: 'Weitere Produkte',
+    desc: 'Das komplette Reform-Sortiment auf reform.at ansehen.',
+    url: 'https://www.reform.at/produkte',
+    image: '/images/brands/reform/hero.webp',
+  },
+  makita: {
+    name: 'Weitere Produkte',
+    desc: 'Das komplette Makita-Sortiment auf makita.ch ansehen.',
+    url: 'https://www.makita.ch/produkte.html',
+    image: '/images/brands/makita/hero.webp',
+  },
+}
+
+const BRAND_PRODUCT_ORDER: Record<string, string[]> = {
+  stema: [
+    'stema-balkenmaeher',
+    'stema-saehmaschinen',
+    'stema-vertikutiergeraete',
+  ],
+  stiga: [
+    'stiga-park',
+    'stiga-aufsitzmaeher',
+    'stiga-rasenmaeher',
+  ],
+  swardman: [
+    'swardman-edwin',
+    'swardman-electra',
+  ],
+  fiat: [
+    'fiat-dobl',            // Doblò (klein)
+    'fiat-e-dobl',          // E-Doblò
+    'fiat-scudo',           // Scudo (mittel)
+    'fiat-e-scudo',         // E-Scudo
+    'fiat-ulysse',          // Ulysse
+    'fiat-e-ulysse',        // E-Ulysse
+    'fiat-ducato',          // Ducato (gross)
+    'fiat-e-ducato',        // E-Ducato
+    'fiat-ducato-chassis',  // Ducato Chassis Cab & Pickup (am grössten)
+  ],
+}
+
 // ─── Komponente ───────────────────────────────────────────────────────────────
 
 export default async function BrandPageContent({
@@ -124,8 +197,21 @@ export default async function BrandPageContent({
     ),
   ])
 
+  // Optionale markenspezifische Produkt-Reihenfolge (z. B. Fiat nach Fahrzeuggrösse)
+  const productOrder = BRAND_PRODUCT_ORDER[brandSlug]
+  if (productOrder) {
+    const rank = (slug?: string) => {
+      const i = productOrder.indexOf(slug ?? '')
+      return i === -1 ? Number.MAX_SAFE_INTEGER : i
+    }
+    sanityProducts.sort((a, b) => rank(a.slug?.current) - rank(b.slug?.current))
+  }
+
   const highlights: SanityHighlight[]     = brand.highlights ?? []
-  const features: SanityFeature[]         = brand.features ?? []
+  const sanityFeatures: SanityFeature[]   = brand.features ?? []
+  const extraFeatures: SanityFeature[]    = (BRAND_EXTRA_FEATURES[brandSlug] ?? [])
+    .filter(e => !sanityFeatures.some(f => f.title.trim().toLowerCase() === e.title.trim().toLowerCase()))
+  const features: SanityFeature[]         = [...extraFeatures, ...sanityFeatures]
   const inlineProducts: SanityProduct[]   = brand.products ?? []
   const stats: SanityStat[]               = brand.stats ?? []
   const applications: SanityApplication[] = brand.applications ?? []
@@ -149,16 +235,17 @@ export default async function BrandPageContent({
   // nötig wird.
   const LOCAL_HERO_OVERRIDES: Record<string, string> = {
     fiat: '/images/fiat/hero-natural-born-workers.webp',
-    isuzu: '/images/isuzu/hero-steering-wheel.webp',
+    isuzu: '/images/isuzu/hero-isuzu-truck.webp',
     ut: '/images/brands/ut/hero.webp',
     hilltip: '/images/brands/hilltip/hero.webp',
     alk: '/images/brands/alk/hero.webp',
     kubota: '/images/brands/kubota/hero.webp',
-    'gianni-ferrari': '/images/brands/gianni-ferrari/hero.webp',
     'ligier-professional': '/images/brands/ligier-professional/hero.webp',
     timan: '/images/brands/timan/hero.webp',
     matev: '/images/brands/matev/hero.webp',
     ecotech: '/images/brands/ecotech/hero.webp',
+    zaugg: '/images/brands/zaugg/hero.webp',
+    segway: '/images/brands/segway/hero.webp',
   }
   const heroImgUrl =
     LOCAL_HERO_OVERRIDES[brandSlug] ?? (heroImgRaw ? imageUrl(heroImgRaw) : null)
@@ -201,7 +288,37 @@ export default async function BrandPageContent({
         }
       />
 
-      {/* ═══ 2: Über die Marke ════════════════════════════════════════════ */}
+      {/* ═══ 2: Leistungen / Features – direkt unter dem Hero ════════════ */}
+      {hasFeatures && (
+        <section className="section brand-features-section">
+          <div className="container">
+            <AnimatedSection className="section-header" style={{ marginBottom: 40 }}>
+              <div>
+                <div className="section-divider" style={{ background: center.color }} />
+                <div className="section-label">Unser Angebot</div>
+                <h2 className="section-title">Was wir für Sie tun</h2>
+              </div>
+            </AnimatedSection>
+
+            <AnimatedSection className="brand-features-grid" delay={0.05}>
+              {features.map((feat) => {
+                const Icon = getIcon(feat.icon)
+                return (
+                  <div key={feat._key ?? feat.title} className="brand-feature-card">
+                    <div className="brand-feature-icon" style={{ background: accentAlpha }}>
+                      <Icon size={26} color={center.color} />
+                    </div>
+                    <div className="brand-feature-title">{feat.title}</div>
+                    <div className="brand-feature-desc">{feat.desc}</div>
+                  </div>
+                )
+              })}
+            </AnimatedSection>
+          </div>
+        </section>
+      )}
+
+      {/* ═══ 3: Über die Marke ════════════════════════════════════════════ */}
       {descText && (
         <BrandAboutSection
           brandName={brand.name}
@@ -264,6 +381,13 @@ export default async function BrandPageContent({
         </section>
       )}
 
+      {/* Scroll-Ziel für „Produkte entdecken" – auf JEDER Markenseite vorhanden,
+          unabhängig davon, welche Produkt-Variante (5a/5) gerendert wird. */}
+      <div
+        id="produkte"
+        style={{ scrollMarginTop: 'calc(var(--header-h, 84px) + var(--topbar-h, 44px))' }}
+      />
+
       {/* ═══ 5a: Isuzu – Kategorien (keine Modellvarianten, externe Links) ═ */}
       {brandSlug === 'isuzu' && <IsuzuCategorySections accent={center.color} />}
 
@@ -281,6 +405,7 @@ export default async function BrandPageContent({
 
       {/* ═══ 5a: Hilltip – 3 Fahrzeugklassen Winterdienst ═══════════════ */}
       {brandSlug === 'hilltip' && <HilltipCategorySections accent={center.color} />}
+      {brandSlug === 'hilltip' && <HilltipSnowplowsSection accent={center.color} />}
 
       {/* ═══ 5a: Kommunalcenter-Marken – generische Brand-Sektion ═══════ */}
       {KOMMUNAL_BRANDS[brandSlug] && (
@@ -293,18 +418,49 @@ export default async function BrandPageContent({
           title={KOMMUNAL_BRANDS[brandSlug].sectionTitle}
           lead={KOMMUNAL_BRANDS[brandSlug].sectionLead}
           homepageUrl={KOMMUNAL_BRANDS[brandSlug].homepageUrl ?? null}
+          flyerUrl={KOMMUNAL_BRANDS[brandSlug].flyerUrl ?? null}
+          externalCards={KOMMUNAL_BRANDS[brandSlug].externalCards}
+          gallery={KOMMUNAL_BRANDS[brandSlug].gallery}
+          extraCard={BRAND_EXTRA_LINK_CARDS[brandSlug]}
           models={KOMMUNAL_BRANDS[brandSlug].products.map((p) => ({
             slug: p.slug,
             title: p.title,
             shortDescription: p.shortDescription,
             image: p.image,
             category: p.category,
+            externalUrl: p.externalUrl,
           }))}
         />
       )}
 
-      {/* ═══ 5a: Motorgerätecenter-Marken (Pudu, Segway, Stihl) ═════════ */}
-      {MOTORGERAETE_BRANDS[brandSlug] && (
+      {/* ═══ 5a: Stihl – eigene visuelle Werbe-Sektion (externe Links, keine Unterseiten) ═ */}
+      {brandSlug === 'stihl' && <StihlShowcase />}
+
+      {/* ═══ 5a: Pudu – filterbare Produktübersicht nach Kategorie ═══════ */}
+      {brandSlug === 'pudu-robotics' && (() => {
+        const pb = getMotorgeraeteBrand('pudu-robotics')
+        if (!pb) return null
+        return (
+          <PuduFilterGrid
+            accent={center.color}
+            eyebrow={pb.sectionEyebrow}
+            title={pb.sectionTitle}
+            lead={pb.sectionLead}
+            centerSlug={centerSlug}
+            brandSlug={brandSlug}
+            products={pb.products.map((p) => ({
+              slug: p.slug,
+              title: p.title,
+              category: p.category ?? 'Weitere',
+              image: p.image,
+              shortDescription: p.shortDescription,
+            }))}
+          />
+        )
+      })()}
+
+      {/* ═══ 5a: Motorgerätecenter-Marken (Segway) ═════════ */}
+      {MOTORGERAETE_BRANDS[brandSlug] && brandSlug !== 'stihl' && brandSlug !== 'pudu-robotics' && (
         <KommunalBrandSections
           centerSlug={centerSlug}
           brandSlug={brandSlug}
@@ -326,7 +482,7 @@ export default async function BrandPageContent({
 
       {/* ═══ 5: Produkte ══════════════════════════════════════════════════ */}
       {brandSlug !== 'isuzu' && brandSlug !== 'piaggio' && brandSlug !== 'dhollandia' && brandSlug !== 'scania' && brandSlug !== 'ut' && brandSlug !== 'hilltip' && !KOMMUNAL_BRANDS[brandSlug] && !MOTORGERAETE_BRANDS[brandSlug] && hasProducts && (
-        <section id="produkte" className="section brand-products-section">
+        <section className="section brand-products-section">
           <div className="container">
             <AnimatedSection className="section-header" style={{ marginBottom: 40 }}>
               <div>
@@ -385,6 +541,40 @@ export default async function BrandPageContent({
                     </Link>
                   )
                 })}
+                {BRAND_EXTRA_LINK_CARDS[brandSlug] && (() => {
+                  const card = BRAND_EXTRA_LINK_CARDS[brandSlug]
+                  return (
+                    <a
+                      key="extra-link-card"
+                      href={card.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="brand-product-card"
+                      style={{ ['--product-accent' as string]: center.color }}
+                    >
+                      <div className="brand-product-img">
+                        <Image
+                          src={card.image}
+                          alt={card.name}
+                          fill
+                          style={{ objectFit: 'cover' }}
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          unoptimized
+                        />
+                      </div>
+                      <div className="brand-product-body">
+                        <div className="brand-product-name">{card.name}</div>
+                        {card.desc && <div className="brand-product-desc">{card.desc}</div>}
+                      </div>
+                      <div className="brand-product-footer">
+                        <span className="brand-product-price" />
+                        <span className="brand-product-arrow" style={{ color: center.color }}>
+                          Ansehen <ExternalLink size={13} />
+                        </span>
+                      </div>
+                    </a>
+                  )
+                })()}
               </AnimatedSection>
             ) : (
               <AnimatedSection className="brand-products-grid" delay={0.05}>
@@ -430,6 +620,9 @@ export default async function BrandPageContent({
       {/* ═══ 5b: Isuzu – Flotten-Carousel (direkt nach Truck-Section) ═══ */}
       {brandSlug === 'isuzu' && <IsuzuFleetCarousel accent={center.color} />}
 
+      {/* ═══ 5c: Isuzu – lokales Truck-Werbevideo ═══════════════════════ */}
+      {brandSlug === 'isuzu' && <IsuzuVideoSection accent={center.color} />}
+
       {/* ═══ 5b: Piaggio – Flotten-Carousel (direkt nach NPE-Section) ═══ */}
       {brandSlug === 'piaggio' && <PiaggioFleetCarousel accent={center.color} />}
 
@@ -457,7 +650,7 @@ export default async function BrandPageContent({
       )}
 
       {/* ═══ 5b: Motorgerätecenter – generisches Karussell ══════════════ */}
-      {MOTORGERAETE_BRANDS[brandSlug] && MOTORGERAETE_CAROUSEL_SLIDES[brandSlug] && (
+      {MOTORGERAETE_BRANDS[brandSlug] && brandSlug !== 'stihl' && brandSlug !== 'pudu-robotics' && MOTORGERAETE_CAROUSEL_SLIDES[brandSlug] && (
         <KommunalFleetCarousel
           brandSlug={brandSlug}
           accent={center.color}
@@ -547,38 +740,7 @@ export default async function BrandPageContent({
         </section>
       )}
 
-      {/* ═══ 7: Leistungen / Features ════════════════════════════════════ */}
-      {hasFeatures && (
-        <section className="section brand-features-section">
-          <div className="container">
-            <AnimatedSection className="section-header" style={{ marginBottom: 40 }}>
-              <div>
-                <div className="section-divider" style={{ background: center.color }} />
-                <div className="section-label">Unser Angebot</div>
-                <h2 className="section-title">Was wir für Sie tun</h2>
-              </div>
-            </AnimatedSection>
-
-            <AnimatedSection className="brand-features-grid" delay={0.05}>
-              {features.map((feat) => {
-                const Icon = getIcon(feat.icon)
-                return (
-                  <div key={feat._key ?? feat.title} className="brand-feature-card">
-                    <div className="brand-feature-icon" style={{ background: accentAlpha }}>
-                      <Icon size={26} color={center.color} />
-                    </div>
-                    <div className="brand-feature-title">{feat.title}</div>
-                    <div className="brand-feature-desc">{feat.desc}</div>
-                  </div>
-                )
-              })}
-            </AnimatedSection>
-          </div>
-        </section>
-      )}
-
-
-      {/* ═══ 9: Verkäufer (LETZTE Section — nichts danach) ══════════════ */}
+      {/* ═══ 8: Verkäufer (LETZTE Section — nichts danach) ══════════════ */}
       <BrandSalespersonSection
         sp={sp}
         brandName={brand.name}

@@ -5,10 +5,10 @@
  * link goes to the internal model subpage. The external isuzu.ch link
  * appears only on the subpage as the primary CTA.
  *
- * URL locale mix is intentional: D-Max category pages on isuzu.ch live
- * under /it-ch/ only (/de-ch/dmax/* = 404). Trucks are available under
- * /de-ch/, which is preferable for DE-speaking CH customers.
- * User-supplied /it-it URLs on isuzu.it all return 404 (product moved).
+ * Alle externen Links zeigen auf die deutschen Seiten von isuzu.ch
+ * (/de-ch/d-max/* und /de-ch/truck/*). Pro Modell ist zusätzlich das
+ * passende deutsche Prospekt / technische Datenblatt (PDF) hinterlegt –
+ * Quelle: isuzu.ch/de-ch/kataloge-preislisten-und-technische-datenblatter.
  */
 
 export interface IsuzuModel {
@@ -18,6 +18,8 @@ export interface IsuzuModel {
   longDescription: string[]
   image: string
   externalUrl: string
+  /** Deutsches Prospekt / technisches Datenblatt (PDF) */
+  prospektUrl: string
 }
 
 export interface IsuzuCategory {
@@ -46,7 +48,8 @@ export const ISUZU_CATEGORIES: IsuzuCategory[] = [
           '1.9 DDi Bi-Turbo-Diesel mit 163 PS, 3.5 t Anhängelast, echtes Teilzeitallrad mit Geländeuntersetzung.',
         ],
         image: '/images/isuzu/d-max-single.webp',
-        externalUrl: 'https://www.isuzu.ch/it-ch/dmax/single',
+        externalUrl: 'https://www.isuzu.ch/de-ch/d-max/single',
+        prospektUrl: 'https://www.isuzu.it/storage/uploads/dd831f1c-2396-4432-82e6-5349e872de07/SINGLE_N60B-4X4-Euro-6e_ted.pdf',
       },
       {
         slug: 'space',
@@ -58,7 +61,8 @@ export const ISUZU_CATEGORIES: IsuzuCategory[] = [
           'Gleiches Antriebsstrang-Paket wie der Single: 1.9 DDi Bi-Turbo, 3.5 t Anhängelast, 4×4.',
         ],
         image: '/images/isuzu/d-max-space.webp',
-        externalUrl: 'https://www.isuzu.ch/it-ch/dmax/space',
+        externalUrl: 'https://www.isuzu.ch/de-ch/d-max/space',
+        prospektUrl: 'https://www.isuzu.it/storage/uploads/a3c9d1fe-31dc-47a6-b539-fd8d6acd723b/SPACE_N60B_MY25_ted.pdf',
       },
       {
         slug: 'crew',
@@ -70,7 +74,8 @@ export const ISUZU_CATEGORIES: IsuzuCategory[] = [
           'Auch hier: 1.9 DDi Bi-Turbo mit 163 PS, 3.5 t Anhängelast, 4×4 mit Geländeuntersetzung.',
         ],
         image: '/images/isuzu/d-max-crew.webp',
-        externalUrl: 'https://www.isuzu.ch/it-ch/dmax/crew',
+        externalUrl: 'https://www.isuzu.ch/de-ch/d-max/crew',
+        prospektUrl: 'https://www.isuzu.it/storage/uploads/6e3d2ef8-5189-4f82-841d-5e3de66e902c/CREW_N60B---MY25_ted.pdf',
       },
     ],
   },
@@ -88,10 +93,11 @@ export const ISUZU_CATEGORIES: IsuzuCategory[] = [
         longDescription: [
           'Die 3.5-Tonnen-Klasse von Isuzu – M21 und M27 – ist mit dem normalen Personenwagen-Führerausweis fahrbar und prädestiniert für Stadtlogistik, Zubringerdienste und Kurier-Einsätze.',
           'Der wendige Radstand und die kompakte Kabine erlauben Manövrieren auch in engen Gassen; die Aufbauvielfalt reicht vom Kastenwagen bis zum Kipper.',
-          'Varianten Gen-2 und Gen-3, je nach Aufbau als Single- oder Twin-Bereifung (T / TT), auch in der Heavy-Ausführung verfügbar.',
+          'Robuster Antriebsstrang, Euro-6-Diesel und das bewährte Isuzu-Servicenetz in der Schweiz.',
         ],
         image: '/images/isuzu/truck-3-5-ton.webp',
         externalUrl: 'https://www.isuzu.ch/de-ch/truck/3-5-ton',
+        prospektUrl: 'https://www.isuzu.it/storage/uploads/9c84c330-4433-4294-ada6-941e53055257/ISUZU_N_SERISEct_MIDI_250618n_DE-CH_completo_Web.pdf',
       },
       {
         slug: '6-7-5-ton',
@@ -104,18 +110,20 @@ export const ISUZU_CATEGORIES: IsuzuCategory[] = [
         ],
         image: '/images/isuzu/truck-6-7-5-ton.webp',
         externalUrl: 'https://www.isuzu.ch/de-ch/truck/6-7-5-ton',
+        prospektUrl: 'https://www.isuzu.it/storage/uploads/9c84c330-4433-4294-ada6-941e53055257/ISUZU_N_SERISEct_MIDI_250618n_DE-CH_completo_Web.pdf',
       },
       {
         slug: '10-14-ton',
         title: '10 / 14 ton',
         shortDescription: 'Schwerlast-Trucks der F-Serie für maximale Nutzlast und härtesten Einsatz.',
         longDescription: [
-          'Die F-Serie – F10, F11 und F14 – ist die Schwerlast-Liga im Isuzu-Programm. Entwickelt für hohe Nutzlasten, Dauereinsatz und anspruchsvolle Aufbauten.',
+          'Die F-Serie – F10, F11, F12 und F14 – ist die Schwerlast-Liga im Isuzu-Programm. Entwickelt für hohe Nutzlasten, Dauereinsatz und anspruchsvolle Aufbauten.',
           'Typische Einsätze: Bauzulieferung, Kippaufbauten, Koffer- und Kühltransporter, Abrollkipper und spezielle kommunale Anwendungen.',
           'Robuster Antriebsstrang, Euro-6-Diesel, moderne Assistenz- und Sicherheitssysteme – alles gepaart mit klassischer Isuzu-Langlebigkeit.',
         ],
         image: '/images/isuzu/truck-10-14-ton.webp',
         externalUrl: 'https://www.isuzu.ch/de-ch/truck/10-14-ton',
+        prospektUrl: 'https://www.isuzu.it/storage/uploads/f9c13f35-f23b-4c20-8f5e-302c0bd40245/ISUZU_F-SERISEct_MIDI_0627n_DE-CH_completo_Web.pdf',
       },
     ],
   },

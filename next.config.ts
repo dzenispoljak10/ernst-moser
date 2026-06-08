@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
         destination: '/nutzfahrzeugcenter/ut',
         permanent: false,
       },
+      {
+        source: '/nutzfahrzeugcenter/wohnmobile-wohnwagen-camper',
+        destination: '/nutzfahrzeugcenter/wohnmobile-camper',
+        permanent: true,
+      },
     ]
   },
 }

@@ -4,7 +4,7 @@
  *
  *   1. Anhänger     → public/images/pages/anhaenger/hero.webp
  *      Quelle: Wikimedia Commons – Humbaur HTV203015 (sauberer Studio-Shot)
- *   2. Wohnmobile  → public/images/pages/wohnmobile-wohnwagen-camper/hero.webp
+ *   2. Wohnmobile  → public/images/pages/wohnmobile-camper/hero.webp
  *      Quelle: fiatcamper.com – Camper-Product-Layout-Designed_for_motor_home
  *
  * Run:
@@ -39,7 +39,7 @@ const TARGETS = [
     referer: 'https://www.fiatcamper.com/',
     out: path.join(
       ROOT,
-      'public', 'images', 'pages', 'wohnmobile-wohnwagen-camper', 'hero.webp',
+      'public', 'images', 'pages', 'wohnmobile-camper', 'hero-camper.webp',
     ),
   },
 ]

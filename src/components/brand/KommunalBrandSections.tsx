@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight, ExternalLink } from 'lucide-react'
+import { ArrowRight, ExternalLink, FileText } from 'lucide-react'
 
 export interface KommunalBrandModel {
   /** URL-Slug (= Sanity slug) */
@@ -11,6 +11,8 @@ export interface KommunalBrandModel {
   image: string
   /** Optionale Kategorie (für Reform z. B. „Hangmäher" / „Geräteträger" / „Metrac" / „Muli") */
   category?: string
+  /** Externe Produkt-URL (wenn keine eigene Unterseite existiert) */
+  externalUrl?: string
 }
 
 interface Props {
@@ -24,6 +26,14 @@ interface Props {
   models: KommunalBrandModel[]
   /** Optionale Hersteller-Homepage für Brand-Level-CTA */
   homepageUrl?: string | null
+  /** Optionaler Flyer / Prospekt (PDF) auf Brand-Ebene */
+  flyerUrl?: string | null
+  /** true → Produkt-Karten verlinken extern (keine eigenen Unterseiten) */
+  externalCards?: boolean
+  /** true → reine Bilder-Galerie ohne Produktnamen/-texte */
+  gallery?: boolean
+  /** Optionale „Weitere Produkte"-Karte (externer Link, keine eigene Unterseite) */
+  extraCard?: { name: string; desc?: string; url: string; image: string }
 }
 
 /**
@@ -34,15 +44,17 @@ interface Props {
 export default function KommunalBrandSections({
   centerSlug,
   brandSlug,
-  brandName,
   accent,
   eyebrow,
   title,
   lead,
   models,
-  homepageUrl,
+  flyerUrl,
+  externalCards,
+  gallery,
+  extraCard,
 }: Props) {
-  const hasCategories = models.some((m) => m.category)
+  const hasCategories = !gallery && models.some((m) => m.category)
   const groups: Record<string, KommunalBrandModel[]> = {}
   if (hasCategories) {
     for (const m of models) {
@@ -64,21 +76,45 @@ export default function KommunalBrandSections({
           </div>
           <h2 className="kommunal-section-title">{title}</h2>
           <p className="kommunal-section-lead">{lead}</p>
-          {homepageUrl && (
-            <a
-              href={homepageUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="kommunal-brand-cta"
-              style={{ color: accent, borderColor: accent }}
-            >
-              Bei {brandName} ansehen
-              <ExternalLink size={14} />
-            </a>
+          {flyerUrl && (
+            <div className="kommunal-section-ctas">
+              <a
+                href={flyerUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="kommunal-brand-cta"
+                style={{ color: accent, borderColor: accent }}
+              >
+                <FileText size={14} />
+                Flyer (PDF)
+              </a>
+            </div>
           )}
         </div>
 
-        {hasCategories ? (
+        {gallery ? (
+          <div className="kommunal-gallery">
+            {models.map((model) => (
+              <a
+                key={model.slug}
+                href={model.externalUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="kommunal-gallery-tile"
+                aria-label={model.title}
+              >
+                <Image
+                  src={model.image}
+                  alt={model.title}
+                  fill
+                  className="kommunal-card-img"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  unoptimized
+                />
+              </a>
+            ))}
+          </div>
+        ) : hasCategories ? (
           <div className="kommunal-categories">
             {orderedCategories.map((cat) => (
               <div key={cat} className="kommunal-category">
@@ -87,7 +123,7 @@ export default function KommunalBrandSections({
                 </h3>
                 <div className="kommunal-grid">
                   {groups[cat].map((model) => (
-                    <ProductCard key={model.slug} centerSlug={centerSlug} brandSlug={brandSlug} model={model} accent={accent} />
+                    <ProductCard key={model.slug} centerSlug={centerSlug} brandSlug={brandSlug} model={model} accent={accent} externalCards={externalCards} />
                   ))}
                 </div>
               </div>
@@ -96,8 +132,41 @@ export default function KommunalBrandSections({
         ) : (
           <div className="kommunal-grid">
             {models.map((model) => (
-              <ProductCard key={model.slug} centerSlug={centerSlug} brandSlug={brandSlug} model={model} accent={accent} />
+              <ProductCard key={model.slug} centerSlug={centerSlug} brandSlug={brandSlug} model={model} accent={accent} externalCards={externalCards} />
             ))}
+          </div>
+        )}
+
+        {extraCard && !gallery && (
+          <div className="kommunal-grid" style={{ marginTop: 28 }}>
+            <a
+              href={extraCard.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="kommunal-card"
+              style={{ ['--kommunal-accent' as string]: accent }}
+            >
+              <div className="kommunal-card-img-wrap">
+                <Image
+                  src={extraCard.image}
+                  alt={extraCard.name}
+                  fill
+                  className="kommunal-card-img"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  unoptimized
+                />
+              </div>
+              <div className="kommunal-card-body">
+                <h4 className="kommunal-card-title">{extraCard.name}</h4>
+                {extraCard.desc && <p className="kommunal-card-desc">{extraCard.desc}</p>}
+                <div className="kommunal-card-footer">
+                  <span className="kommunal-card-link" style={{ color: accent }}>
+                    Ansehen
+                    <ExternalLink size={14} />
+                  </span>
+                </div>
+              </div>
+            </a>
           </div>
         )}
       </div>
@@ -110,18 +179,17 @@ function ProductCard({
   brandSlug,
   model,
   accent,
+  externalCards,
 }: {
   centerSlug: string
   brandSlug: string
   model: KommunalBrandModel
   accent: string
+  externalCards?: boolean
 }) {
-  return (
-    <Link
-      href={`/${centerSlug}/${brandSlug}/${model.slug}`}
-      className="kommunal-card"
-      style={{ ['--kommunal-accent' as string]: accent }}
-    >
+  const isExternal = Boolean(externalCards && model.externalUrl)
+  const inner = (
+    <>
       <div className="kommunal-card-img-wrap">
         <Image
           src={model.image}
@@ -129,6 +197,7 @@ function ProductCard({
           fill
           className="kommunal-card-img"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          unoptimized
         />
       </div>
       <div className="kommunal-card-body">
@@ -136,11 +205,35 @@ function ProductCard({
         <p className="kommunal-card-desc">{model.shortDescription}</p>
         <div className="kommunal-card-footer">
           <span className="kommunal-card-link" style={{ color: accent }}>
-            Details
-            <ArrowRight size={15} />
+            {isExternal ? 'Ansehen' : 'Details'}
+            {isExternal ? <ExternalLink size={14} /> : <ArrowRight size={15} />}
           </span>
         </div>
       </div>
+    </>
+  )
+
+  if (isExternal) {
+    return (
+      <a
+        href={model.externalUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="kommunal-card"
+        style={{ ['--kommunal-accent' as string]: accent }}
+      >
+        {inner}
+      </a>
+    )
+  }
+
+  return (
+    <Link
+      href={`/${centerSlug}/${brandSlug}/${model.slug}`}
+      className="kommunal-card"
+      style={{ ['--kommunal-accent' as string]: accent }}
+    >
+      {inner}
     </Link>
   )
 }

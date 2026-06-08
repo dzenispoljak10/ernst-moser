@@ -1,23 +1,22 @@
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { Users, Tag, UserCheck, Package, ChevronRight, MapPin, Phone, Mail, BadgePercent } from 'lucide-react'
+import { Users, Tag, UserCheck, Package, ChevronRight, MapPin, Phone, Mail } from 'lucide-react'
 import PageWrapper from '@/components/admin/PageWrapper'
 
 async function getStats() {
   try {
     const { prisma } = await import('@/lib/prisma')
     const { readClient } = await import('@/lib/sanity')
-    const [teamCount, brandCount, salespersonCount, productCount, rabattCount] = await Promise.all([
+    const [teamCount, brandCount, salespersonCount, productCount] = await Promise.all([
       prisma.teamMember.count({ where: { isActive: true } }),
       prisma.brand.count({ where: { isActive: true } }),
       prisma.salesperson.count(),
       readClient.fetch<number>('count(*[_type == "product"])').catch(() => 0),
-      prisma.rabattaktion.count({ where: { isActive: true } }).catch(() => 0),
     ])
-    return { teamCount, brandCount, salespersonCount, productCount: productCount ?? 0, rabattCount }
+    return { teamCount, brandCount, salespersonCount, productCount: productCount ?? 0 }
   } catch {
-    return { teamCount: 0, brandCount: 0, salespersonCount: 0, productCount: 0, rabattCount: 0 }
+    return { teamCount: 0, brandCount: 0, salespersonCount: 0, productCount: 0 }
   }
 }
 
@@ -63,15 +62,6 @@ export default async function AdminDashboardPage() {
       iconColor: 'text-emerald-500',
       delay: 0.12,
     },
-    {
-      label: 'Rabattaktionen',
-      sub: 'aktiv',
-      count: stats.rabattCount,
-      icon: BadgePercent,
-      iconBg: 'bg-rose-50',
-      iconColor: 'text-rose-500',
-      delay: 0.16,
-    },
   ]
 
   const quickLinks = [
@@ -98,14 +88,6 @@ export default async function AdminDashboardPage() {
       icon: UserCheck,
       iconBg: 'bg-amber-50',
       iconColor: 'text-amber-500',
-    },
-    {
-      href: '/admin/rabattaktionen',
-      label: 'Rabattaktionen',
-      sub: 'Aktionen für Startseite und Rabatt-Seite',
-      icon: BadgePercent,
-      iconBg: 'bg-rose-50',
-      iconColor: 'text-rose-500',
     },
   ]
 

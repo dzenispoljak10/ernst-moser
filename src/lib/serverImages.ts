@@ -13,6 +13,36 @@ export function productImageBySlug(slug: string): string | null {
 }
 
 /**
+ * Liefert ein repräsentatives Produkt-/Fahrzeugfoto einer Marke aus den
+ * lokalen Brand-Ordnern (/images/brands/<slug>/…). Bevorzugt das hero.webp,
+ * fällt auf das erste Galeriebild zurück. Null, wenn nichts existiert.
+ * Server-only — nutzt fs.
+ */
+export function brandHeroImage(slug: string): string | null {
+  if (!slug) return null
+  const candidates = [
+    `/images/brands/${slug}/hero.webp`,
+    `/images/brands/${slug}/gallery/01.webp`,
+  ]
+  for (const rel of candidates) {
+    const abs = join(process.cwd(), 'public', rel)
+    if (existsSync(abs)) return rel
+  }
+  return null
+}
+
+/**
+ * Liefert das lokale Marken-Logo (/images/brands/<slug>/logo.webp), falls
+ * vorhanden – sonst null. Server-only.
+ */
+export function brandLogoImage(slug: string): string | null {
+  if (!slug) return null
+  const rel = `/images/brands/${slug}/logo.webp`
+  const abs = join(process.cwd(), 'public', rel)
+  return existsSync(abs) ? rel : null
+}
+
+/**
  * Slugify-Helper kompatibel zu den /images/team/ Dateinamen
  * (z. B. "Daniela Gräf" → "daniela-gr-f", "Michael Peter" → "michael-peter").
  * Umlaute werden zu '-' (kein Sonderzeichen-Mapping) — passt zur bestehenden

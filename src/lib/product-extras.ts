@@ -58,7 +58,7 @@ export interface ProductExtras {
 
 // ──────────────────────────────────────────────────────────────────
 // Datenpool — nur verifizierte Hersteller-Infos.
-// Quellen pro Eintrag: scania.com, piaggio.com, isuzu, hako.com,
+// Quellen pro Eintrag: scania.com, piaggio.com, isuzu,
 // pudutech.com, segway.com, stihl.ch, fiat-professional, kubota.de.
 // ──────────────────────────────────────────────────────────────────
 
@@ -285,41 +285,6 @@ export const PRODUCT_EXTRAS: Record<string, ProductExtras> = {
       youtubeId: 'yG04GnJ-oVM',
       title: 'Isuzu D-Max V-Cross 2026',
       caption: 'Die neue Generation des D-Max im Detail-Check.',
-    },
-  },
-
-  // ═══════════════════════════════════════════════════════════════
-  // HAKO — Kommunalcenter
-  // Quelle: hako.com
-  // ═══════════════════════════════════════════════════════════════
-  'hako-citymaster-1600': {
-    sections: [
-      {
-        type: 'applications',
-        eyebrow: 'Einsatzbereiche',
-        heading: 'Wofür der Hako Citymaster gebaut ist',
-        intro: 'Der Citymaster ist die Antwort auf städtische Reinigungsaufgaben — kompakt, leise und multifunktional.',
-        items: [
-          { icon: 'Building2', label: 'Innenstadt-Reinigung', text: 'Fussgängerzonen, Plätze, enge Gassen — überall, wo grosse Maschinen nicht hinkommen.' },
-          { icon: 'Snowflake', label: 'Winterdienst', text: 'Mit Schneepflug, Streuer und Salzsole-System auch im Winter im Einsatz.' },
-          { icon: 'Trees', label: 'Grünflächenpflege', text: 'Dank Anbaugeräten ganzjährig nutzbar für Mähen, Laub und Pflege.' },
-        ],
-      },
-      {
-        type: 'highlights',
-        eyebrow: 'Citymaster Highlights',
-        heading: 'Was den Citymaster auszeichnet',
-        items: [
-          { icon: 'Volume2', title: 'AGR-Qualitätssiegel', body: 'Einzige Kommunalmaschine mit AGR-Auszeichnung für rückenfreundliches Arbeiten.' },
-          { icon: 'Recycle', title: 'Multifunktional', body: 'Saugkehrmaschine, Winterdienst, Mähen — eine Plattform für 12 Monate Einsatz.' },
-          { icon: 'ShieldCheck', title: 'PKW-Führerschein', body: '3,5-t-Klasse — fahrbar mit Kategorie B, einsetzbar in Tag- und Nachtschichten.' },
-        ],
-      },
-    ],
-    video: {
-      youtubeId: 'TE5N19BK3eo',
-      title: 'Hako Citymaster 1650 im Einsatz',
-      caption: 'Die multifunktionale Saugkehrmaschine in der professionellen Stadtreinigung.',
     },
   },
 
@@ -656,61 +621,6 @@ PRODUCT_EXTRAS['fiat-e-scudo'] = {
   ],
 }
 
-// ═══════════════════════════════════════════════════════════════
-// HAKO — Kommunalcenter (zusätzliche Produkte)
-// Quelle: hako.com
-// ═══════════════════════════════════════════════════════════════
-PRODUCT_EXTRAS['hako-sweepmaster-650'] = {
-  sections: [
-    {
-      type: 'applications',
-      eyebrow: 'Einsatzbereiche',
-      heading: 'Wofür der Hako Sweepmaster 650 gebaut ist',
-      intro: 'Kompakte Handgeführte Kehrsaugmaschine — ideal für Innenflächen mit hartem Boden und Teppich.',
-      items: [
-        { icon: 'Building2', label: 'Verkaufsflächen', text: 'Supermärkte, Baumärkte, Lager — kraftvolles Kehren in engen Gängen.' },
-        { icon: 'Hotel', label: 'Hotellerie', text: 'Lobbys, Konferenzbereiche, Parkhäuser — schnelle Reinigung mit Teppich-Kit.' },
-        { icon: 'Factory', label: 'Industrie', text: 'Werkstätten, Lager, Produktionsbereiche mit Staub- und Schmutzbelastung.' },
-      ],
-    },
-    {
-      type: 'highlights',
-      eyebrow: 'Sweepmaster 650 Highlights',
-      heading: 'Was den Sweepmaster 650 auszeichnet',
-      items: [
-        { icon: 'Gauge', title: '2’600–3’525 m²/h', body: 'Hohe Flächenleistung — mit Seitenbesen bis 3’525 m² pro Stunde reinigen.' },
-        { icon: 'Battery', title: 'Akku oder Benzin', body: 'B650 elektrisch oder P650 mit Honda-Benzinmotor — flexibel je nach Einsatz.' },
-        { icon: 'Sparkles', title: 'Optionales Carpet-Kit', body: 'Mit Teppich-Aufsatz wird der Sweepmaster zur sanften Teppichreinigungsmaschine.' },
-      ],
-    },
-  ],
-}
-
-PRODUCT_EXTRAS['hako-hakomatic-b-450'] = {
-  sections: [
-    {
-      type: 'applications',
-      eyebrow: 'Einsatzbereiche',
-      heading: 'Wofür die Hakomatic / Scrubmaster gebaut ist',
-      intro: 'Aufsitz-Scheuersaugmaschinen für die professionelle Bodenreinigung in Hallen und grossen Innenflächen.',
-      items: [
-        { icon: 'Factory', label: 'Industriehallen', text: 'Produktion, Lager, Logistik-Drehkreuze mit täglich grossen zu reinigenden Flächen.' },
-        { icon: 'Building2', label: 'Einkaufszentren', text: 'Mall-Bodenflächen, Eingangshallen, Tiefgarage-Reinigung in einer Tour.' },
-        { icon: 'Hotel', label: 'Veranstaltungs-Locations', text: 'Messehallen, Sportarenen, Veranstaltungs-Foyers nach Events.' },
-      ],
-    },
-    {
-      type: 'highlights',
-      eyebrow: 'Scrubmaster Highlights',
-      heading: 'Was die Scrubmaster auszeichnet',
-      items: [
-        { icon: 'Users', title: 'Ergonomischer Arbeitsplatz', body: 'Aufsitz-Position mit übersichtlicher Bedienung — ermüdungsarm auch bei Langzeiteinsatz.' },
-        { icon: 'Recycle', title: 'AquaStop Pro', body: 'Hakos AquaStop reduziert Wasser- und Reinigungsmittelverbrauch deutlich.' },
-        { icon: 'Battery', title: 'Lithium-Option', body: 'Modernste Lithium-Akku-Technologie für längere Laufzeit und schnelles Zwischenladen.' },
-      ],
-    },
-  ],
-}
 
 // ═══════════════════════════════════════════════════════════════
 // PIAGGIO PORTER NPE — weitere Varianten
@@ -1116,6 +1026,78 @@ PRODUCT_EXTRAS['swardman-swardman-electra-2-0-55'] = {
       ],
     },
   ],
+}
+
+// LIGIER PROFESSIONAL — Kommunalcenter (Produkt-Videos von adbachmannag.ch)
+PRODUCT_EXTRAS['ligier-pulse-3'] = {
+  sections: [],
+  video: {
+    youtubeId: 'kjED3WdnBZ4',
+    title: 'Ligier Pulse 3 – Vollelektrisch & wendig',
+    caption: 'Das dreirädrige Elektrofahrzeug mit Pendelsystem im Einsatz.',
+  },
+}
+PRODUCT_EXTRAS['ligier-pulse-4'] = {
+  sections: [],
+  video: {
+    youtubeId: 'SsiMBDIvHBc',
+    title: 'Ligier Pulse 4 – Modular & elektrisch',
+    caption: 'Das modulare Elektronutzfahrzeug mit Clip-System.',
+  },
+}
+
+// MULCHY — Kommunalcenter (Produkt-Videos von silentag.ch)
+const MULCHY_VIDEOS: Record<string, { youtubeId: string; title: string }> = {
+  'mulchy-laub-abfallblaser': { youtubeId: 'M0q26gITUj4', title: 'Mulchy Laub- und Abfallbläser im Einsatz' },
+  'mulchy-ferri-smart': { youtubeId: 'VxSstsDGUCw', title: 'Ferri Böschungsmäher im Einsatz' },
+  'mulchy-ferri-t250-320a': { youtubeId: 'VxSstsDGUCw', title: 'Ferri Böschungsmäher im Einsatz' },
+  'mulchy-ferri-tsh': { youtubeId: 'VxSstsDGUCw', title: 'Ferri Böschungsmäher im Einsatz' },
+  'mulchy-glm-gl4': { youtubeId: 'Xj6IaoJqPT4', title: 'Mulchy Schwenkarmmulcher im Einsatz' },
+  'mulchy-sichelmulcher-vario': { youtubeId: 'NKnN_WcoMpI', title: 'Mulchy Sichelmulcher Vario im Einsatz' },
+  'mulchy-baumstreifenmulcher-sl': { youtubeId: 'x8cW8LKDCi8', title: 'Mulchy Baumstreifenmulcher SL im Einsatz' },
+  'mulchy-sichelmulcher-slf': { youtubeId: 'Uh9PX5g-PkM', title: 'Mulchy Sichelmulcher SLF im Einsatz' },
+  'mulchy-schwenkarmmulcher': { youtubeId: 'Xj6IaoJqPT4', title: 'Mulchy Schwenkarmmulcher im Einsatz' },
+  'mulchy-ras-weidenmulcher': { youtubeId: 'ZVwHL0lS_OA', title: 'RAS Weidenmulcher im Einsatz' },
+}
+for (const [mulchySlug, v] of Object.entries(MULCHY_VIDEOS)) {
+  PRODUCT_EXTRAS[mulchySlug] = {
+    sections: [],
+    video: { youtubeId: v.youtubeId, title: v.title, caption: 'Mulchy Profi-Mulchtechnik im praktischen Einsatz.' },
+  }
+}
+
+// TIMAN — Kommunalcenter (Produkt-Videos von adbachmannag.ch)
+PRODUCT_EXTRAS['timan-3330'] = {
+  sections: [],
+  video: { youtubeId: 'NteZX1W3T6Q', title: 'TIMAN 3330 – Geräteträger im Einsatz', caption: 'Knickgelenkter Geräteträger für die professionelle Anlagenpflege.' },
+}
+PRODUCT_EXTRAS['timan-rc-751'] = {
+  sections: [],
+  video: { youtubeId: 'LYO9A-Ihu7A', title: 'TIMAN RC-751 – Funkferngesteuerter Hangmäher', caption: 'Sicheres Mähen extremer Hänge bis 50°.' },
+}
+PRODUCT_EXTRAS['timan-rc-1000'] = {
+  sections: [],
+  video: { youtubeId: 'P4ggjkKnmLE', title: 'TIMAN RC-1000 – Ferngesteuerter Hangmäher', caption: 'Funkferngesteuerter Geräteträger für Böschungen und Verkehrsinseln.' },
+}
+
+// KUBOTA — Kommunalcenter (Produkt-Videos von adbachmannag.ch)
+const KUBOTA_VIDEOS: Record<string, string> = {
+  'kubota-f-serie': 'gcFkM93l9vs',
+  'kubota-zd-serie': 'UHuTXhCtG6A',
+  'kubota-bx-serie': 'musaXECq-IU',
+  'kubota-b1-serie': '6mYNnCpJwBY',
+  'kubota-b2-serie': 'UEBHDCwW7hk',
+  'kubota-lx-serie': 'q0gt6JUf_8E',
+  'kubota-l1-serie': 'bXeNdrJh2w8',
+  'kubota-l2-serie': '793ZvvQynlY',
+  'kubota-ek1-serie': 'Tc7Duv0GVuM',
+  'kubota-rtv': 'cYpfohGiW8M',
+}
+for (const [kubotaSlug, ytId] of Object.entries(KUBOTA_VIDEOS)) {
+  PRODUCT_EXTRAS[kubotaSlug] = {
+    sections: [],
+    video: { youtubeId: ytId, title: 'Kubota im Einsatz', caption: 'Kubota Profi-Technik im praktischen Einsatz.' },
+  }
 }
 
 export function getProductExtras(slug: string): ProductExtras | null {

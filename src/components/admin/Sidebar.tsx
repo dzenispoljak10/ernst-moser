@@ -10,11 +10,11 @@ import {
   Users,
   Tag,
   UserCheck,
+  Briefcase,
   Settings,
   LogOut,
   ArrowLeft,
   X,
-  BadgePercent,
 } from 'lucide-react'
 
 interface NavItem {
@@ -42,7 +42,7 @@ const SECTIONS: NavSection[] = [
       { href: '/admin/team', label: 'Teammitglieder', icon: Users },
       { href: '/admin/brands', label: 'Marken', icon: Tag },
       { href: '/admin/salesperson', label: 'Verkäufer', icon: UserCheck },
-      { href: '/admin/rabattaktionen', label: 'Rabattaktionen', icon: BadgePercent },
+      { href: '/admin/jobs', label: 'Stellen & Lehrstellen', icon: Briefcase },
     ],
   },
   {

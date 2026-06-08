@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { ArrowRight, Phone, ChevronRight, Cpu, Wifi, Zap, Shield, Bot, Leaf, Navigation, Settings } from 'lucide-react'
+import { ArrowRight, Phone, ChevronRight, Cpu, Wifi, Zap, Shield, Bot, Leaf, Navigation, Settings, Clock, Volume2, Target, Smartphone, Banknote, Building2, Sparkles, Trophy, HeartPulse, Warehouse, LifeBuoy } from 'lucide-react'
 
 const COLOR = '#4A7C59'
 const NEON = '#5aff8a'
@@ -13,7 +13,8 @@ const ROBOTS = [
     slug: 'segway',
     name: 'Segway Navimow',
     logo: '/images/brands/segway/logo.webp',
-    hero: '/images/products/segway-navimow-x-series/main.webp',
+    logo2: '/images/brands/segway/navimow-logo.webp',
+    hero: '/images/brands/segway/hero.webp',
     category: 'Mähroboter RTK',
     tagline: 'Centimetergenau. Kabellos. Intelligent.',
     desc: 'Segway Navimow nutzt RTK-GPS für millimetergenaue Navigation – komplett ohne Begrenzungsdraht. Plug & Play, App-gesteuert, sofort einsatzbereit.',
@@ -31,6 +32,7 @@ const ROBOTS = [
     slug: 'pudu-robotics',
     name: 'Pudu Robotics',
     logo: '/images/brands/pudu-robotics/logo.webp',
+    logo2: '',
     hero: '/images/products/pudu-robotics-kommerzielle-reinigungsroboter/main.webp',
     category: 'Serviceroboter',
     tagline: 'Reinigung & Lieferung. Vollautomatisch.',
@@ -49,6 +51,7 @@ const ROBOTS = [
     slug: 'ambrogio',
     name: 'Ambrogio',
     logo: '/images/brands/ambrogio/logo.webp',
+    logo2: '',
     hero: '/images/products/ambrogio-smarte-funktionen-und-maximale-sicherheit/main.webp',
     category: 'Rasenmähroboter',
     tagline: 'Autonome Rasenpflege. Rund um die Uhr.',
@@ -70,6 +73,30 @@ const STATS = [
   { value: '75.000+', label: 'Pudu-Roboter weltweit' },
   { value: '30.000', label: 'm² Mähfläche (Ambrogio)' },
   { value: '24/7', label: 'Autonomer Betrieb' },
+]
+
+const VORTEILE = [
+  { icon: Clock, title: 'Rund um die Uhr', desc: 'Autonomer Betrieb 24/7 – auch nachts, am Wochenende und bei jedem Wetter.' },
+  { icon: Volume2, title: 'Flüsterleise', desc: 'Kaum hörbar im Betrieb – ideal für Wohngebiete, Hotels und Innenräume.' },
+  { icon: Leaf, title: 'Emissionsfrei', desc: 'Vollelektrisch betrieben – kein Benzin, keine Abgase, kein Lärm.' },
+  { icon: Target, title: 'Centimetergenau', desc: 'Präzise Navigation per RTK-GPS, LiDAR-SLAM und Kamera-Erkennung.' },
+  { icon: Banknote, title: 'Kosten sparen', desc: 'Weniger Personalaufwand, planbare Betriebskosten, schnelle Amortisation.' },
+  { icon: Smartphone, title: 'Voll vernetzt', desc: 'Steuerung, Zeitpläne und Flottenüberblick bequem per App und Cloud.' },
+]
+
+const EINSATZ = [
+  { icon: Leaf, label: 'Gärten & Parks', desc: 'Autonome Rasenpflege für Privat, Gemeinden und Anlagen.' },
+  { icon: Building2, label: 'Hotel & Gastronomie', desc: 'Service- und Lieferroboter für Speisen, Getränke und Gäste.' },
+  { icon: HeartPulse, label: 'Spital & Pflege', desc: 'Sichere Transporte von Material, Wäsche und Mahlzeiten.' },
+  { icon: Warehouse, label: 'Industrie & Logistik', desc: 'Innerbetrieblicher Transport mit hoher Nutzlast.' },
+  { icon: Sparkles, label: 'Gewerbe-Reinigung', desc: 'Kehren, Schrubben und Saugen grosser Flächen – vollautomatisch.' },
+  { icon: Trophy, label: 'Sport- & Zierrasen', desc: 'Perfekter Schnitt auf Greens, Spielfeldern und Repräsentationsflächen.' },
+]
+
+const ABLAUF = [
+  { icon: Phone, step: '01', title: 'Beratung & Demo', desc: 'Wir analysieren Ihren Bedarf und führen den passenden Roboter kostenlos vor Ort vor.' },
+  { icon: Settings, step: '02', title: 'Installation & Setup', desc: 'Wir richten Karte, Zonen und App ein – schlüsselfertig und einsatzbereit ab Tag 1.' },
+  { icon: LifeBuoy, step: '03', title: 'Service & Support', desc: 'Wartung, Updates und schneller Support – damit Ihr Roboter zuverlässig läuft.' },
 ]
 
 const EASE = [0.4, 0, 0.2, 1] as [number, number, number, number]
@@ -108,7 +135,7 @@ function CircuitGrid() {
 
 export default function RoboterPage() {
   return (
-    <div style={{ background: '#070d09' }}>
+    <div style={{ background: '#14241a' }}>
 
       {/* ══ HERO ══════════════════════════════════════════════════════════════ */}
       <section style={{ position: 'relative', minHeight: '82vh', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
@@ -246,7 +273,7 @@ export default function RoboterPage() {
 
       {/* ══ STATS BAR ═════════════════════════════════════════════════════════ */}
       <section style={{
-        background: '#0d1a10',
+        background: '#1a2e22',
         borderTop: `1px solid ${NEON}22`,
         borderBottom: `1px solid ${NEON}22`,
         padding: '32px 0',
@@ -274,8 +301,58 @@ export default function RoboterPage() {
         </div>
       </section>
 
+      {/* ══ VORTEILE ══════════════════════════════════════════════════════════ */}
+      <section style={{ padding: '80px 0 20px' }}>
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+            style={{ marginBottom: 48, maxWidth: 640 }}
+          >
+            <div style={{ width: 40, height: 3, background: NEON, borderRadius: 2, marginBottom: 14 }} />
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: `${NEON}99`, marginBottom: 12 }}>Warum autonome Roboter?</div>
+            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 800, color: '#fff', letterSpacing: '-0.03em', margin: 0 }}>
+              Mehr Effizienz. Weniger Aufwand.
+            </h2>
+          </motion.div>
+
+          <div className="robot-feature-grid">
+            {VORTEILE.map((v, i) => {
+              const Icon = v.icon
+              return (
+                <motion.div
+                  key={v.title}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.5, delay: i * 0.06, ease: EASE }}
+                  style={{
+                    background: '#1a2e22',
+                    border: `1px solid ${NEON}18`,
+                    borderRadius: 16,
+                    padding: '28px 26px',
+                  }}
+                >
+                  <div style={{
+                    width: 46, height: 46, borderRadius: 12,
+                    background: `${NEON}12`, border: `1px solid ${NEON}33`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 18,
+                  }}>
+                    <Icon size={20} color={NEON} />
+                  </div>
+                  <div style={{ fontSize: 17, fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', marginBottom: 8 }}>{v.title}</div>
+                  <p style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.5)', lineHeight: 1.65, margin: 0 }}>{v.desc}</p>
+                </motion.div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* ══ BRAND SECTIONS ════════════════════════════════════════════════════ */}
-      <section id="marken" style={{ padding: '80px 0 40px' }}>
+      <section id="marken" style={{ padding: '60px 0 40px' }}>
         <div className="container" style={{ marginBottom: 56 }}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -303,7 +380,7 @@ export default function RoboterPage() {
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ duration: 0.65, ease: EASE }}
                 style={{
-                  background: i === 0 ? '#0d1a10' : i === 1 ? '#0a0f18' : '#0a0f18',
+                  background: i === 0 ? '#1a2e22' : i === 1 ? '#18233a' : '#18233a',
                   border: `1px solid ${NEON}14`,
                   borderRadius: 24,
                   overflow: 'hidden',
@@ -394,6 +471,19 @@ export default function RoboterPage() {
                         style={{ width: 'auto', height: 28, objectFit: 'contain' }}
                         unoptimized
                       />
+                      {robot.logo2 && (
+                        <>
+                          <span style={{ width: 1, height: 26, background: 'rgba(0,0,0,0.15)', margin: '0 12px', flexShrink: 0 }} />
+                          <Image
+                            src={robot.logo2}
+                            alt={`${robot.name} Navimow`}
+                            width={140}
+                            height={26}
+                            style={{ width: 'auto', height: 26, objectFit: 'contain' }}
+                            unoptimized
+                          />
+                        </>
+                      )}
                     </div>
 
                     {/* Tagline */}
@@ -449,11 +539,115 @@ export default function RoboterPage() {
         </div>
       </section>
 
+      {/* ══ EINSATZBEREICHE ═══════════════════════════════════════════════════ */}
+      <section style={{ padding: '60px 0', background: '#111e16', borderTop: `1px solid ${NEON}14`, borderBottom: `1px solid ${NEON}14` }}>
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+            style={{ marginBottom: 44, maxWidth: 640 }}
+          >
+            <div style={{ width: 40, height: 3, background: NEON, borderRadius: 2, marginBottom: 14 }} />
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: `${NEON}99`, marginBottom: 12 }}>Einsatzbereiche</div>
+            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 800, color: '#fff', letterSpacing: '-0.03em', margin: 0 }}>
+              Vom Hausgarten bis zur Industriehalle.
+            </h2>
+          </motion.div>
+
+          <div className="robot-feature-grid">
+            {EINSATZ.map((e, i) => {
+              const Icon = e.icon
+              return (
+                <motion.div
+                  key={e.label}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.5, delay: i * 0.05, ease: EASE }}
+                  style={{
+                    display: 'flex', alignItems: 'flex-start', gap: 16,
+                    background: '#1a2e22', border: `1px solid ${NEON}18`,
+                    borderRadius: 16, padding: '24px 24px',
+                  }}
+                >
+                  <div style={{
+                    width: 44, height: 44, borderRadius: 11, flexShrink: 0,
+                    background: `${NEON}12`, border: `1px solid ${NEON}33`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <Icon size={19} color={NEON} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', marginBottom: 5 }}>{e.label}</div>
+                    <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', lineHeight: 1.6, margin: 0 }}>{e.desc}</p>
+                  </div>
+                </motion.div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ══ ABLAUF ════════════════════════════════════════════════════════════ */}
+      <section style={{ padding: '80px 0 40px' }}>
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+            style={{ marginBottom: 48, textAlign: 'center' }}
+          >
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: `${NEON}99`, marginBottom: 12 }}>So einfach geht&apos;s</div>
+            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 800, color: '#fff', letterSpacing: '-0.03em', margin: 0 }}>
+              In drei Schritten zum Roboter.
+            </h2>
+          </motion.div>
+
+          <div className="robot-step-grid">
+            {ABLAUF.map((a, i) => {
+              const Icon = a.icon
+              return (
+                <motion.div
+                  key={a.step}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.5, delay: i * 0.1, ease: EASE }}
+                  style={{
+                    position: 'relative',
+                    background: '#1a2e22', border: `1px solid ${NEON}18`,
+                    borderRadius: 18, padding: '36px 30px',
+                  }}
+                >
+                  <div style={{
+                    position: 'absolute', top: 24, right: 26,
+                    fontSize: 40, fontWeight: 900, letterSpacing: '-0.04em',
+                    color: `${NEON}1f`, lineHeight: 1,
+                  }}>{a.step}</div>
+                  <div style={{
+                    width: 52, height: 52, borderRadius: 13,
+                    background: COLOR, boxShadow: `0 0 22px ${COLOR}66`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20,
+                  }}>
+                    <Icon size={22} color="#fff" />
+                  </div>
+                  <div style={{ fontSize: 19, fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', marginBottom: 9 }}>{a.title}</div>
+                  <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', lineHeight: 1.65, margin: 0 }}>{a.desc}</p>
+                </motion.div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* ══ CTA ═══════════════════════════════════════════════════════════════ */}
       <section style={{
         margin: '20px 0 0',
         padding: '80px 0',
-        background: `linear-gradient(135deg, #0d1a10 0%, #070d09 100%)`,
+        background: `linear-gradient(135deg, #1a2e22 0%, #14241a 100%)`,
         borderTop: `1px solid ${NEON}22`,
         position: 'relative', overflow: 'hidden',
       }}>

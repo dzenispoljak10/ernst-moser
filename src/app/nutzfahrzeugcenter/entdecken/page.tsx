@@ -5,7 +5,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Entdecken – Nutzfahrzeugcenter',
-  description: 'UT Aufbauten, Anhänger, Wohnmobile und Wohnwagen – Nutzfahrzeugcenter Ernst Moser GmbH, Gerlafingen.',
+  description: 'UT Aufbauten, Anhänger und Wohnmobile – Nutzfahrzeugcenter Ernst Moser GmbH, Gerlafingen.',
 }
 
 const COLOR = '#1B2D5B'
@@ -28,13 +28,7 @@ const CATEGORIES = [
     title: 'Wohnmobile',
     desc: 'Entdecken Sie unsere Auswahl an Wohnmobilen für Freiheit und Komfort auf Reisen.',
     href: '/nutzfahrzeugcenter',
-    bullets: ['Diverse Modelle & Grössen', 'Neu und Occasion', 'Finanzierungsoptionen', 'Service & Wintereinlagerung'],
-  },
-  {
-    title: 'Wohnwagen',
-    desc: 'Klassische Wohnwagen in verschiedenen Grössen – für Paare, Familien und Alleinreisende.',
-    href: '/nutzfahrzeugcenter',
-    bullets: ['Einzel- und Familienmodelle', 'Modernes Raumkonzept', 'Geprüfte Qualität', 'Zubehör & Beratung'],
+    bullets: ['Diverse Modelle & Grössen', 'Neufahrzeuge', 'Finanzierungsoptionen', 'Service & Wintereinlagerung'],
   },
 ]
 
@@ -59,7 +53,7 @@ export default function NfzEntdeckenPage() {
           </div>
           <h1 className="center-hero-title">Unser Sortiment entdecken</h1>
           <p className="center-hero-desc">
-            Aufbauten, Anhänger, Wohnmobile und Wohnwagen – breites Angebot im Nutzfahrzeugcenter.
+            Aufbauten, Anhänger und Wohnmobile – breites Angebot im Nutzfahrzeugcenter.
           </p>
         </div>
       </div>

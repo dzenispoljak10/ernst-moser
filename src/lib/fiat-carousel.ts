@@ -138,3 +138,15 @@ export const FIAT_CAROUSEL_SLIDES: CarouselSlide[] = [
     ],
   },
 ]
+
+// Reihenfolge nach Fahrzeuggrösse: klein → gross (wie im Produkt-Grid)
+const FIAT_SIZE_ORDER = [
+  'fiat-dobl', 'fiat-e-dobl',
+  'fiat-scudo', 'fiat-e-scudo',
+  'fiat-ulysse', 'fiat-e-ulysse',
+  'fiat-ducato', 'fiat-e-ducato',
+  'fiat-ducato-chassis',
+]
+FIAT_CAROUSEL_SLIDES.sort(
+  (a, b) => FIAT_SIZE_ORDER.indexOf(a.slug) - FIAT_SIZE_ORDER.indexOf(b.slug),
+)

@@ -1,4 +1,6 @@
 import { readClient as client, imageUrl } from '@/lib/sanity'
+import { brandLogoImage } from '@/lib/serverImages'
+import { groupBrandsForCenter } from '@/lib/brandCategories'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -103,6 +105,8 @@ export default async function CenterPageContent({ centerSlug }: { centerSlug: st
 
   const center: Center = data.center
   const brands: Brand[] = data.brands
+  const brandGroups = groupBrandsForCenter(centerSlug, brands)
+  const showGroupLabels = brandGroups.length > 1
   const services = CENTER_SERVICES[centerSlug] ?? CENTER_SERVICES.nutzfahrzeugcenter
   const whyItems = CENTER_WHY[centerSlug] ?? CENTER_WHY.nutzfahrzeugcenter
   const accentAlpha = `${center.color}22`
@@ -146,9 +150,9 @@ export default async function CenterPageContent({ centerSlug }: { centerSlug: st
               Alle Marken
               <ArrowRight size={15} />
             </a>
-            <a href="#kontakt" className="btn-ghost">
+            <a href="tel:+41326755805" className="btn-ghost">
               <Phone size={14} />
-              Kontakt aufnehmen
+              +41 (0)32 675 58 05
             </a>
           </div>
         </div>
@@ -167,48 +171,52 @@ export default async function CenterPageContent({ centerSlug }: { centerSlug: st
               <div className="section-label">Markenpartner</div>
               <h2 className="section-title">Unsere Marken</h2>
             </div>
-            <Link href={`/${centerSlug}`} className="btn-primary" style={{ background: center.color, color: '#fff', padding: '11px 22px', fontSize: 13 }}>
-              Alle anzeigen <ArrowRight size={14} />
-            </Link>
           </AnimatedSection>
 
           {brands.length > 0 ? (
-            <AnimatedSection className="brands-grid-center" delay={0.05}>
-              {brands.map((brand) => (
+            brandGroups.map((group) => (
+            <div key={group.label} style={{ marginTop: showGroupLabels ? 36 : 0 }}>
+              {showGroupLabels && (
+                <div
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 700,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: center.color,
+                    margin: '0 0 18px',
+                  }}
+                >
+                  {group.label}
+                </div>
+              )}
+              <AnimatedSection className="brands-grid-center" delay={0.05}>
+              {group.brands.map((brand) => {
+                const logoUrl = brand.logo
+                  ? imageUrl(brand.logo)
+                  : brandLogoImage(brand.slug.current)
+                return (
                 <Link
                   key={brand._id}
                   href={`/${centerSlug}/${brand.slug.current}`}
                   className="brand-card-item"
                 >
                   <style suppressHydrationWarning>{`.brand-card-item:hover { border-color: ${center.color}44; } .brand-card-item::after { background: ${center.color}; }`}</style>
-                  {/* Card image or logo */}
-                  {brand.heroImage ? (
-                    <div style={{ width: '100%', aspectRatio: '3/2', borderRadius: 8, overflow: 'hidden', position: 'relative', marginBottom: 8 }}>
+                  {/* Markenlogo */}
+                  <div className="brand-logo-wrap">
+                    {logoUrl ? (
                       <Image
-                        src={imageUrl(brand.heroImage)}
+                        src={logoUrl}
                         alt={brand.name}
-                        fill
-                        style={{ objectFit: 'cover' }}
-                        sizes="220px"
+                        width={160}
+                        height={72}
+                        className="brand-logo-img"
                         unoptimized
                       />
-                    </div>
-                  ) : (
-                    <div className="brand-logo-wrap">
-                      {brand.logo ? (
-                        <Image
-                          src={imageUrl(brand.logo)}
-                          alt={brand.name}
-                          width={160}
-                          height={72}
-                          className="brand-logo-img"
-                          unoptimized
-                        />
-                      ) : (
-                        <span className="brand-item-name">{brand.name}</span>
-                      )}
-                    </div>
-                  )}
+                    ) : (
+                      <span className="brand-item-name">{brand.name}</span>
+                    )}
+                  </div>
                   <span className="brand-item-name">{brand.name}</span>
                   {brand.descShort && (
                     <p className="brand-item-desc">{brand.descShort}</p>
@@ -217,8 +225,11 @@ export default async function CenterPageContent({ centerSlug }: { centerSlug: st
                     Mehr erfahren <ArrowRight size={12} />
                   </div>
                 </Link>
-              ))}
-            </AnimatedSection>
+                )
+              })}
+              </AnimatedSection>
+            </div>
+            ))
           ) : (
             <p style={{ color: 'var(--c-text-muted)', textAlign: 'center', padding: '48px 0' }}>
               Demnächst verfügbar
@@ -300,7 +311,7 @@ export default async function CenterPageContent({ centerSlug }: { centerSlug: st
       </section>
 
       {/* ── Section 5: Kontakt CTA ───────────────────────────────── */}
-      <section id="kontakt" className="center-cta-section">
+      <section id="kontakt" className="center-cta-section" style={{ ['--center-color' as string]: center.color }}>
         <div className="center-cta-deco" />
         <div className="center-cta-deco-2" />
         {/* Subtle center-color accent at top */}

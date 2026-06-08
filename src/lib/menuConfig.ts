@@ -22,8 +22,7 @@ export const MENU_CONFIG: CenterMenuConfig[] = [
         links: [
           { label: 'UT Aufbauten & Mulden', href: '/nutzfahrzeugcenter/ut' },
           { label: 'Anhänger', href: '/nutzfahrzeugcenter/anhaenger' },
-          { label: 'Wohnmobile', href: '/nutzfahrzeugcenter/wohnmobile-wohnwagen-camper' },
-          { label: 'Wohnwagen', href: '/nutzfahrzeugcenter/wohnmobile-wohnwagen-camper' },
+          { label: 'Wohnmobile', href: '/nutzfahrzeugcenter/wohnmobile-camper' },
         ],
       },
       {
@@ -31,6 +30,7 @@ export const MENU_CONFIG: CenterMenuConfig[] = [
         links: [
           { label: 'Reparaturen aller Marken', href: '/nutzfahrzeugcenter/leistungen' },
           { label: 'Service & Unterhalt', href: '/nutzfahrzeugcenter/leistungen' },
+          { label: 'Wohnmobil-Gasprüfung', href: '/nutzfahrzeugcenter/wohnmobile-camper#gaspruefung' },
         ],
       },
       {
@@ -38,10 +38,10 @@ export const MENU_CONFIG: CenterMenuConfig[] = [
         links: [
           { label: 'Kaufberatung', href: '/nutzfahrzeugcenter/kaufen#kaufberatung' },
           { label: 'Finanzierung', href: '/nutzfahrzeugcenter/kaufen#finanzierung' },
-          { label: 'Nutzfahrzeug-Abo', href: '/nutzfahrzeugcenter/kaufen#nutzfahrzeug-abo' },
           { label: 'E-Mobilität', href: '/nutzfahrzeugcenter/kaufen#e-mobilitaet' },
-          { label: 'Aktionen', href: '/nutzfahrzeugcenter/kaufen' },
-          { label: 'Webshop Scania', href: '/nutzfahrzeugcenter/kaufen' },
+          // TODO: Webshop Scania – on hold. Sobald der Link da ist, hier die echte URL
+          // einsetzen und diese Zeile einkommentieren:
+          // { label: 'Webshop Scania', href: 'HIER_SCANIA_WEBSHOP_URL' },
         ],
       },
     ],
@@ -52,9 +52,7 @@ export const MENU_CONFIG: CenterMenuConfig[] = [
       {
         label: 'Leistungen',
         links: [
-          { label: 'Aktionen', href: '/kommunalcenter/leistungen' },
           { label: 'Kaufberatung', href: '/kommunalcenter/leistungen' },
-          { label: 'Occasion', href: '/kommunalcenter/leistungen' },
         ],
       },
       {

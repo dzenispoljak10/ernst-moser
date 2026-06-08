@@ -45,7 +45,6 @@ export default async function ProductPageContent({
       description,
       specs,
       isNew,
-      isOccasion,
       "brandId": brand._ref,
       "brandName": brand->name,
       "brandSlug": brand->slug.current,
@@ -110,7 +109,6 @@ export default async function ProductPageContent({
           specs={specs}
           priceLabel={product.priceLabel ?? null}
           isNew={product.isNew}
-          isOccasion={product.isOccasion}
           salespersonEmail={sp?.email ?? 'info@ernst-moser.ch'}
         />
       )}

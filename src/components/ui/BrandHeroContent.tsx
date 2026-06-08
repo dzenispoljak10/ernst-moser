@@ -27,6 +27,8 @@ interface Props {
   /** Optional Vimeo/YouTube iframe URL — replaces the static bg image if set. */
   videoBackground?: string | null
   stats?: SanityStat[]
+  /** true → animierte Laser-Beams im Hero-Hintergrund (z. B. Roboter-Marken) */
+  laserBg?: boolean
 }
 
 const EASE = [0.4, 0, 0.2, 1] as [number, number, number, number]
@@ -52,6 +54,7 @@ export default function BrandHeroContent({
   heroImgUrl,
   videoBackground,
   stats = [],
+  laserBg,
 }: Props) {
   const sectionRef = useRef<HTMLElement>(null)
 
@@ -92,7 +95,7 @@ export default function BrandHeroContent({
               unoptimized
             />
           ) : (
-            <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(135deg, ${centerColor}66 0%, #0a0a0a 100%)` }} />
+            <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(135deg, ${centerColor}66 0%, #1B2D5B 100%)` }} />
           )}
         </motion.div>
       )}
@@ -113,6 +116,18 @@ export default function BrandHeroContent({
         className="brand-hero-overlay"
         style={{ background: `radial-gradient(circle 420px at 12% 88%, ${centerColor}40 0%, transparent 65%)` }}
       />
+
+      {/* ── Laser-Beams (optional, z. B. Roboter-Marken) ──────── */}
+      {laserBg && (
+        <div className="brand-hero-laser" aria-hidden="true">
+          <span className="brand-hero-laser-beam" style={{ animationDelay: '0s' }} />
+          <span className="brand-hero-laser-beam" style={{ animationDelay: '1.8s' }} />
+          <span className="brand-hero-laser-beam" style={{ animationDelay: '3.6s' }} />
+          <span className="brand-hero-laser-vbeam" style={{ animationDelay: '0.9s' }} />
+          <span className="brand-hero-laser-vbeam" style={{ animationDelay: '3.2s' }} />
+          <span className="brand-hero-laser-vbeam" style={{ animationDelay: '5.4s' }} />
+        </div>
+      )}
 
       {/* ── Ambient static circles ────────────────────────────── */}
       <div className="brand-hero-circles" aria-hidden="true">
@@ -145,8 +160,8 @@ export default function BrandHeroContent({
       <motion.div
         className="brand-hero-center-badge"
         style={{
-          background: `${centerColor}33`,
-          borderColor: `${centerColor}66`,
+          background: centerColor,
+          borderColor: centerColor,
         }}
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}

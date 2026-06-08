@@ -2,10 +2,27 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import AnimatedSection from '@/components/ui/AnimatedSection'
+import { readClient as client } from '@/lib/sanity'
 import {
   Heart, Award, TrendingUp, Users, MapPin, Clock, ArrowRight,
-  FileText, ChevronRight, Mail, Phone, Wrench, Leaf,
+  FileText, ChevronRight, Mail, Phone, Briefcase,
 } from 'lucide-react'
+
+export const revalidate = 60
+
+interface JobPosting {
+  _id: string
+  title: string
+  kind: 'stelle' | 'lehrstelle'
+  center?: string
+  centerColor?: string
+  type?: string
+  pensum?: string
+  location?: string
+  duration?: string
+  description?: string
+  pdfUrl?: string
+}
 
 export const metadata: Metadata = {
   title: 'Karriere',
@@ -39,54 +56,22 @@ const BENEFITS = [
   },
 ]
 
-const JOBS = [
-  {
-    title: 'Automobil-Mechatroniker resp. Fachmann Nutzfahrzeuge',
-    center: 'Nutzfahrzeugcenter',
-    centerColor: '#1B2D5B',
-    type: 'Festanstellung',
-    pensum: '100%',
-    location: 'Gerlafingen SO',
-    description: 'Als Automobil-Mechatroniker bei Ernst Moser sind Sie verantwortlich für Reparaturen, Service und Unterhalt unserer Nutzfahrzeugflotte. Sie arbeiten mit modernsten Diagnosegeräten an Fahrzeugen führender Marken wie Scania, Isuzu und Fiat Professional.',
-    pdfUrl: 'https://test.eprofis.ch/automobil-mechatroniker-resp-fachmann-nutfahrzeuge/',
-    icon: Wrench,
-  },
-  {
-    title: 'Motorgerätemechaniker',
-    center: 'Motorgerätecenter',
-    centerColor: '#4A7C59',
-    type: 'Festanstellung',
-    pensum: '100%',
-    location: 'Gerlafingen SO',
-    description: 'Als Motorgerätemechaniker warten und reparieren Sie das gesamte Sortiment unserer Motorgeräte – von Stihl-Motorsägen über Mähroboter bis zu professionellen Reinigungsgeräten. Abwechslungsreiche Aufgaben in einem eingespielten Team.',
-    pdfUrl: 'https://test.eprofis.ch/motorgeraetemechaniker/',
-    icon: Leaf,
-  },
-]
+export default async function KarrierePage() {
+  const jobs = await client.fetch<JobPosting[]>(
+    `*[_type == "jobPosting" && isActive == true] | order(order asc, _createdAt asc) {
+      _id, title, kind, center, centerColor, type, pensum, location, duration, description, pdfUrl
+    }`
+  ).catch(() => [] as JobPosting[])
+  const stellen = jobs.filter((j) => j.kind === 'stelle')
+  const lehrstellen = jobs.filter((j) => j.kind === 'lehrstelle')
 
-const APPRENTICESHIPS = [
-  {
-    title: 'Automobil-Fachmann/-frau',
-    color: '#1B2D5B',
-    duration: '3 Jahre',
-    desc: 'Ausbildung im Bereich Nutzfahrzeuge: Diagnose, Reparatur, Service und Wartung von LKW und leichten Nutzfahrzeugen.',
-  },
-  {
-    title: 'Motorgerätemechaniker/in',
-    color: '#4A7C59',
-    duration: '3 Jahre',
-    desc: 'Ausbildung im Bereich Motorgeräte, Kommunalmaschinen und Gartentechnik. Vielseitiges Tätigkeitsfeld mit modernsten Maschinen.',
-  },
-]
-
-export default function KarrierePage() {
   return (
     <>
       {/* ══ HERO ══════════════════════════════════════════════════ */}
       <section className="karriere-hero">
         <Image
-          src="/images/unsplash/workshop-mechanic.jpg"
-          alt="Werkstatt Team Ernst Moser GmbH"
+          src="/images/unternehmen/jubilaeum-hero.webp"
+          alt="Ernst Moser GmbH Team – 50-Jahre-Jubiläum"
           fill
           style={{ objectFit: 'cover' }}
           priority
@@ -127,7 +112,7 @@ export default function KarrierePage() {
         <div className="container">
           <AnimatedSection className="section-header" style={{ marginBottom: 48 }}>
             <div>
-              <div className="section-divider" style={{ background: '#1B2D5B' }} />
+              <div className="section-divider" style={{ background: '#1a1a1a' }} />
               <div className="section-label">Warum zu uns</div>
               <h2 className="section-title">Ihr Arbeitgeber<br />in der Region</h2>
             </div>
@@ -156,65 +141,69 @@ export default function KarrierePage() {
         <div className="container">
           <AnimatedSection className="section-header" style={{ marginBottom: 48 }}>
             <div>
-              <div className="section-divider" style={{ background: '#C0392B' }} />
+              <div className="section-divider" style={{ background: '#1a1a1a' }} />
               <div className="section-label">Offene Stellen</div>
               <h2 className="section-title">Aktuell suchen<br />wir Sie</h2>
             </div>
           </AnimatedSection>
 
-          <div className="karriere-jobs-list">
-            {JOBS.map((job, i) => {
-              const Icon = job.icon
-              return (
-                <AnimatedSection key={job.title} delay={i * 0.1}>
-                  <div className="karriere-job-card">
-                    <div className="karriere-job-header">
-                      <div className="karriere-job-icon" style={{ background: `${job.centerColor}12`, color: job.centerColor }}>
-                        <Icon size={22} />
-                      </div>
-                      <div>
-                        <div className="karriere-job-center" style={{ color: job.centerColor }}>
-                          {job.center}
+          {stellen.length > 0 ? (
+            <div className="karriere-jobs-list">
+              {stellen.map((job, i) => {
+                const col = job.centerColor ?? '#1a1a1a'
+                return (
+                  <AnimatedSection key={job._id} delay={i * 0.1}>
+                    <div className="karriere-job-card">
+                      <div className="karriere-job-header">
+                        <div className="karriere-job-icon" style={{ background: `${col}12`, color: col }}>
+                          <Briefcase size={22} />
                         </div>
-                        <h3 className="karriere-job-title">{job.title}</h3>
+                        <div>
+                          {job.center && (
+                            <div className="karriere-job-center" style={{ color: col }}>{job.center}</div>
+                          )}
+                          <h3 className="karriere-job-title">{job.title}</h3>
+                        </div>
+                      </div>
+                      {job.description && <p className="karriere-job-desc">{job.description}</p>}
+                      <div className="karriere-job-meta">
+                        {job.type && <span className="karriere-job-tag"><Clock size={12} /> {job.type}</span>}
+                        {job.pensum && <span className="karriere-job-tag"><TrendingUp size={12} /> {job.pensum}</span>}
+                        {job.location && <span className="karriere-job-tag"><MapPin size={12} /> {job.location}</span>}
+                      </div>
+                      <div className="karriere-job-actions">
+                        <a
+                          href={`mailto:info@ernst-moser.ch?subject=${encodeURIComponent(`Bewerbung: ${job.title}`)}`}
+                          className="karriere-job-btn-primary"
+                          style={{ background: col }}
+                        >
+                          <Mail size={14} />
+                          Jetzt bewerben
+                        </a>
+                        {job.pdfUrl && (
+                          <a href={job.pdfUrl} target="_blank" rel="noopener noreferrer" className="karriere-job-btn-ghost">
+                            <FileText size={14} />
+                            Stellenbeschrieb (PDF)
+                          </a>
+                        )}
                       </div>
                     </div>
-                    <p className="karriere-job-desc">{job.description}</p>
-                    <div className="karriere-job-meta">
-                      <span className="karriere-job-tag">
-                        <Clock size={12} /> {job.type}
-                      </span>
-                      <span className="karriere-job-tag">
-                        <TrendingUp size={12} /> {job.pensum}
-                      </span>
-                      <span className="karriere-job-tag">
-                        <MapPin size={12} /> {job.location}
-                      </span>
-                    </div>
-                    <div className="karriere-job-actions">
-                      <a
-                        href="mailto:info@ernst-moser.ch?subject=Bewerbung: {job.title}"
-                        className="karriere-job-btn-primary"
-                        style={{ background: job.centerColor }}
-                      >
-                        <Mail size={14} />
-                        Jetzt bewerben
-                      </a>
-                      <a
-                        href={job.pdfUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="karriere-job-btn-ghost"
-                      >
-                        <FileText size={14} />
-                        Stellenbeschrieb (PDF)
-                      </a>
-                    </div>
-                  </div>
-                </AnimatedSection>
-              )
-            })}
-          </div>
+                  </AnimatedSection>
+                )
+              })}
+            </div>
+          ) : (
+            <AnimatedSection>
+              <div className="karriere-empty-notice">
+                <div className="karriere-empty-icon"><Briefcase size={26} /></div>
+                <h3 className="karriere-empty-title">Zurzeit keine offenen Stellen</h3>
+                <p className="karriere-empty-desc">
+                  Aktuell sind keine Stellen ausgeschrieben. Wir freuen uns aber jederzeit über Ihre
+                  Spontanbewerbung — vielleicht ergibt sich schon bald die passende Möglichkeit.
+                </p>
+              </div>
+            </AnimatedSection>
+          )}
 
           {/* Spontanbewerbung */}
           <AnimatedSection delay={0.2}>
@@ -241,37 +230,53 @@ export default function KarrierePage() {
       </section>
 
       {/* ══ AUSBILDUNG ═══════════════════════════════════════════ */}
-      <section className="section" style={{ background: 'var(--c-dark)', color: '#fff' }}>
+      <section className="section" style={{ background: 'var(--c-bg-2)' }}>
         <div className="container">
           <AnimatedSection className="section-header" style={{ marginBottom: 48 }}>
             <div>
-              <div className="section-divider" style={{ background: '#4A7C59' }} />
-              <div className="section-label" style={{ color: 'rgba(255,255,255,0.45)' }}>Nachwuchs</div>
-              <h2 className="section-title" style={{ color: '#fff' }}>
+              <div className="section-divider" style={{ background: '#1a1a1a' }} />
+              <div className="section-label">Nachwuchs</div>
+              <h2 className="section-title">
                 Ausbildung &<br />Lehrstellen
               </h2>
             </div>
           </AnimatedSection>
 
-          <div className="karriere-lehr-grid">
-            {APPRENTICESHIPS.map((a, i) => (
-              <AnimatedSection key={a.title} delay={i * 0.1}>
-                <div className="karriere-lehr-card">
-                  <div className="karriere-lehr-accent" style={{ background: a.color }} />
-                  <div className="karriere-lehr-duration" style={{ color: a.color }}>{a.duration}</div>
-                  <div className="karriere-lehr-title">{a.title}</div>
-                  <p className="karriere-lehr-desc">{a.desc}</p>
-                  <a
-                    href="mailto:info@ernst-moser.ch?subject=Anfrage Lehrstelle"
-                    className="karriere-lehr-link"
-                    style={{ color: a.color }}
-                  >
-                    Jetzt anfragen <ArrowRight size={13} />
-                  </a>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
+          {lehrstellen.length > 0 ? (
+            <div className="karriere-lehr-grid">
+              {lehrstellen.map((a, i) => {
+                const col = a.centerColor ?? '#4A7C59'
+                return (
+                  <AnimatedSection key={a._id} delay={i * 0.1}>
+                    <div className="karriere-lehr-card">
+                      <div className="karriere-lehr-accent" style={{ background: col }} />
+                      {a.duration && <div className="karriere-lehr-duration" style={{ color: col }}>{a.duration}</div>}
+                      <div className="karriere-lehr-title">{a.title}</div>
+                      {a.description && <p className="karriere-lehr-desc">{a.description}</p>}
+                      <a
+                        href="mailto:info@ernst-moser.ch?subject=Anfrage Lehrstelle"
+                        className="karriere-lehr-link"
+                        style={{ color: col }}
+                      >
+                        Jetzt anfragen <ArrowRight size={13} />
+                      </a>
+                    </div>
+                  </AnimatedSection>
+                )
+              })}
+            </div>
+          ) : (
+            <AnimatedSection>
+              <div className="karriere-empty-notice">
+                <div className="karriere-empty-icon" style={{ color: '#4A7C59', background: '#4A7C5912' }}><Award size={26} /></div>
+                <h3 className="karriere-empty-title">Zurzeit keine offenen Lehrstellen</h3>
+                <p className="karriere-empty-desc">
+                  Momentan sind keine Lehrstellen ausgeschrieben. Interessiert an einer Ausbildung bei uns?
+                  Sende uns gerne eine Anfrage – wir freuen uns auf dich.
+                </p>
+              </div>
+            </AnimatedSection>
+          )}
 
           <AnimatedSection delay={0.25}>
             <div className="karriere-lehr-note">

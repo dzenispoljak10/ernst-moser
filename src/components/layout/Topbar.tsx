@@ -1,7 +1,6 @@
 import Link from 'next/link'
-import { MapPin, Mail, Phone } from 'lucide-react'
 
-function FacebookIcon({ size = 13 }: { size?: number }) {
+function FacebookIcon({ size = 15 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
       <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
@@ -9,7 +8,7 @@ function FacebookIcon({ size = 13 }: { size?: number }) {
   )
 }
 
-function InstagramIcon({ size = 13 }: { size?: number }) {
+function InstagramIcon({ size = 15 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <rect x="2" y="2" width="20" height="20" rx="5"/>
@@ -19,34 +18,20 @@ function InstagramIcon({ size = 13 }: { size?: number }) {
   )
 }
 
+function LinkedInIcon({ size = 15 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+      <rect x="2" y="9" width="4" height="12"/>
+      <circle cx="4" cy="4" r="2"/>
+    </svg>
+  )
+}
+
 export default function Topbar() {
   return (
     <div className="topbar">
       <div className="container">
-        {/* Left: Contact info */}
-        <div className="topbar-left">
-          <a
-            href="https://maps.google.com/?q=Derendingenstrasse+25+4563+Gerlafingen"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="topbar-item"
-          >
-            <MapPin size={12} />
-            Derendingenstrasse 25, 4563 Gerlafingen SO
-          </a>
-          <div className="topbar-divider" />
-          <a href="mailto:info@ernst-moser.ch" className="topbar-item">
-            <Mail size={12} />
-            info@ernst-moser.ch
-          </a>
-          <div className="topbar-divider" />
-          <a href="tel:+41326755805" className="topbar-item">
-            <Phone size={12} />
-            +41 (0)32 675 58 05
-          </a>
-        </div>
-
-        {/* Right: Links + Social */}
         <div className="topbar-right">
           <Link href="/karriere" className="topbar-item">Karriere</Link>
           <div className="topbar-divider" />
@@ -59,7 +44,7 @@ export default function Topbar() {
             className="topbar-item topbar-social"
             aria-label="Facebook"
           >
-            <FacebookIcon size={13} />
+            <FacebookIcon />
           </a>
           <a
             href="https://www.instagram.com/ernstmosergmbh"
@@ -68,7 +53,16 @@ export default function Topbar() {
             className="topbar-item topbar-social"
             aria-label="Instagram"
           >
-            <InstagramIcon size={13} />
+            <InstagramIcon />
+          </a>
+          <a
+            href="https://www.linkedin.com/company/ernst-moser-gmbh/posts/?feedView=all"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="topbar-item topbar-social"
+            aria-label="LinkedIn"
+          >
+            <LinkedInIcon />
           </a>
         </div>
       </div>

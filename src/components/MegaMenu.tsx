@@ -9,6 +9,7 @@ import {
   Tag, Compass, Wrench, ShoppingCart, Key, Bot,
 } from 'lucide-react'
 import { getMenuColumnsForCenter, type MenuColumn } from '@/lib/menuConfig'
+import { groupBrandsForCenter, withExtraBrands } from '@/lib/brandCategories'
 import { imageUrl } from '@/lib/sanity'
 import type { SanityCenter, SanityBrand } from '@/lib/queries'
 
@@ -115,8 +116,11 @@ export default function MegaMenu({ centers, brandsByCenter, logoUrl }: Props) {
 
   useEffect(() => () => { if (closeTimer.current) clearTimeout(closeTimer.current) }, [])
 
+  const allBrandsFlat = Object.values(brandsByCenter).flat()
   const activeCenter = centers.find(c => c._id === activeId) ?? null
-  const activeBrands = activeId ? (brandsByCenter[activeId] ?? []) : []
+  const activeBrands = activeCenter
+    ? withExtraBrands(activeCenter.slug.current, brandsByCenter[activeCenter._id] ?? [], allBrandsFlat)
+    : []
   const activeCols: MenuColumn[] = activeCenter
     ? getMenuColumnsForCenter(activeCenter.slug.current)
     : []
@@ -202,45 +206,64 @@ export default function MegaMenu({ centers, brandsByCenter, logoUrl }: Props) {
                   <div className="megamenu-grid">
 
                     {/* ── Brands panel (LEFT, first column) ── */}
-                    {activeBrands.length > 0 && (
+                    {activeBrands.length > 0 && (() => {
+                      const groups = groupBrandsForCenter(activeCenter.slug.current, activeBrands)
+                      const isSplit = groups.length > 1
+                      return (
                       <motion.div
                         className="megamenu-brands-panel"
                         variants={brandVariants}
                         initial="hidden"
                         animate="visible"
                       >
-                        <div className="megamenu-brands-label">
-                          <Tag size={10} strokeWidth={2.5} style={{ display: 'inline', marginRight: 6 }} />
-                          Marken
-                        </div>
-                        <div className={`megamenu-brands-grid${activeBrands.length >= 9 ? ' megamenu-brands-grid--2col' : ''}`}>
-                          {activeBrands.map(brand => (
-                            <motion.div key={brand._id} variants={brandItemVariants}>
-                              <Link
-                                href={`/${activeCenter.slug.current}/${brand.slug.current}`}
-                                className="megamenu-brand-row"
-                                onClick={() => setActiveId(null)}
-                              >
-                                <div className="megamenu-brand-logo-box">
-                                  {brand.logo ? (
-                                    <Image
-                                      src={imageUrl(brand.logo)}
-                                      alt={brand.name}
-                                      width={40} height={24}
-                                      className="megamenu-brand-logo"
-                                      unoptimized
-                                    />
-                                  ) : (
-                                    <div className="megamenu-brand-logo-placeholder" />
-                                  )}
-                                </div>
-                                <span className="megamenu-brand-row-name">{brand.name}</span>
-                              </Link>
-                            </motion.div>
+                        <div className={`megamenu-brands-groups${isSplit ? ' megamenu-brands-groups--split' : ''}`}>
+                          {groups.map(group => (
+                            <div key={group.label} className="megamenu-brands-group">
+                              <div className="megamenu-brands-label">
+                                <Tag size={10} strokeWidth={2.5} style={{ display: 'inline', marginRight: 6 }} />
+                                {group.label}
+                              </div>
+                              <div className={`megamenu-brands-grid${!isSplit && group.brands.length >= 9 ? ' megamenu-brands-grid--colflow' : ''}`}>
+                                {group.brands.flatMap(brand => {
+                                  const base = `/${brand.center.slug.current}/${brand.slug.current}`
+                                  const items = brand.slug.current === 'segway'
+                                    ? [
+                                        { key: `${brand._id}-segway`, href: base, name: 'Segway', logo: brand.logo ? imageUrl(brand.logo) : null },
+                                        { key: `${brand._id}-navimow`, href: base, name: 'Navimow', logo: '/images/brands/segway/navimow-logo.webp' },
+                                      ]
+                                    : [{ key: brand._id, href: base, name: brand.name, logo: brand.logo ? imageUrl(brand.logo) : null }]
+                                  return items.map(item => (
+                                    <motion.div key={item.key} variants={brandItemVariants} className="megamenu-brand-cell">
+                                      <Link
+                                        href={item.href}
+                                        className="megamenu-brand-row"
+                                        onClick={() => setActiveId(null)}
+                                      >
+                                        <div className="megamenu-brand-logo-box">
+                                          {item.logo ? (
+                                            <Image
+                                              src={item.logo}
+                                              alt={item.name}
+                                              width={40} height={24}
+                                              className="megamenu-brand-logo"
+                                              unoptimized
+                                            />
+                                          ) : (
+                                            <div className="megamenu-brand-logo-placeholder" />
+                                          )}
+                                        </div>
+                                        <span className="megamenu-brand-row-name">{item.name}</span>
+                                      </Link>
+                                    </motion.div>
+                                  ))
+                                })}
+                              </div>
+                            </div>
                           ))}
                         </div>
                       </motion.div>
-                    )}
+                      )
+                    })()}
 
                     {/* ── Category columns (RIGHT) ── */}
                     <div className="megamenu-cats">
@@ -334,7 +357,7 @@ export default function MegaMenu({ centers, brandsByCenter, logoUrl }: Props) {
               <nav className="mobile-nav">
                 {centers.map(c => {
                   const cols = getMenuColumnsForCenter(c.slug.current)
-                  const brands = brandsByCenter[c._id] ?? []
+                  const brands = withExtraBrands(c.slug.current, brandsByCenter[c._id] ?? [], allBrandsFlat)
                   const open = mobileExpanded === c._id
                   return (
                     <div key={c._id}>
@@ -371,21 +394,25 @@ export default function MegaMenu({ centers, brandsByCenter, logoUrl }: Props) {
                                 ))}
                               </div>
                             ))}
-                            {brands.length > 0 && (
-                              <div>
-                                <div className="mobile-sub-label">Marken</div>
-                                {brands.map(b => (
-                                  <Link
-                                    key={b._id}
-                                    href={`/${c.slug.current}/${b.slug.current}`}
-                                    className="mobile-sub-link"
-                                    onClick={() => setMobileOpen(false)}
-                                  >
-                                    <ChevronRight size={11} />{b.name}
-                                  </Link>
-                                ))}
+                            {brands.length > 0 && groupBrandsForCenter(c.slug.current, brands).map(group => (
+                              <div key={group.label}>
+                                <div className="mobile-sub-label">{group.label}</div>
+                                {group.brands.flatMap(b => {
+                                  const base = `/${b.center.slug.current}/${b.slug.current}`
+                                  const names = b.slug.current === 'segway' ? ['Segway', 'Navimow'] : [b.name]
+                                  return names.map(name => (
+                                    <Link
+                                      key={`${b._id}-${name}`}
+                                      href={base}
+                                      className="mobile-sub-link"
+                                      onClick={() => setMobileOpen(false)}
+                                    >
+                                      <ChevronRight size={11} />{name}
+                                    </Link>
+                                  ))
+                                })}
                               </div>
-                            )}
+                            ))}
                             <Link
                               href={`/${c.slug.current}`} className="mobile-sub-link"
                               style={{ color: c.color, fontWeight: 700, borderBottom: 'none', marginTop: 8 }}

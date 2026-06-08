@@ -32,6 +32,7 @@ export default function IsuzuCategorySections({ accent }: { accent: string }) {
                       fill
                       className="isuzu-card-img"
                       sizes="(max-width: 900px) 100vw, 33vw"
+                      unoptimized
                     />
                   </div>
                   <div className="isuzu-card-body">
