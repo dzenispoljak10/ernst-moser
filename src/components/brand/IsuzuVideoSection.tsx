@@ -3,9 +3,11 @@ interface Props {
 }
 
 /**
- * Lokales Isuzu-Werbevideo (Truck-Spot) – click-to-play mit Steuerung.
- * Quelle: public/video/isuzu-trucks.mp4 (web-optimiert, 1080p).
+ * Isuzu-Werbevideo (Truck-Spot) – click-to-play mit Steuerung.
+ * Quelle: Sanity-CDN (web-optimiert, 1080p) – aus /public ausgelagert,
+ * damit das Vercel-Deployment schlank bleibt.
  */
+const ISUZU_VIDEO_URL = 'https://cdn.sanity.io/files/owqsc1ph/production/a4d27e6dfb117d91911885a762375348c11b2f30.mp4'
 export default function IsuzuVideoSection({ accent }: Props) {
   return (
     <section className="brand-video-section">
@@ -25,7 +27,7 @@ export default function IsuzuVideoSection({ accent }: Props) {
               playsInline
               poster="/images/isuzu/hero-isuzu-truck.webp"
             >
-              <source src="/video/isuzu-trucks.mp4" type="video/mp4" />
+              <source src={ISUZU_VIDEO_URL} type="video/mp4" />
             </video>
           </div>
         </div>

@@ -203,15 +203,29 @@ const MINIMAL_PRODUCT_URLS: Record<string, string> = {
   'swardman-electra': 'https://www.swardman.com/de/electra2-45-spindelmaeher/',
 }
 
-// Produkte mit lokal gespeicherter Dokumentation (PDF in public/dokumentation/<slug>.pdf)
-const MOTORGERAETE_DOC_SLUGS = new Set<string>([
-  'pudu-bg1', 'pudu-bg1-pro', 'pudu-cc1', 'pudu-cc1-pro', 'pudu-mt1', 'pudu-mt1-max',
-  'pudu-mt1-vac', 'pudu-sh1', 'pudu-bellabot', 'pudu-bellabot-pro', 'pudu-pudubot2',
-  'pudu-swiftbot', 'pudu-flashbot', 'pudu-t300', 'pudu-t600', 'pudu-kettybot-pro',
-])
+// Dokumentations-PDFs als Sanity-CDN-Assets (ausgelagert aus /public, um das
+// Vercel-Deployment schlank zu halten).
+const MOTORGERAETE_DOC_URLS: Record<string, string> = {
+  'pudu-bellabot-pro': 'https://cdn.sanity.io/files/owqsc1ph/production/2cdfe53daad00cedef84aa41abf163c8c69170f8.pdf',
+  'pudu-bellabot': 'https://cdn.sanity.io/files/owqsc1ph/production/76806d25d0e300d8f2513a11e685a16cf09a6c00.pdf',
+  'pudu-bg1-pro': 'https://cdn.sanity.io/files/owqsc1ph/production/ec435381077e4a93ceafa40cc16626b5ec7cf9ad.pdf',
+  'pudu-bg1': 'https://cdn.sanity.io/files/owqsc1ph/production/ec435381077e4a93ceafa40cc16626b5ec7cf9ad.pdf',
+  'pudu-cc1-pro': 'https://cdn.sanity.io/files/owqsc1ph/production/5f4475e3e4930d3bb785c47376bcebb1130f01fe.pdf',
+  'pudu-cc1': 'https://cdn.sanity.io/files/owqsc1ph/production/176f317864dcf428fb152dedc1023ddef41f56e2.pdf',
+  'pudu-flashbot': 'https://cdn.sanity.io/files/owqsc1ph/production/2de1bb2fe8dd61b7bf6d95b4ecfdbbefd12825e4.pdf',
+  'pudu-kettybot-pro': 'https://cdn.sanity.io/files/owqsc1ph/production/846f31b0301360cff8eb017bef7be8ea9b19131a.pdf',
+  'pudu-mt1-max': 'https://cdn.sanity.io/files/owqsc1ph/production/3c132919ca8bce9b8c103f99a0a3883b868d6f56.pdf',
+  'pudu-mt1-vac': 'https://cdn.sanity.io/files/owqsc1ph/production/7b198c8a34fdcc34e54a6385e672e88c4842033c.pdf',
+  'pudu-mt1': 'https://cdn.sanity.io/files/owqsc1ph/production/bf4079554c3902bc19287a12c2401e2238625db3.pdf',
+  'pudu-pudubot2': 'https://cdn.sanity.io/files/owqsc1ph/production/645aaca464096311bbc6e2fef3cdcda4200f4a61.pdf',
+  'pudu-sh1': 'https://cdn.sanity.io/files/owqsc1ph/production/49b608f325079c4f700099cddf11985ceadb4dd8.pdf',
+  'pudu-swiftbot': 'https://cdn.sanity.io/files/owqsc1ph/production/3a0e02e68eddd2e924585f6324647e7018bb6694.pdf',
+  'pudu-t300': 'https://cdn.sanity.io/files/owqsc1ph/production/8b85d0e6fa4e86ac1161525b98cc8d27f069f953.pdf',
+  'pudu-t600': 'https://cdn.sanity.io/files/owqsc1ph/production/196641bd527f833ec2bb7e4f15071f0697a09a93.pdf',
+}
 
 export function getMotorgeraeteDokumentationUrl(productSlug: string): string | null {
-  return MOTORGERAETE_DOC_SLUGS.has(productSlug) ? `/dokumentation/${productSlug}.pdf` : null
+  return MOTORGERAETE_DOC_URLS[productSlug] ?? null
 }
 
 export function getMotorgeraeteExternalUrl(productSlug: string): string | null {
