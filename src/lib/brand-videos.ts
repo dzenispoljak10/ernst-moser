@@ -35,9 +35,9 @@ export const BRAND_VIDEOS: Record<string, BrandVideo> = {
     caption: 'Die neue Generation des Porter NP6, vollständig neu konzipiert.',
   },
   'pudu-robotics': {
-    youtubeId: 'z-WcJTlnaP4',
-    heading: 'Pudu BellaBot – Service-Robotik live',
-    caption: 'Der BellaBot in seinem Element – charmant, präzise, zuverlässig.',
+    youtubeId: 'z3sNaJ2v4X8',
+    heading: 'Pudu Robotics – Service-Robotik im Einsatz',
+    caption: 'Autonome Service-, Reinigungs- und Transportroboter von Pudu in Aktion.',
   },
   segway: {
     youtubeId: 'opxEJrBJwiQ',
