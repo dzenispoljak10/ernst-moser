@@ -3,12 +3,13 @@ import { NextResponse } from 'next/server'
 /**
  * Liefert die Permalinks der anzuzeigenden Instagram-Posts (max. 6).
  *
- * - Wenn `INSTAGRAM_ACCESS_TOKEN` gesetzt ist, werden die **6 neuesten** Posts
- *   von @e.moser_gmbh live über die Instagram-Graph-API geholt.
- *   (Optional `INSTAGRAM_USER_ID`, sonst `me`.)
- * - Ohne Token wird auf die unten gepflegte feste Liste zurückgefallen.
+ * Reihenfolge der Quellen (erste mit Treffer gewinnt):
+ *  1. BEHOLD_FEED_URL   – Feed-URL von behold.so (No-Code, empfohlen, kostenlos).
+ *                         Liefert automatisch die neuesten Posts von @e.moser_gmbh.
+ *  2. INSTAGRAM_ACCESS_TOKEN (+ optional INSTAGRAM_USER_ID) – Instagram-Graph-API.
+ *  3. Feste Fallback-Liste (unten), falls nichts gesetzt ist.
  *
- * Token NIE ins Repo committen – nur in `.env.local` / Vercel-Env hinterlegen.
+ * Tokens/URLs gehören in die Env (Vercel / .env.local), NICHT ins Repo.
  */
 const FALLBACK_POSTS = [
   'https://www.instagram.com/p/DWgIPgbkckl/',
@@ -21,10 +22,36 @@ const FALLBACK_POSTS = [
 
 export const revalidate = 1800 // alle 30 Min. neu prüfen
 
+function pickPermalinks(items: unknown): string[] {
+  if (!Array.isArray(items)) return []
+  return items
+    .map((it) => (it && typeof it === 'object' ? (it as Record<string, unknown>).permalink : undefined))
+    .filter((p): p is string => typeof p === 'string' && p.includes('instagram.com'))
+    .slice(0, 6)
+}
+
 export async function GET() {
+  // 1) Behold.so Feed
+  const beholdUrl = process.env.BEHOLD_FEED_URL
+  if (beholdUrl) {
+    try {
+      const res = await fetch(beholdUrl, { next: { revalidate: 1800 } })
+      if (res.ok) {
+        const data = (await res.json()) as unknown
+        const arr = Array.isArray(data)
+          ? data
+          : (data as { posts?: unknown[]; data?: unknown[] }).posts ?? (data as { data?: unknown[] }).data
+        const posts = pickPermalinks(arr)
+        if (posts.length) return NextResponse.json({ posts, source: 'behold' })
+      }
+    } catch {
+      // weiter zu Graph-API / Fallback
+    }
+  }
+
+  // 2) Instagram-Graph-API
   const token = process.env.INSTAGRAM_ACCESS_TOKEN
   const userId = process.env.INSTAGRAM_USER_ID || 'me'
-
   if (token) {
     try {
       const res = await fetch(
@@ -32,17 +59,15 @@ export async function GET() {
         { next: { revalidate: 1800 } }
       )
       if (res.ok) {
-        const data = (await res.json()) as { data?: Array<{ permalink?: string }> }
-        const posts = (data.data ?? [])
-          .map((m) => m.permalink)
-          .filter((p): p is string => Boolean(p))
-          .slice(0, 6)
+        const data = (await res.json()) as { data?: unknown[] }
+        const posts = pickPermalinks(data.data)
         if (posts.length) return NextResponse.json({ posts, source: 'api' })
       }
     } catch {
-      // fällt unten auf die feste Liste zurück
+      // weiter zum Fallback
     }
   }
 
+  // 3) Fallback
   return NextResponse.json({ posts: FALLBACK_POSTS, source: 'fallback' })
 }
