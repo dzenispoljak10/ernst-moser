@@ -3161,6 +3161,12 @@ a { color: inherit; }
 .ig2-embed-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .ig2-embed-wrap { width: 100%; overflow: hidden; border-radius: 12px; background: #fff; box-shadow: 0 1px 6px rgba(0,0,0,0.08); }
 .ig2-embed-wrap .instagram-media { width: 100% !important; min-width: 0 !important; max-width: 100% !important; margin: 0 !important; border-radius: 12px !important; }
+/* Schnelle Bild-Kachel (Behold/Graph-API Bilder) statt IG-Embed */
+.ig2-tile { position: relative; display: block; aspect-ratio: 4 / 5; border-radius: 12px; overflow: hidden; background: #eceef1; box-shadow: 0 1px 6px rgba(0,0,0,0.08); }
+.ig2-tile img { transition: transform 0.5s cubic-bezier(0.4,0,0.2,1); }
+.ig2-tile:hover img { transform: scale(1.06); }
+.ig2-tile::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.18), transparent 45%); opacity: 0; transition: opacity 0.3s; }
+.ig2-tile:hover::after { opacity: 1; }
 .ig2-cta-wrap { display: flex; justify-content: center; margin-top: 36px; }
 .ig2-cta { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: #E1306C; text-decoration: none; padding: 12px 28px; border: 1.5px solid #E1306C; border-radius: 100px; transition: background 0.2s, color 0.2s; }
 .ig2-cta:hover { background: #E1306C; color: #fff; }

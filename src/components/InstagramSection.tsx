@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 
 declare global {
   interface Window {
@@ -18,20 +19,22 @@ function InstagramIcon({ size = 16 }: { size?: number }) {
   )
 }
 
-// Fallback-Posts, falls die API (noch) keinen Token hat oder nicht antwortet.
-const FALLBACK_POSTS = [
+type Post = { permalink: string; image: string | null; alt: string }
+
+// Fallback, falls die API (noch) keinen Feed/Token hat: nur Permalinks -> IG-Embed.
+const FALLBACK_POSTS: Post[] = [
   'https://www.instagram.com/p/DWgIPgbkckl/',
   'https://www.instagram.com/p/DWZQzSkDkqX/',
   'https://www.instagram.com/p/DWJEZEvDsj3/',
   'https://www.instagram.com/p/DVeS8AVDB4m/',
   'https://www.instagram.com/p/DT231QylW0E/',
   'https://www.instagram.com/p/DUoZ8NFD-Hs/',
-]
+].map((permalink) => ({ permalink, image: null, alt: 'Instagram Post von @e.moser_gmbh' }))
 
 export default function InstagramSection() {
-  const [posts, setPosts] = useState<string[]>(FALLBACK_POSTS)
+  const [posts, setPosts] = useState<Post[]>(FALLBACK_POSTS)
 
-  // Die (ggf. 6 neuesten) Posts von /api/instagram laden.
+  // (ggf. 6 neuesten) Posts laden
   useEffect(() => {
     let active = true
     fetch('/api/instagram')
@@ -45,23 +48,22 @@ export default function InstagramSection() {
     }
   }, [])
 
-  // Instagram-Embeds (neu) rendern, sobald sich die Postliste ändert.
+  // IG-Embed-Skript nur laden, wenn mindestens ein Post kein Bild hat (Fallback-Modus)
+  const needsEmbed = posts.some((p) => !p.image)
   useEffect(() => {
-    if (window.instgrm) {
-      window.instgrm.Embeds.process()
-    } else {
+    if (!needsEmbed) return
+    if (window.instgrm) window.instgrm.Embeds.process()
+    else {
       const script = document.createElement('script')
       script.src = '//www.instagram.com/embed.js'
       script.async = true
       document.body.appendChild(script)
     }
-  }, [posts])
+  }, [posts, needsEmbed])
 
   return (
     <section className="ig2-section">
       <div className="container">
-
-        {/* Header */}
         <div className="ig2-header">
           <div>
             <div className="ig2-label">Social Media</div>
@@ -78,32 +80,50 @@ export default function InstagramSection() {
           </a>
         </div>
 
-        {/* Grid */}
         <div className="ig2-embed-grid">
-          {posts.map((url) => (
-            <div key={url} className="ig2-embed-wrap">
-              <blockquote
-                className="instagram-media"
-                data-instgrm-permalink={url}
-                data-instgrm-version="14"
-                data-instgrm-captioned
-                style={{
-                  background: '#FFF',
-                  border: 0,
-                  borderRadius: 12,
-                  boxShadow: '0 1px 6px rgba(0,0,0,0.1)',
-                  margin: 0,
-                  maxWidth: '100%',
-                  minWidth: 0,
-                  padding: 0,
-                  width: '100%',
-                }}
-              />
-            </div>
-          ))}
+          {posts.map((p) =>
+            p.image ? (
+              <a
+                key={p.permalink}
+                href={p.permalink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ig2-tile"
+                aria-label={p.alt}
+              >
+                <Image
+                  src={p.image}
+                  alt={p.alt}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 900px) 50vw, 33vw"
+                  unoptimized
+                  style={{ objectFit: 'cover' }}
+                />
+              </a>
+            ) : (
+              <div key={p.permalink} className="ig2-embed-wrap">
+                <blockquote
+                  className="instagram-media"
+                  data-instgrm-permalink={p.permalink}
+                  data-instgrm-version="14"
+                  data-instgrm-captioned
+                  style={{
+                    background: '#FFF',
+                    border: 0,
+                    borderRadius: 12,
+                    boxShadow: '0 1px 6px rgba(0,0,0,0.1)',
+                    margin: 0,
+                    maxWidth: '100%',
+                    minWidth: 0,
+                    padding: 0,
+                    width: '100%',
+                  }}
+                />
+              </div>
+            )
+          )}
         </div>
 
-        {/* Footer CTA */}
         <div className="ig2-cta-wrap">
           <a
             href="https://www.instagram.com/e.moser_gmbh"
@@ -114,7 +134,6 @@ export default function InstagramSection() {
             Alle Posts auf Instagram ansehen →
           </a>
         </div>
-
       </div>
     </section>
   )
