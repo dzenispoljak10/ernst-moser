@@ -14,6 +14,29 @@ export default function StihlShowcase() {
 
   return (
     <>
+      {/* CTA-Band → stihl.ch (zuerst, oberhalb der Produkt-Sektionen) */}
+      <section className="stihl-section">
+        <div className="stihl-section-inner">
+          <a
+            href={STIHL_HOMEPAGE}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="stihl-cta-band"
+          >
+            <div className="stihl-cta-band-img">
+              <Image src="/images/brands/stihl/gallery/01.webp" alt="STIHL im Einsatz" fill sizes="100vw" unoptimized />
+            </div>
+            <div className="stihl-cta-text">
+              <h3>Das komplette STIHL-Sortiment entdecken</h3>
+              <p>Alle Modelle, Akkulösungen und Zubehör auf stihl.ch.</p>
+            </div>
+            <span className="stihl-cta-btn">
+              stihl.ch besuchen <ExternalLink size={16} />
+            </span>
+          </a>
+        </div>
+      </section>
+
       {brand.products.map((p, i) => {
         const flip = i % 2 === 1
         return (
@@ -52,29 +75,6 @@ export default function StihlShowcase() {
           </section>
         )
       })}
-
-      {/* CTA-Band → stihl.ch (bleibt) */}
-      <section className="stihl-section">
-        <div className="stihl-section-inner">
-          <a
-            href={STIHL_HOMEPAGE}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="stihl-cta-band"
-          >
-            <div className="stihl-cta-band-img">
-              <Image src="/images/brands/stihl/gallery/01.webp" alt="STIHL im Einsatz" fill sizes="100vw" unoptimized />
-            </div>
-            <div className="stihl-cta-text">
-              <h3>Das komplette STIHL-Sortiment entdecken</h3>
-              <p>Alle Modelle, Akkulösungen und Zubehör auf stihl.ch.</p>
-            </div>
-            <span className="stihl-cta-btn">
-              stihl.ch besuchen <ExternalLink size={16} />
-            </span>
-          </a>
-        </div>
-      </section>
     </>
   )
 }

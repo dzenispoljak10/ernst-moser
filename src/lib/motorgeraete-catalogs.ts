@@ -228,7 +228,23 @@ export function getMotorgeraeteDokumentationUrl(productSlug: string): string | n
   return MOTORGERAETE_DOC_URLS[productSlug] ?? null
 }
 
+// ─── Intercycle-Verlinkung (Ambrogio / Segway / Stiga) ───────────────────────
+// Die Produkt-Detailseiten dieser Marken verlinken auf die Intercycle-Suche mit
+// dem exakten Modellnamen → landet zielsicher beim richtigen Intercycle-Produkt.
+const ic = (q: string) => `https://www.intercycle.com/de/search?q=${encodeURIComponent(q)}`
+const INTERCYCLE_PRODUCT_URLS: Record<string, string> = {
+  // Stiga
+  'stiga-park': ic('Stiga Park'),
+  'stiga-aufsitzmaeher': ic('Stiga Aufsitzmäher'),
+  'stiga-rasenmaeher': ic('Stiga Rasenmäher'),
+  // Ambrogio
+  'ambrogio-innovative-technologie-fuer-perfekte-rasenpflege': ic('Ambrogio'),
+  'ambrogio-smarte-funktionen-und-maximale-sicherheit': ic('Ambrogio'),
+}
+
 export function getMotorgeraeteExternalUrl(productSlug: string): string | null {
+  // 0. Intercycle-Override (Ambrogio / Segway / Stiga)
+  if (INTERCYCLE_PRODUCT_URLS[productSlug]) return INTERCYCLE_PRODUCT_URLS[productSlug]
   // 1. Volle Marken
   const ref = PRODUCT_INDEX[productSlug]
   if (ref) return ref.product.externalUrl ?? null

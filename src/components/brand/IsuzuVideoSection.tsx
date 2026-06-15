@@ -3,7 +3,9 @@ interface Props {
 }
 
 /**
- * Isuzu-Werbevideo (Truck-Spot) – click-to-play mit Steuerung.
+ * Isuzu-Werbevideo (Truck-Spot) – startet automatisch, stummgeschaltet und
+ * in Schleife (Browser erlauben Autoplay nur muted). Steuerung bleibt
+ * sichtbar, damit Besucher den Ton aktivieren oder pausieren können.
  * Quelle: Sanity-CDN (web-optimiert, 1080p) – aus /public ausgelagert,
  * damit das Vercel-Deployment schlank bleibt.
  */
@@ -22,8 +24,11 @@ export default function IsuzuVideoSection({ accent }: Props) {
           <div className="brand-video-aspect">
             <video
               className="brand-video-iframe"
+              autoPlay
+              muted
+              loop
               controls
-              preload="none"
+              preload="auto"
               playsInline
               poster="/images/isuzu/hero-isuzu-truck.webp"
             >

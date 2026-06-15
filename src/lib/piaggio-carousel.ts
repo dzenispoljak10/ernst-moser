@@ -112,15 +112,15 @@ export const PIAGGIO_CAROUSEL_SLIDES: CarouselSlide[] = [
   {
     slug: 'porter-npe-heckkipper-einzelbereifung',
     category: 'Porter NPE',
-    title: 'NPE Heckkipper',
+    title: 'NPE Rückwärtskipper',
     description:
       'Hydraulisch kippbare Ladefläche auf dem elektrischen Porter-Chassis. Schnelles Entleeren von Aushub, Grünschnitt und Baumaterial – komplett emissionsfrei auch beim Kipp-Vorgang.',
     image: '/images/products/piaggio-porter-npe-heckkipper-einzelbereifung/main.webp',
-    imageAlt: 'Piaggio Porter NPE Heckkipper',
+    imageAlt: 'Piaggio Porter NPE Rückwärtskipper',
     detailUrl: '/nutzfahrzeugcenter/piaggio/piaggio-porter-npe-heckkipper-einzelbereifung',
     specs: [
       { icon: Zap, value: 'Elektro-Antrieb', label: 'Auch Hydraulik elektrisch' },
-      { icon: Truck, value: 'Heckkipper', label: 'Hydraulisches Entleeren' },
+      { icon: Truck, value: 'Rückwärtskipper', label: 'Hydraulisches Entleeren' },
       { icon: Shield, value: 'Werkhof-tauglich', label: 'Robust für Dauereinsatz' },
     ],
   },

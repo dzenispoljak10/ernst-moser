@@ -226,12 +226,12 @@ export default function MegaMenu({ centers, brandsByCenter, logoUrl }: Props) {
                               <div className={`megamenu-brands-grid${!isSplit && group.brands.length >= 9 ? ' megamenu-brands-grid--colflow' : ''}`}>
                                 {group.brands.flatMap(brand => {
                                   const base = `/${brand.center.slug.current}/${brand.slug.current}`
-                                  const items = brand.slug.current === 'segway'
-                                    ? [
-                                        { key: `${brand._id}-segway`, href: base, name: 'Segway', logo: brand.logo ? imageUrl(brand.logo) : null },
-                                        { key: `${brand._id}-navimow`, href: base, name: 'Navimow', logo: '/images/brands/segway/navimow-logo.webp' },
-                                      ]
-                                    : [{ key: brand._id, href: base, name: brand.name, logo: brand.logo ? imageUrl(brand.logo) : null }]
+                                  const items = [{
+                                    key: brand._id,
+                                    href: base,
+                                    name: brand.slug.current === 'segway' ? 'Segway-Navimow' : brand.name,
+                                    logo: brand.logo ? imageUrl(brand.logo) : null,
+                                  }]
                                   return items.map(item => (
                                     <motion.div key={item.key} variants={brandItemVariants} className="megamenu-brand-cell">
                                       <Link
@@ -399,7 +399,7 @@ export default function MegaMenu({ centers, brandsByCenter, logoUrl }: Props) {
                                 <div className="mobile-sub-label">{group.label}</div>
                                 {group.brands.flatMap(b => {
                                   const base = `/${b.center.slug.current}/${b.slug.current}`
-                                  const names = b.slug.current === 'segway' ? ['Segway', 'Navimow'] : [b.name]
+                                  const names = b.slug.current === 'segway' ? ['Segway-Navimow'] : [b.name]
                                   return names.map(name => (
                                     <Link
                                       key={`${b._id}-${name}`}
@@ -445,11 +445,11 @@ export default function MegaMenu({ centers, brandsByCenter, logoUrl }: Props) {
                   <ShoppingBag size={14} />Zum Shop
                 </a>
                 <div style={{ display: 'flex', gap: 10, marginTop: 16, justifyContent: 'center' }}>
-                  <a href="https://www.facebook.com/ernstmosergmbh" target="_blank" rel="noopener noreferrer"
+                  <a href="https://www.facebook.com/e.moser.nutzfahrzeugcenter/" target="_blank" rel="noopener noreferrer"
                     style={{ color: 'var(--c-text-muted)' }} aria-label="Facebook">
                     <FacebookIcon />
                   </a>
-                  <a href="https://www.instagram.com/ernstmosergmbh" target="_blank" rel="noopener noreferrer"
+                  <a href="https://www.instagram.com/e.moser_gmbh" target="_blank" rel="noopener noreferrer"
                     style={{ color: 'var(--c-text-muted)' }} aria-label="Instagram">
                     <InstagramIcon />
                   </a>

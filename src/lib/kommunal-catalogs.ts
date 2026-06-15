@@ -43,6 +43,8 @@ export interface KommunalBrand {
   carouselAriaLabel: string
   sectionEyebrow: string
   sectionTitle: string
+  /** Optionale URL → macht den Section-Titel auf der Markenseite zu einem externen Link */
+  sectionTitleUrl?: string
   sectionLead: string
   products: KommunalProduct[]
 }
@@ -142,10 +144,10 @@ const TIMAN: KommunalBrand = {
   sectionLead:
     'Vom kompakten Tool-Trac bis zum funkferngesteuerten Hangmäher — TIMAN-Geräteträger sind die vielseitige Profi-Plattform für Werkhöfe und Anlagenpflege.',
   products: [
-    { slug: 'timan-tool-trac', title: 'TIMAN Tool-Trac', shortDescription: 'Kompakter Geräteträger mit 65 cm Wendekreis, 4WD und hydraulischem Parallelogrammhub.', longDescription: ['Der TIMAN Tool-Trac ist ein kompakter Multifunktions-Geräteträger.', 'Hydraulischer Parallelogrammhub für vielseitige Einsätze.'], image: '/images/products/timan-tool-trac/main.webp', sourceImageUrl: 'https://www.adbachmannag.ch/images/stories/Produkte/Kommunal/TIMAN/Tool-Trac_studio.jpg', externalUrl: 'https://www.adbachmannag.ch/de/produkte/geraetetraeger/timan-tool-trac.html', prospektUrl: 'https://www.adbachmannag.ch/images/stories/Produkte/Kommunal/TIMAN/Tool-Trac/Timan_Tool_Trac_DE_Prospekt.pdf' },
+    { slug: 'timan-3330', title: 'TIMAN 3330', shortDescription: 'Knickgelenkter Geräteträger mit branchenführend leiser Kabine (68 dB) — vollhydraulisch und wartungsarm.', longDescription: ['Der 3330 ist TIMANs grösster knickgelenkter Geräteträger.', 'Vollhydraulisch, wartungsarm, drei universelle Anbaupositionen.'], image: '/images/products/timan-3330/main.webp', sourceImageUrl: 'https://www.adbachmannag.ch/images/stories/Produkte/Kommunal/TIMAN/3330/Timan_3330_Studio.jpg', externalUrl: 'https://www.adbachmannag.ch/de/produkte/geraetetraeger/timan-3330.html', prospektUrl: 'https://www.adbachmannag.ch/images/stories/Produkte/Kommunal/TIMAN/3330/Timan_3330_Prospekt.pdf' },
     { slug: 'timan-rc-1000', title: 'TIMAN RC-1000', shortDescription: 'Ferngesteuerter Hangmäher mit Einzelradaufhängung und hydraulischer Mähwerkshubfunktion.', longDescription: ['Der RC-1000 ist TIMANs Funkferngesteuerter Hangmäher.', 'Speziell für Flächen unter Rohrleitungen, Böschungen und Verkehrsinseln.'], image: '/images/products/timan-rc-1000/main.webp', sourceImageUrl: 'https://www.adbachmannag.ch/images/stories/Produkte/Kommunal/TIMAN/RC1000_studio.jpg', externalUrl: 'https://www.adbachmannag.ch/de/produkte/geraetetraeger/timan-rc-1000.html', prospektUrl: 'https://www.adbachmannag.ch/images/stories/Produkte/Kommunal/TIMAN/RC-1000/Timan_RC1000_Prospekt.pdf' },
     { slug: 'timan-rc-751', title: 'TIMAN RC-751', shortDescription: 'Funkferngesteuerter Hangmäher für Steigungen bis 50° — 750 mm Schnittbreite, nur 330 kg.', longDescription: ['Der RC-751 erlaubt sicheres Mähen extremer Hänge bis 50°.', '750 mm Schnittbreite, nur 330 kg Eigengewicht.'], image: '/images/products/timan-rc-751/main.webp', sourceImageUrl: 'https://www.adbachmannag.ch/images/stories/Produkte/Kommunal/TIMAN/RC-751/Timan_RC751_Studio.jpg', externalUrl: 'https://www.adbachmannag.ch/de/produkte/geraetetraeger/timan-rc-751.html', prospektUrl: 'https://www.adbachmannag.ch/images/stories/Produkte/Kommunal/TIMAN/RC-751/Timan_RC751_Prospekt.pdf' },
-    { slug: 'timan-3330', title: 'TIMAN 3330', shortDescription: 'Knickgelenkter Geräteträger mit branchenführend leiser Kabine (68 dB) — vollhydraulisch und wartungsarm.', longDescription: ['Der 3330 ist TIMANs grösster knickgelenkter Geräteträger.', 'Vollhydraulisch, wartungsarm, drei universelle Anbaupositionen.'], image: '/images/products/timan-3330/main.webp', sourceImageUrl: 'https://www.adbachmannag.ch/images/stories/Produkte/Kommunal/TIMAN/3330/Timan_3330_Studio.jpg', externalUrl: 'https://www.adbachmannag.ch/de/produkte/geraetetraeger/timan-3330.html', prospektUrl: 'https://www.adbachmannag.ch/images/stories/Produkte/Kommunal/TIMAN/3330/Timan_3330_Prospekt.pdf' },
+    { slug: 'timan-tool-trac', title: 'TIMAN Tool-Trac', shortDescription: 'Kompakter Geräteträger mit 65 cm Wendekreis, 4WD und hydraulischem Parallelogrammhub.', longDescription: ['Der TIMAN Tool-Trac ist ein kompakter Multifunktions-Geräteträger.', 'Hydraulischer Parallelogrammhub für vielseitige Einsätze.'], image: '/images/products/timan-tool-trac/main.webp', sourceImageUrl: 'https://www.adbachmannag.ch/images/stories/Produkte/Kommunal/TIMAN/Tool-Trac_studio.jpg', externalUrl: 'https://www.adbachmannag.ch/de/produkte/geraetetraeger/timan-tool-trac.html', prospektUrl: 'https://www.adbachmannag.ch/images/stories/Produkte/Kommunal/TIMAN/Tool-Trac/Timan_Tool_Trac_DE_Prospekt.pdf' },
   ],
 }
 
@@ -164,6 +166,7 @@ const MATEV: KommunalBrand = {
   carouselAriaLabel: 'Matev Anbaugeräte',
   sectionEyebrow: 'Matev Anbaugeräte',
   sectionTitle: 'Anbaugeräte von Matev',
+  sectionTitleUrl: 'https://www.matev.eu/de/mein-traktor/kubota',
   sectionLead:
     'Die Anbaugeräte von Matev sind speziell auf die Kubota Kompakt- und Kommunaltraktoren abgestimmt. Sie bieten durchdachte Lösungen für Grünflächenpflege, Reinigung und Winterdienst – flexibel, robust und effizient im täglichen Einsatz.',
   products: [
@@ -411,7 +414,7 @@ const EXTRA_PRODUCT_URLS: Record<string, { url: string; label: string; prospekt?
 
 const EXTRA_BRAND_HOMEPAGES: Array<{ slug: string; homepage: string; label: string; brandName: string; email?: string }> = [
   { slug: 'stema', homepage: 'https://www.stema.ch/', label: 'Bei Stema ansehen', brandName: 'Stema', email: 'raphael.maurer@ernst-moser.ch' },
-  { slug: 'zaugg', homepage: 'https://www.zaugg.swiss/', label: 'Bei Zaugg ansehen', brandName: 'Zaugg', email: 'raphael.maurer@ernst-moser.ch' },
+  { slug: 'zaugg', homepage: 'https://www.zaugg.swiss/', label: 'Bei Zaugg ansehen', brandName: 'Zaugg', email: 'michael.peter@ernst-moser.ch' },
 ]
 
 function findExtraBrandFallback(productSlug: string) {

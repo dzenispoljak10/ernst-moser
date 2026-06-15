@@ -22,6 +22,8 @@ interface Props {
   accent: string
   eyebrow: string
   title: string
+  /** Optionale URL → macht den Section-Titel zu einem externen Link */
+  titleUrl?: string | null
   lead: string
   models: KommunalBrandModel[]
   /** Optionale Hersteller-Homepage für Brand-Level-CTA */
@@ -47,6 +49,7 @@ export default function KommunalBrandSections({
   accent,
   eyebrow,
   title,
+  titleUrl,
   lead,
   models,
   flyerUrl,
@@ -74,7 +77,29 @@ export default function KommunalBrandSections({
           <div className="kommunal-section-eyebrow" style={{ color: accent }}>
             {eyebrow}
           </div>
-          <h2 className="kommunal-section-title">{title}</h2>
+          <h2 className="kommunal-section-title">
+            {titleUrl ? (
+              <a
+                href={titleUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  color: 'inherit',
+                  textDecoration: 'underline',
+                  textUnderlineOffset: 4,
+                  textDecorationColor: accent,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                }}
+              >
+                {title}
+                <ExternalLink size={20} style={{ color: accent }} />
+              </a>
+            ) : (
+              title
+            )}
+          </h2>
           <p className="kommunal-section-lead">{lead}</p>
           {flyerUrl && (
             <div className="kommunal-section-ctas">

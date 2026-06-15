@@ -38,7 +38,7 @@ export default function Topbar() {
           <Link href="/unternehmen" className="topbar-item">Unternehmen</Link>
           <div className="topbar-divider" />
           <a
-            href="https://www.facebook.com/ernstmosergmbh"
+            href="https://www.facebook.com/e.moser.nutzfahrzeugcenter/"
             target="_blank"
             rel="noopener noreferrer"
             className="topbar-item topbar-social"
@@ -47,7 +47,7 @@ export default function Topbar() {
             <FacebookIcon />
           </a>
           <a
-            href="https://www.instagram.com/ernstmosergmbh"
+            href="https://www.instagram.com/e.moser_gmbh"
             target="_blank"
             rel="noopener noreferrer"
             className="topbar-item topbar-social"

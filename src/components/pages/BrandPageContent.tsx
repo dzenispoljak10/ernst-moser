@@ -1,6 +1,6 @@
 import { readClient as client, imageUrl } from '@/lib/sanity'
 import { productImageBySlug, teamPhotoByName } from '@/lib/serverImages'
-import { getSalespersonByBrand } from '@/lib/queries'
+import { getSalespersonByBrand, type SanitySalesperson } from '@/lib/queries'
 import { getIcon } from '@/lib/iconMap'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -35,6 +35,11 @@ import { MOTORGERAETE_BRANDS, MOTORGERAETE_CAROUSEL_SLIDES } from '@/lib/motorge
 import { getBrandVideo } from '@/lib/brand-videos'
 import CountUp from '@/components/ui/CountUp'
 import { ArrowRight, ExternalLink, Package } from 'lucide-react'
+
+// Segway: Einzelprodukte „on hold" – statt der gepflegten Produktkarten wird nur
+// das Shop-iframe gezeigt (spart Doppelpflege). Auf `false` setzen, um die
+// Segway-Einzelprodukte wieder einzublenden.
+const SEGWAY_PRODUCTS_ON_HOLD = true
 
 // ─── Typen ────────────────────────────────────────────────────────────────────
 
@@ -186,7 +191,7 @@ export default async function BrandPageContent({
 
   const center = brand.center
 
-  const [sp, sanityProducts] = await Promise.all([
+  const [spFromSanity, sanityProducts] = await Promise.all([
     getSalespersonByBrand(brand._id, center._id),
     client.fetch<Product[]>(
       `*[_type == "product" && brand._ref == $brandId] | order(_createdAt desc)[0..8] {
@@ -196,6 +201,20 @@ export default async function BrandPageContent({
       { brandId: brand._id }
     ),
   ])
+
+  // Lokales Ansprechpartner-Override (überschreibt die Sanity-Zuordnung)
+  const SALESPERSON_OVERRIDE: Record<string, SanitySalesperson> = {
+    // Zaugg: Michael Peter statt Raphael Maurer
+    zaugg: {
+      _id: 'salesperson-michael-peter',
+      firstName: 'Michael',
+      lastName: 'Peter',
+      title: 'Verkauf / Aussendienst',
+      phone: '+41 79 485 89 12',
+      email: 'michael.peter@ernst-moser.ch',
+    },
+  }
+  const sp = SALESPERSON_OVERRIDE[brandSlug] ?? spFromSanity
 
   // Optionale markenspezifische Produkt-Reihenfolge (z. B. Fiat nach Fahrzeuggrösse)
   const productOrder = BRAND_PRODUCT_ORDER[brandSlug]
@@ -416,6 +435,7 @@ export default async function BrandPageContent({
           accent={center.color}
           eyebrow={KOMMUNAL_BRANDS[brandSlug].sectionEyebrow}
           title={KOMMUNAL_BRANDS[brandSlug].sectionTitle}
+          titleUrl={KOMMUNAL_BRANDS[brandSlug].sectionTitleUrl ?? null}
           lead={KOMMUNAL_BRANDS[brandSlug].sectionLead}
           homepageUrl={KOMMUNAL_BRANDS[brandSlug].homepageUrl ?? null}
           flyerUrl={KOMMUNAL_BRANDS[brandSlug].flyerUrl ?? null}
@@ -460,7 +480,7 @@ export default async function BrandPageContent({
       })()}
 
       {/* ═══ 5a: Motorgerätecenter-Marken (Segway) ═════════ */}
-      {MOTORGERAETE_BRANDS[brandSlug] && brandSlug !== 'stihl' && brandSlug !== 'pudu-robotics' && (
+      {MOTORGERAETE_BRANDS[brandSlug] && brandSlug !== 'stihl' && brandSlug !== 'pudu-robotics' && !(brandSlug === 'segway' && SEGWAY_PRODUCTS_ON_HOLD) && (
         <KommunalBrandSections
           centerSlug={centerSlug}
           brandSlug={brandSlug}
@@ -478,6 +498,49 @@ export default async function BrandPageContent({
             category: p.category,
           }))}
         />
+      )}
+
+      {/* ═══ 5a-Shop: Segway – Shop-iframe (Test: iframe statt Einzelprodukte) ═══ */}
+      {brandSlug === 'segway' && (
+        <section className="section" style={{ background: 'var(--c-bg-2)' }}>
+          <div className="container">
+            <AnimatedSection className="section-header" style={{ marginBottom: 24 }}>
+              <div>
+                <div className="section-divider" style={{ background: center.color }} />
+                <div className="section-label">Online-Shop</div>
+                <h2 className="section-title">Segway Navimow direkt im Shop</h2>
+              </div>
+              <a
+                href="https://shop.ernst-moser.ch/?s=segway&post_type=product"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-outline-dark"
+              >
+                Im Shop öffnen <ExternalLink size={14} />
+              </a>
+            </AnimatedSection>
+            <AnimatedSection delay={0.05}>
+              <div
+                style={{
+                  position: 'relative',
+                  width: '100%',
+                  borderRadius: 14,
+                  overflow: 'hidden',
+                  border: `1px solid ${center.color}22`,
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
+                  background: '#fff',
+                }}
+              >
+                <iframe
+                  src="https://shop.ernst-moser.ch/?s=segway&post_type=product"
+                  title="Segway Produkte im Ernst Moser Shop"
+                  loading="lazy"
+                  style={{ width: '100%', height: 1500, border: 0, display: 'block' }}
+                />
+              </div>
+            </AnimatedSection>
+          </div>
+        </section>
       )}
 
       {/* ═══ 5: Produkte ══════════════════════════════════════════════════ */}

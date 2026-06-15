@@ -22,7 +22,7 @@ export const BRAND_CATEGORY: Record<string, 'fahrzeuge' | 'zubehoer'> = {
   kubota: 'fahrzeuge',              // Traktoren / Utility
   'ligier-professional': 'fahrzeuge',
   reform: 'fahrzeuge',              // Transporter / Geräteträger
-  stema: 'fahrzeuge',               // Anhänger
+  stema: 'zubehoer',                // Anhänger
   timan: 'fahrzeuge',               // Geräteträger
   springer: 'zubehoer',             // Anbaugeräte / Geräteträger
   ecotech: 'zubehoer',

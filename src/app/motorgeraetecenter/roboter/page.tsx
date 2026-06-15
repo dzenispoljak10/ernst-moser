@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
@@ -8,6 +9,49 @@ import { ArrowRight, Phone, ChevronRight, Cpu, Wifi, Zap, Shield, Bot, Leaf, Nav
 const COLOR = '#4A7C59'
 const NEON = '#5aff8a'
 
+// Alle Produktbilder je Marke – werden im Marken-Karussell automatisch durchgewechselt.
+const SEGWAY_GALLERY = [
+  '/images/products/segway-navimow-i108e/main.webp',
+  '/images/products/segway-navimow-i210e/main.webp',
+  '/images/products/segway-navimow-h206e/main.webp',
+  '/images/products/segway-navimow-h210e/main.webp',
+  '/images/products/segway-navimow-h215e/main.webp',
+  '/images/products/segway-navimow-h230e/main.webp',
+  '/images/products/segway-navimow-x315e/main.webp',
+  '/images/products/segway-navimow-x330e/main.webp',
+  '/images/products/segway-navimow-x350e/main.webp',
+  '/images/products/segway-navimow-x390e/main.webp',
+  '/images/products/segway-navimow-x420e/main.webp',
+  '/images/products/segway-navimow-x430e/main.webp',
+  '/images/products/segway-navimow-x450e/main.webp',
+  '/images/products/segway-navimow-terranox-cm120/main.webp',
+  '/images/products/segway-navimow-terranox-cm240/main.webp',
+]
+const PUDU_GALLERY = [
+  '/images/products/pudu-bellabot/main.webp',
+  '/images/products/pudu-bellabot-pro/main.webp',
+  '/images/products/pudu-kettybot/main.webp',
+  '/images/products/pudu-kettybot-pro/main.webp',
+  '/images/products/pudu-bg1/main.webp',
+  '/images/products/pudu-bg1-pro/main.webp',
+  '/images/products/pudu-cc1/main.webp',
+  '/images/products/pudu-cc1-pro/main.webp',
+  '/images/products/pudu-sh1/main.webp',
+  '/images/products/pudu-mt1/main.webp',
+  '/images/products/pudu-mt1-max/main.webp',
+  '/images/products/pudu-mt1-vac/main.webp',
+  '/images/products/pudu-t300/main.webp',
+  '/images/products/pudu-t600/main.webp',
+  '/images/products/pudu-flashbot/main.webp',
+  '/images/products/pudu-swiftbot/main.webp',
+  '/images/products/pudu-pudubot/main.webp',
+  '/images/products/pudu-pudubot2/main.webp',
+]
+const AMBROGIO_GALLERY = [
+  '/images/products/ambrogio-innovative-technologie-fuer-perfekte-rasenpflege/main.webp',
+  '/images/products/ambrogio-smarte-funktionen-und-maximale-sicherheit/main.webp',
+]
+
 const ROBOTS = [
   {
     slug: 'segway',
@@ -15,6 +59,7 @@ const ROBOTS = [
     logo: '/images/brands/segway/logo.webp',
     logo2: '/images/brands/segway/navimow-logo.webp',
     hero: '/images/brands/segway/hero.webp',
+    gallery: SEGWAY_GALLERY,
     category: 'Mähroboter RTK',
     tagline: 'Centimetergenau. Kabellos. Intelligent.',
     desc: 'Segway Navimow nutzt RTK-GPS für millimetergenaue Navigation – komplett ohne Begrenzungsdraht. Plug & Play, App-gesteuert, sofort einsatzbereit.',
@@ -34,6 +79,7 @@ const ROBOTS = [
     logo: '/images/brands/pudu-robotics/logo.webp',
     logo2: '',
     hero: '/images/products/pudu-robotics-kommerzielle-reinigungsroboter/main.webp',
+    gallery: PUDU_GALLERY,
     category: 'Serviceroboter',
     tagline: 'Reinigung & Lieferung. Vollautomatisch.',
     desc: 'Pudu-Roboter navigieren autonom durch Gewerbeflächen, Spitäler und Hotels. LiDAR-SLAM, Hinderniserkennung, Cloud-Flottenmanagement.',
@@ -53,6 +99,7 @@ const ROBOTS = [
     logo: '/images/brands/ambrogio/logo.webp',
     logo2: '',
     hero: '/images/products/ambrogio-smarte-funktionen-und-maximale-sicherheit/main.webp',
+    gallery: AMBROGIO_GALLERY,
     category: 'Rasenmähroboter',
     tagline: 'Autonome Rasenpflege. Rund um die Uhr.',
     desc: 'Ambrogio Mähroboter kartieren, mähen und kehren zurück – ohne Begrenzungskabel, ohne Aufsicht. GPS-gesteuert, leise, präzise.',
@@ -67,6 +114,36 @@ const ROBOTS = [
     color: '#3d7a4f',
   },
 ]
+
+// Auto-wechselndes Karussell aller Produktbilder einer Marke (Crossfade).
+function HeroCarousel({ images, alt }: { images: string[]; alt: string }) {
+  const [idx, setIdx] = useState(0)
+  useEffect(() => {
+    if (images.length <= 1) return
+    const t = setInterval(() => setIdx((i) => (i + 1) % images.length), 2800)
+    return () => clearInterval(t)
+  }, [images.length])
+  return (
+    <div style={{ position: 'relative', width: '100%', maxWidth: 380, aspectRatio: '4/3' }}>
+      {images.map((src, i) => (
+        <Image
+          key={src}
+          src={src}
+          alt={alt}
+          fill
+          style={{
+            objectFit: 'contain',
+            filter: 'drop-shadow(0 0 40px rgba(90,255,138,0.15))',
+            opacity: i === idx ? 1 : 0,
+            transition: 'opacity 0.8s ease',
+          }}
+          sizes="50vw"
+          unoptimized
+        />
+      ))}
+    </div>
+  )
+}
 
 const STATS = [
   { value: '3', label: 'Roboter-Marken' },
@@ -417,16 +494,7 @@ export default function RoboterPage() {
                       }} />
                     ))}
 
-                    <div style={{ position: 'relative', width: '100%', maxWidth: 380, aspectRatio: '4/3' }}>
-                      <Image
-                        src={robot.hero}
-                        alt={robot.name}
-                        fill
-                        style={{ objectFit: 'contain', filter: 'drop-shadow(0 0 40px rgba(90,255,138,0.15))' }}
-                        sizes="50vw"
-                        unoptimized
-                      />
-                    </div>
+                    <HeroCarousel images={robot.gallery} alt={robot.name} />
                   </div>
 
                   {/* Content side */}

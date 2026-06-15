@@ -646,11 +646,11 @@ PRODUCT_EXTRAS['piaggio-porter-npe-heckkipper-einzelbereifung'] = {
   sections: [
     {
       type: 'highlights',
-      eyebrow: 'Porter NPE Heckkipper',
-      heading: 'Was den elektrischen Heckkipper auszeichnet',
+      eyebrow: 'Porter NPE Rückwärtskipper',
+      heading: 'Was den elektrischen Rückwärtskipper auszeichnet',
       intro: 'Vollelektrischer Mini-Kipper für Materialhandling auf Bauhöfen, Anlagen und Industriegelände.',
       items: [
-        { icon: 'Hammer', title: 'Hydraulik-Kipper', body: 'Elektrohydraulisch betriebener Heckkipper für müheloses Abladen.' },
+        { icon: 'Hammer', title: 'Hydraulik-Kipper', body: 'Elektrohydraulisch betriebener Rückwärtskipper für müheloses Abladen.' },
         { icon: 'Volume2', title: 'Leise Kipp-Aktion', body: 'Im Gegensatz zu Diesel-Pendants kein Motorenlärm beim Abkippen — auch nachts einsetzbar.' },
         { icon: 'Recycle', title: 'Werkhof-Logistik', body: 'Schutt, Erde, Splitt und Material — der Allrounder für die emissionsfreie Werkhof-Tour.' },
       ],
@@ -1046,25 +1046,7 @@ PRODUCT_EXTRAS['ligier-pulse-4'] = {
   },
 }
 
-// MULCHY — Kommunalcenter (Produkt-Videos von silentag.ch)
-const MULCHY_VIDEOS: Record<string, { youtubeId: string; title: string }> = {
-  'mulchy-laub-abfallblaser': { youtubeId: 'M0q26gITUj4', title: 'Mulchy Laub- und Abfallbläser im Einsatz' },
-  'mulchy-ferri-smart': { youtubeId: 'VxSstsDGUCw', title: 'Ferri Böschungsmäher im Einsatz' },
-  'mulchy-ferri-t250-320a': { youtubeId: 'VxSstsDGUCw', title: 'Ferri Böschungsmäher im Einsatz' },
-  'mulchy-ferri-tsh': { youtubeId: 'VxSstsDGUCw', title: 'Ferri Böschungsmäher im Einsatz' },
-  'mulchy-glm-gl4': { youtubeId: 'Xj6IaoJqPT4', title: 'Mulchy Schwenkarmmulcher im Einsatz' },
-  'mulchy-sichelmulcher-vario': { youtubeId: 'NKnN_WcoMpI', title: 'Mulchy Sichelmulcher Vario im Einsatz' },
-  'mulchy-baumstreifenmulcher-sl': { youtubeId: 'x8cW8LKDCi8', title: 'Mulchy Baumstreifenmulcher SL im Einsatz' },
-  'mulchy-sichelmulcher-slf': { youtubeId: 'Uh9PX5g-PkM', title: 'Mulchy Sichelmulcher SLF im Einsatz' },
-  'mulchy-schwenkarmmulcher': { youtubeId: 'Xj6IaoJqPT4', title: 'Mulchy Schwenkarmmulcher im Einsatz' },
-  'mulchy-ras-weidenmulcher': { youtubeId: 'ZVwHL0lS_OA', title: 'RAS Weidenmulcher im Einsatz' },
-}
-for (const [mulchySlug, v] of Object.entries(MULCHY_VIDEOS)) {
-  PRODUCT_EXTRAS[mulchySlug] = {
-    sections: [],
-    video: { youtubeId: v.youtubeId, title: v.title, caption: 'Mulchy Profi-Mulchtechnik im praktischen Einsatz.' },
-  }
-}
+// MULCHY — Kommunalcenter: Produkt-Videos auf Wunsch entfernt.
 
 // TIMAN — Kommunalcenter (Produkt-Videos von adbachmannag.ch)
 PRODUCT_EXTRAS['timan-3330'] = {

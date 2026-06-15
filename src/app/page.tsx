@@ -70,6 +70,25 @@ export default async function HomePage() {
         <div className="hero-overlay" />
         <div className="hero-overlay-left" />
         <div className="hero-overlay-bottom" />
+        {/* Jubiläums-Badge: 50 Jahre Ernst Moser · 30 Jahre Scania Servicepartner */}
+        <Image
+          src="/images/badge-50-jahre-scania.webp"
+          alt="50 Jahre Ernst Moser GmbH · 30 Jahre Scania Servicepartner"
+          width={380}
+          height={301}
+          priority
+          unoptimized
+          style={{
+            position: 'absolute',
+            top: 'clamp(84px, 11vh, 120px)',
+            right: 'clamp(14px, 4vw, 52px)',
+            zIndex: 6,
+            width: 'clamp(104px, 13vw, 182px)',
+            height: 'auto',
+            filter: 'drop-shadow(0 6px 18px rgba(0,0,0,0.45))',
+            pointerEvents: 'none',
+          }}
+        />
         <HeroContent />
         <div className="hero-scroll">
           <div className="hero-scroll-line" />

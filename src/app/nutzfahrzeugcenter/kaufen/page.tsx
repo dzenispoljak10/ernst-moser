@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import BrandSalespersonSection from '@/components/ui/BrandSalespersonSection'
 import {
@@ -95,25 +94,9 @@ export default function NfzKaufenPage() {
           minHeight: 460,
           color: '#fff',
           overflow: 'hidden',
+          background: `linear-gradient(135deg, ${COLOR} 0%, #16244a 100%)`,
         }}
       >
-        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-          <Image
-            src="/images/pages/kaufen/hero.webp"
-            alt="Nutzfahrzeuge"
-            fill
-            priority
-            sizes="100vw"
-            style={{ objectFit: 'cover' }}
-          />
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background: `linear-gradient(135deg, ${COLOR}f0 0%, ${COLOR}b8 60%, ${COLOR}66 100%)`,
-            }}
-          />
-        </div>
 
         <div
           className="container"

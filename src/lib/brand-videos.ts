@@ -75,9 +75,19 @@ export const BRAND_VIDEOS: Record<string, BrandVideo> = {
     caption: 'Schneepflüge und Schneefrässchleudern für den professionellen Winterdienst.',
   },
   nilfisk: {
-    youtubeId: '47TX5OFBDf0',
+    youtubeId: 'zKh8JjFbhyw',
     heading: 'Nilfisk – Reinigungstechnik im Einsatz',
     caption: 'Professionelle Reinigungslösungen aus Dänemark – seit über 100 Jahren.',
+  },
+  timan: {
+    youtubeId: 'NteZX1W3T6Q',
+    heading: 'Timan – Maschinen im Einsatz',
+    caption: 'Funkferngesteuerte Geräteträger, Böschungsmäher und Kehrmaschinen für anspruchsvolles Gelände.',
+  },
+  baoli: {
+    youtubeId: 'LP_1xOfapRY',
+    heading: 'Baoli – Staplertechnik im Einsatz',
+    caption: 'Robuste Gabelstapler und Lagertechnik für den zuverlässigen täglichen Industrieeinsatz.',
   },
 }
 

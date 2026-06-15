@@ -123,10 +123,10 @@ export const PIAGGIO_SECTIONS: PiaggioSection[] = [
       },
       {
         slug: 'porter-npe-heckkipper-einzelbereifung',
-        title: 'Porter NPE Heckkipper Einzelbereifung',
-        shortDescription: 'Elektro-Heckkipper für effizientes Entladen.',
+        title: 'Porter NPE Rückwärtskipper Einzelbereifung',
+        shortDescription: 'Elektro-Rückwärtskipper für effizientes Entladen.',
         longDescription: [
-          'Der Porter NPE mit Heckkipper – hydraulisch kippbare Ladefläche für schnelles Entleeren von Aushub, Grünschnitt oder Baumaterial.',
+          'Der Porter NPE mit Rückwärtskipper – hydraulisch kippbare Ladefläche für schnelles Entleeren von Aushub, Grünschnitt oder Baumaterial.',
           'Volle Elektroleistung beim Kippen, keine Diesel-Geräusche in Wohngebieten.',
           'Das Lieblingsfahrzeug kommunaler Werkhöfe und privater Gartenbau-Unternehmen.',
         ],

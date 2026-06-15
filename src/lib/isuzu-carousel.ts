@@ -69,7 +69,7 @@ export const ISUZU_CAROUSEL_SLIDES: CarouselSlide[] = [
     category: 'Truck',
     title: '3.5 Tonnen Klasse',
     description:
-      'Mit Führerausweis Kategorie B fahrbar. M21 und M27 bieten kompakte Wendigkeit für Stadtzentren und schwer zugängliche Gebiete. Ideal als Kipper, Kofferaufbau oder Pritsche für Handwerk und Transport.',
+      'Mit Führerausweis Kategorie B fahrbar. Der M21 bietet kompakte Wendigkeit für Stadtzentren und schwer zugängliche Gebiete. Ideal als Kipper, Kofferaufbau oder Pritsche für Handwerk und Transport.',
     image: '/images/isuzu/truck-3-5-ton.webp',
     imageAlt: 'Isuzu M21 3.5-Tonnen-Truck',
     detailUrl: '/nutzfahrzeugcenter/isuzu/truck/3-5-ton',

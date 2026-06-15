@@ -49,7 +49,7 @@ export const ISUZU_CATEGORIES: IsuzuCategory[] = [
         ],
         image: '/images/isuzu/d-max-single.webp',
         externalUrl: 'https://www.isuzu.ch/de-ch/d-max/single',
-        prospektUrl: 'https://www.isuzu.it/storage/uploads/dd831f1c-2396-4432-82e6-5349e872de07/SINGLE_N60B-4X4-Euro-6e_ted.pdf',
+        prospektUrl: 'https://www.isuzu.ch/de-ch/kataloge-preislisten-und-technische-datenblatter',
       },
       {
         slug: 'space',
@@ -62,7 +62,7 @@ export const ISUZU_CATEGORIES: IsuzuCategory[] = [
         ],
         image: '/images/isuzu/d-max-space.webp',
         externalUrl: 'https://www.isuzu.ch/de-ch/d-max/space',
-        prospektUrl: 'https://www.isuzu.it/storage/uploads/a3c9d1fe-31dc-47a6-b539-fd8d6acd723b/SPACE_N60B_MY25_ted.pdf',
+        prospektUrl: 'https://www.isuzu.ch/de-ch/kataloge-preislisten-und-technische-datenblatter',
       },
       {
         slug: 'crew',
@@ -75,7 +75,7 @@ export const ISUZU_CATEGORIES: IsuzuCategory[] = [
         ],
         image: '/images/isuzu/d-max-crew.webp',
         externalUrl: 'https://www.isuzu.ch/de-ch/d-max/crew',
-        prospektUrl: 'https://www.isuzu.it/storage/uploads/6e3d2ef8-5189-4f82-841d-5e3de66e902c/CREW_N60B---MY25_ted.pdf',
+        prospektUrl: 'https://www.isuzu.ch/de-ch/kataloge-preislisten-und-technische-datenblatter',
       },
     ],
   },
@@ -89,15 +89,15 @@ export const ISUZU_CATEGORIES: IsuzuCategory[] = [
       {
         slug: '3-5-ton',
         title: '3.5 ton',
-        shortDescription: 'Mit PW-Ausweis fahrbar. M21 und M27 für Stadt und Zubringer.',
+        shortDescription: 'Mit PW-Ausweis fahrbar. M21 für Stadt und Zubringer.',
         longDescription: [
-          'Die 3.5-Tonnen-Klasse von Isuzu – M21 und M27 – ist mit dem normalen Personenwagen-Führerausweis fahrbar und prädestiniert für Stadtlogistik, Zubringerdienste und Kurier-Einsätze.',
+          'Die 3.5-Tonnen-Klasse von Isuzu – der M21 – ist mit dem normalen Personenwagen-Führerausweis fahrbar und prädestiniert für Stadtlogistik, Zubringerdienste und Kurier-Einsätze.',
           'Der wendige Radstand und die kompakte Kabine erlauben Manövrieren auch in engen Gassen; die Aufbauvielfalt reicht vom Kastenwagen bis zum Kipper.',
           'Robuster Antriebsstrang, Euro-6-Diesel und das bewährte Isuzu-Servicenetz in der Schweiz.',
         ],
         image: '/images/isuzu/truck-3-5-ton.webp',
         externalUrl: 'https://www.isuzu.ch/de-ch/truck/3-5-ton',
-        prospektUrl: 'https://www.isuzu.it/storage/uploads/9c84c330-4433-4294-ada6-941e53055257/ISUZU_N_SERISEct_MIDI_250618n_DE-CH_completo_Web.pdf',
+        prospektUrl: 'https://www.isuzu.ch/de-ch/kataloge-preislisten-und-technische-datenblatter',
       },
       {
         slug: '6-7-5-ton',
@@ -110,7 +110,7 @@ export const ISUZU_CATEGORIES: IsuzuCategory[] = [
         ],
         image: '/images/isuzu/truck-6-7-5-ton.webp',
         externalUrl: 'https://www.isuzu.ch/de-ch/truck/6-7-5-ton',
-        prospektUrl: 'https://www.isuzu.it/storage/uploads/9c84c330-4433-4294-ada6-941e53055257/ISUZU_N_SERISEct_MIDI_250618n_DE-CH_completo_Web.pdf',
+        prospektUrl: 'https://www.isuzu.ch/de-ch/kataloge-preislisten-und-technische-datenblatter',
       },
       {
         slug: '10-14-ton',
@@ -123,7 +123,7 @@ export const ISUZU_CATEGORIES: IsuzuCategory[] = [
         ],
         image: '/images/isuzu/truck-10-14-ton.webp',
         externalUrl: 'https://www.isuzu.ch/de-ch/truck/10-14-ton',
-        prospektUrl: 'https://www.isuzu.it/storage/uploads/f9c13f35-f23b-4c20-8f5e-302c0bd40245/ISUZU_F-SERISEct_MIDI_0627n_DE-CH_completo_Web.pdf',
+        prospektUrl: 'https://www.isuzu.ch/de-ch/kataloge-preislisten-und-technische-datenblatter',
       },
     ],
   },

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 declare global {
   interface Window {
@@ -18,7 +18,8 @@ function InstagramIcon({ size = 16 }: { size?: number }) {
   )
 }
 
-const POSTS = [
+// Fallback-Posts, falls die API (noch) keinen Token hat oder nicht antwortet.
+const FALLBACK_POSTS = [
   'https://www.instagram.com/p/DWgIPgbkckl/',
   'https://www.instagram.com/p/DWZQzSkDkqX/',
   'https://www.instagram.com/p/DWJEZEvDsj3/',
@@ -28,6 +29,23 @@ const POSTS = [
 ]
 
 export default function InstagramSection() {
+  const [posts, setPosts] = useState<string[]>(FALLBACK_POSTS)
+
+  // Die (ggf. 6 neuesten) Posts von /api/instagram laden.
+  useEffect(() => {
+    let active = true
+    fetch('/api/instagram')
+      .then((r) => r.json())
+      .then((d) => {
+        if (active && Array.isArray(d?.posts) && d.posts.length) setPosts(d.posts.slice(0, 6))
+      })
+      .catch(() => {})
+    return () => {
+      active = false
+    }
+  }, [])
+
+  // Instagram-Embeds (neu) rendern, sobald sich die Postliste ändert.
   useEffect(() => {
     if (window.instgrm) {
       window.instgrm.Embeds.process()
@@ -37,7 +55,7 @@ export default function InstagramSection() {
       script.async = true
       document.body.appendChild(script)
     }
-  }, [])
+  }, [posts])
 
   return (
     <section className="ig2-section">
@@ -62,7 +80,7 @@ export default function InstagramSection() {
 
         {/* Grid */}
         <div className="ig2-embed-grid">
-          {POSTS.map((url) => (
+          {posts.map((url) => (
             <div key={url} className="ig2-embed-wrap">
               <blockquote
                 className="instagram-media"

@@ -70,10 +70,10 @@ export default async function Footer({ logoUrl }: { logoUrl?: string | null }) {
               Ihr Partner für Nutzfahrzeuge, Kommunal- und Motorgeräte im Raum Solothurn&nbsp;/ Mittelland.
             </p>
             <div className="em-footer-socials">
-              <a href="https://www.facebook.com/ernstmosergmbh" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="em-footer-social">
+              <a href="https://www.facebook.com/e.moser.nutzfahrzeugcenter/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="em-footer-social">
                 <FacebookIcon />
               </a>
-              <a href="https://www.instagram.com/ernstmosergmbh" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="em-footer-social">
+              <a href="https://www.instagram.com/e.moser_gmbh" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="em-footer-social">
                 <InstagramIcon />
               </a>
               <a href="https://www.linkedin.com/company/ernst-moser-gmbh" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="em-footer-social">

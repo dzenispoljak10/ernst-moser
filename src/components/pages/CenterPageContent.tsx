@@ -217,7 +217,6 @@ export default async function CenterPageContent({ centerSlug }: { centerSlug: st
                       <span className="brand-item-name">{brand.name}</span>
                     )}
                   </div>
-                  <span className="brand-item-name">{brand.name}</span>
                   {brand.descShort && (
                     <p className="brand-item-desc">{brand.descShort}</p>
                   )}
