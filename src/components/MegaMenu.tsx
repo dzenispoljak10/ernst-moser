@@ -268,7 +268,17 @@ export default function MegaMenu({ centers, brandsByCenter, logoUrl }: Props) {
                                         onClick={() => setActiveId(null)}
                                       >
                                         <div className="megamenu-brand-logo-box">
-                                          <div className="megamenu-brand-logo-placeholder" />
+                                          {ext.logo ? (
+                                            <Image
+                                              src={ext.logo}
+                                              alt={ext.name}
+                                              width={40} height={24}
+                                              className="megamenu-brand-logo"
+                                              unoptimized
+                                            />
+                                          ) : (
+                                            <div className="megamenu-brand-logo-placeholder" />
+                                          )}
                                         </div>
                                         <span className="megamenu-brand-row-name">{ext.name}</span>
                                       </a>

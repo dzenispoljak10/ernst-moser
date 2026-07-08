@@ -238,7 +238,18 @@ export default async function CenterPageContent({ centerSlug }: { centerSlug: st
                 >
                   <style suppressHydrationWarning>{`.brand-card-item:hover { border-color: ${center.color}44; } .brand-card-item::after { background: ${center.color}; }`}</style>
                   <div className="brand-logo-wrap">
-                    <span className="brand-item-name">{ext.name}</span>
+                    {ext.logo ? (
+                      <Image
+                        src={ext.logo}
+                        alt={ext.name}
+                        width={160}
+                        height={72}
+                        className="brand-logo-img"
+                        unoptimized
+                      />
+                    ) : (
+                      <span className="brand-item-name">{ext.name}</span>
+                    )}
                   </div>
                   <p className="brand-item-desc">Fahrzeugeinrichtung &amp; Ordnungssysteme – direkt auf sortimo.ch.</p>
                   <div className="brand-item-arrow" style={{ color: center.color }}>

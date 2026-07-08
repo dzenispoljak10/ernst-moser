@@ -54,10 +54,17 @@ export interface ExternalBrandLink {
   slug: string
   name: string
   externalUrl: string
+  /** Optionales Logo (öffentlicher Pfad), z. B. '/images/brands/sortimo/logo.svg'. */
+  logo?: string
 }
 export const EXTERNAL_ZUBEHOER_BY_CENTER: Record<string, ExternalBrandLink[]> = {
   nutzfahrzeugcenter: [
-    { slug: 'sortimo', name: 'Sortimo', externalUrl: 'https://www.sortimo.ch' },
+    {
+      slug: 'sortimo',
+      name: 'Sortimo',
+      externalUrl: 'https://www.sortimo.ch',
+      logo: '/images/brands/sortimo/logo.svg',
+    },
   ],
 }
 
