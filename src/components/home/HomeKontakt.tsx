@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Phone, Mail, MapPin, Clock, AlertCircle } from 'lucide-react'
+import { SCANIA_EMERGENCY } from '@/lib/scania-emergency'
 
 const EASE = [0.4, 0, 0.2, 1] as [number, number, number, number]
 
@@ -87,8 +88,8 @@ export default function HomeKontakt() {
                   <AlertCircle size={18} />
                 </div>
                 <div>
-                  <div className="home-kontakt-lbl">Notfallnummer</div>
-                  <a href="tel:+41794856645" className="home-kontakt-val home-kontakt-link">
+                  <div className="home-kontakt-lbl">{SCANIA_EMERGENCY.label}</div>
+                  <a href={SCANIA_EMERGENCY.phoneHref} className="home-kontakt-val home-kontakt-link">
                     +41&nbsp;(0)79&nbsp;485&nbsp;66&nbsp;45
                   </a>
                 </div>

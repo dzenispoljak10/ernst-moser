@@ -15,6 +15,7 @@ export const BRAND_CATEGORY: Record<string, 'fahrzeuge' | 'zubehoer'> = {
   wabco: 'zubehoer',       // Bremssysteme / Teile
   dhollandia: 'zubehoer',  // Hubladebühnen
   hilltip: 'zubehoer',     // Streu- & Winterdienstgeräte
+  sortimo: 'zubehoer',     // Fahrzeugeinrichtung (externer Link, www.sortimo.ch)
 
   // ── Kommunalcenter ──────────────────────────────────────────────
   alk: 'fahrzeuge',                 // Alkè – E-Nutzfahrzeuge
@@ -36,6 +37,34 @@ export const BRAND_CATEGORY: Record<string, 'fahrzeuge' | 'zubehoer'> = {
 
 /** Center, deren Marken in „Fahrzeuge" / „Zubehör" aufgeteilt werden. */
 export const SPLIT_CENTERS = new Set(['nutzfahrzeugcenter', 'kommunalcenter'])
+
+/**
+ * Feste Marken-Reihenfolge (Slug-Liste). Marken in dieser Liste werden in genau
+ * dieser Reihenfolge zuerst gezeigt; alle übrigen folgen alphabetisch danach.
+ * Gilt überall, wo Marken gruppiert/aufgelistet werden (Megamenü, Center-Seite).
+ */
+export const BRAND_ORDER: string[] = ['scania', 'fiat', 'isuzu', 'piaggio']
+
+/**
+ * Externe „Zubehör"-Einträge pro Center, die zusätzlich zu den Sanity-Marken im
+ * Zubehör-Bereich erscheinen. Sie verlinken direkt nach aussen (kein interner
+ * Marken-Unterseite), z. B. Sortimo → www.sortimo.ch.
+ */
+export interface ExternalBrandLink {
+  slug: string
+  name: string
+  externalUrl: string
+}
+export const EXTERNAL_ZUBEHOER_BY_CENTER: Record<string, ExternalBrandLink[]> = {
+  nutzfahrzeugcenter: [
+    { slug: 'sortimo', name: 'Sortimo', externalUrl: 'https://www.sortimo.ch' },
+  ],
+}
+
+/** Liefert die externen Zubehör-Links eines Centers (leer, wenn keine). */
+export function externalZubehoerForCenter(centerSlug: string): ExternalBrandLink[] {
+  return EXTERNAL_ZUBEHOER_BY_CENTER[centerSlug] ?? []
+}
 
 /**
  * Marken, die im Megamenü eines Centers ZUSÄTZLICH gelistet werden, obwohl
@@ -75,6 +104,19 @@ const byName = <T extends BrandLike>(a: T, b: T) =>
   a.name.localeCompare(b.name, 'de', { sensitivity: 'base' })
 
 /**
+ * Sortiert nach fester BRAND_ORDER (zuerst), Rest alphabetisch. Marken ohne
+ * Eintrag in BRAND_ORDER behalten untereinander die alphabetische Ordnung.
+ */
+const byOrderThenName = <T extends BrandLike>(a: T, b: T) => {
+  const ai = BRAND_ORDER.indexOf(a.slug.current)
+  const bi = BRAND_ORDER.indexOf(b.slug.current)
+  const ar = ai === -1 ? Number.MAX_SAFE_INTEGER : ai
+  const br = bi === -1 ? Number.MAX_SAFE_INTEGER : bi
+  if (ar !== br) return ar - br
+  return byName(a, b)
+}
+
+/**
  * Gruppiert + sortiert die Marken eines Centers (Megamenü UND Center-Seite).
  * Split-Center → [Fahrzeuge, Zubehör], sonst eine einzelne „Marken"-Liste.
  * Jede Liste alphabetisch. Generisch über den konkreten Marken-Typ.
@@ -84,7 +126,7 @@ export function groupBrandsForCenter<T extends BrandLike>(
   brands: T[],
 ): BrandGroup<T>[] {
   if (!SPLIT_CENTERS.has(centerSlug)) {
-    return [{ label: 'Marken', brands: [...brands].sort(byName) }]
+    return [{ label: 'Marken', brands: [...brands].sort(byOrderThenName) }]
   }
   const fahrzeuge: T[] = []
   const zubehoer: T[] = []
@@ -93,7 +135,7 @@ export function groupBrandsForCenter<T extends BrandLike>(
     else fahrzeuge.push(b)
   }
   const groups: BrandGroup<T>[] = []
-  if (fahrzeuge.length) groups.push({ label: 'Fahrzeuge', brands: fahrzeuge.sort(byName) })
-  if (zubehoer.length) groups.push({ label: 'Zubehör', brands: zubehoer.sort(byName) })
+  if (fahrzeuge.length) groups.push({ label: 'Fahrzeuge', brands: fahrzeuge.sort(byOrderThenName) })
+  if (zubehoer.length) groups.push({ label: 'Zubehör', brands: zubehoer.sort(byOrderThenName) })
   return groups
 }

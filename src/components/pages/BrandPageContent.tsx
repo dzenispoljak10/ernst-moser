@@ -34,7 +34,9 @@ import { KOMMUNAL_BRANDS, KOMMUNAL_CAROUSEL_SLIDES } from '@/lib/kommunal-catalo
 import { MOTORGERAETE_BRANDS, MOTORGERAETE_CAROUSEL_SLIDES } from '@/lib/motorgeraete-catalogs'
 import { getBrandVideo } from '@/lib/brand-videos'
 import CountUp from '@/components/ui/CountUp'
-import { ArrowRight, ExternalLink, Package } from 'lucide-react'
+import { ArrowRight, ExternalLink, Package, Phone } from 'lucide-react'
+import { isBrandDisabled } from '@/lib/brand-flags'
+import { SCANIA_EMERGENCY } from '@/lib/scania-emergency'
 
 // Segway: Einzelprodukte „on hold" – statt der gepflegten Produktkarten wird nur
 // das Shop-iframe gezeigt (spart Doppelpflege). Auf `false` setzen, um die
@@ -187,7 +189,9 @@ export default async function BrandPageContent({
     { centerSlug, brandSlug }
   )
 
-  if (!brand) notFound()
+  // WABCO & Co. „on standby": Marke ist in Sanity vorhanden, aber deaktiviert →
+  // Seite nicht erreichbar machen (siehe src/lib/brand-flags.ts zum Reaktivieren).
+  if (!brand || isBrandDisabled(brandSlug)) notFound()
 
   const center = brand.center
 
@@ -306,6 +310,59 @@ export default async function BrandPageContent({
             : stats
         }
       />
+
+      {/* ═══ Scania: 24/7 Pannendienst-Banner (nur Scania-Seite) ═════════ */}
+      {brandSlug === 'scania' && (
+        <section className="section" style={{ paddingTop: 36, paddingBottom: 0 }}>
+          <div className="container">
+            <a
+              href={SCANIA_EMERGENCY.phoneHref}
+              className="scania-emergency-banner"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 20,
+                flexWrap: 'wrap',
+                padding: '20px 26px',
+                borderRadius: 14,
+                background: '#1B2D5B',
+                color: '#fff',
+                textDecoration: 'none',
+                boxShadow: '0 10px 30px rgba(0,0,0,0.12)',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                <span
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: 44,
+                    height: 44,
+                    borderRadius: '50%',
+                    background: '#E30613',
+                    flexShrink: 0,
+                  }}
+                >
+                  <Phone size={20} color="#fff" />
+                </span>
+                <span>
+                  <span style={{ display: 'block', fontSize: 13, letterSpacing: '0.06em', textTransform: 'uppercase', opacity: 0.75 }}>
+                    Rund um die Uhr erreichbar
+                  </span>
+                  <span style={{ display: 'block', fontSize: 20, fontWeight: 800 }}>
+                    {SCANIA_EMERGENCY.label}
+                  </span>
+                </span>
+              </div>
+              <span style={{ fontSize: 22, fontWeight: 800, whiteSpace: 'nowrap' }}>
+                {SCANIA_EMERGENCY.phoneDisplay}
+              </span>
+            </a>
+          </div>
+        </section>
+      )}
 
       {/* ═══ 2: Leistungen / Features – direkt unter dem Hero ════════════ */}
       {hasFeatures && (

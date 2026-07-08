@@ -1,4 +1,5 @@
 import { readClient as client } from './sanity'
+import { filterDisabledBrands } from './brand-flags'
 
 export interface SanityCenter {
   _id: string
@@ -29,6 +30,8 @@ export interface SanityBrand {
     color: string
   }
   order?: number
+  /** Gesetzt bei synthetischen externen Einträgen (z. B. Sortimo) — verlinkt nach aussen. */
+  externalUrl?: string
 }
 
 export interface SanityMenuCategory {
@@ -73,7 +76,7 @@ export async function getBrandsByCenter(): Promise<Record<string, SanityBrand[]>
   `)
 
   const grouped: Record<string, SanityBrand[]> = {}
-  for (const brand of brands) {
+  for (const brand of filterDisabledBrands(brands)) {
     const centerId = brand.center._id
     if (!grouped[centerId]) grouped[centerId] = []
     grouped[centerId].push(brand)
@@ -116,7 +119,7 @@ export async function getHeaderData() {
   `)
 
   const brandsByCenter: Record<string, SanityBrand[]> = {}
-  for (const brand of brands) {
+  for (const brand of filterDisabledBrands(brands)) {
     const centerId = brand.center._id
     if (!brandsByCenter[centerId]) brandsByCenter[centerId] = []
     brandsByCenter[centerId].push(brand)
@@ -197,10 +200,11 @@ export async function getTeamMembers(): Promise<SanityTeamMember[]> {
 
 // All brands (for homepage brands wall)
 export async function getAllBrands(): Promise<SanityBrand[]> {
-  return client.fetch(`
+  const brands: SanityBrand[] = await client.fetch(`
     *[_type == "brand"] | order(order asc, name asc) {
       _id, name, slug, logo,
       center->{ _id, name, slug, color }
     }
   `)
+  return filterDisabledBrands(brands)
 }

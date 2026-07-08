@@ -1,6 +1,7 @@
 import { readClient as client, imageUrl } from '@/lib/sanity'
 import { brandLogoImage } from '@/lib/serverImages'
-import { groupBrandsForCenter } from '@/lib/brandCategories'
+import { groupBrandsForCenter, externalZubehoerForCenter } from '@/lib/brandCategories'
+import { filterDisabledBrands } from '@/lib/brand-flags'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -24,7 +25,7 @@ const CENTER_SERVICES: Record<string, ServiceItem[]> = {
     { icon: Truck,       title: 'Fahrzeugverkauf',   desc: 'Nutzfahrzeuge, Aufbauten und Anhänger mit kompetenter Beratung und Probefahrt.' },
     { icon: Wrench,      title: 'Werkstatt & Service', desc: 'Unsere zertifizierten Techniker übernehmen alle Wartungs- und Reparaturarbeiten.' },
     { icon: ShieldCheck, title: 'Garantie & Schutz',  desc: 'Herstellergarantien und Garantieverlängerungen für maximale Sicherheit.' },
-    { icon: Clock,       title: 'Expressservice',     desc: 'Schneller Pannenservice und Notreparaturen für minimale Ausfallzeiten.' },
+    { icon: Clock,       title: '24/7 Pannendienst Scania', desc: 'Rund um die Uhr für Sie da – schnelle Pannenhilfe und Notreparaturen für minimale Ausfallzeiten.' },
   ],
   kommunalcenter: [
     { icon: Leaf,     title: 'Grünflächenpflege',  desc: 'Professionelle Geräte und Maschinen für Kommunen, Gärtner und Profis.' },
@@ -104,8 +105,9 @@ export default async function CenterPageContent({ centerSlug }: { centerSlug: st
   if (!data.center) notFound()
 
   const center: Center = data.center
-  const brands: Brand[] = data.brands
+  const brands: Brand[] = filterDisabledBrands(data.brands)
   const brandGroups = groupBrandsForCenter(centerSlug, brands)
+  const externalZubehoer = externalZubehoerForCenter(centerSlug)
   const showGroupLabels = brandGroups.length > 1
   const services = CENTER_SERVICES[centerSlug] ?? CENTER_SERVICES.nutzfahrzeugcenter
   const whyItems = CENTER_WHY[centerSlug] ?? CENTER_WHY.nutzfahrzeugcenter
@@ -226,6 +228,24 @@ export default async function CenterPageContent({ centerSlug }: { centerSlug: st
                 </Link>
                 )
               })}
+              {group.label === 'Zubehör' && externalZubehoer.map((ext) => (
+                <a
+                  key={ext.slug}
+                  href={ext.externalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="brand-card-item"
+                >
+                  <style suppressHydrationWarning>{`.brand-card-item:hover { border-color: ${center.color}44; } .brand-card-item::after { background: ${center.color}; }`}</style>
+                  <div className="brand-logo-wrap">
+                    <span className="brand-item-name">{ext.name}</span>
+                  </div>
+                  <p className="brand-item-desc">Fahrzeugeinrichtung &amp; Ordnungssysteme – direkt auf sortimo.ch.</p>
+                  <div className="brand-item-arrow" style={{ color: center.color }}>
+                    Zu Sortimo <ArrowRight size={12} />
+                  </div>
+                </a>
+              ))}
               </AnimatedSection>
             </div>
             ))

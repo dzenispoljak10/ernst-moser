@@ -23,7 +23,7 @@ const LEISTUNGEN: Record<string, ServiceItem[]> = {
     {
       icon: Wrench, title: 'Werkstatt & Reparatur',
       desc: 'Unsere zertifizierten Techniker sorgen für schnellen und fachgerechten Service.',
-      bullets: ['Alle Marken und Modelle', 'Originalersatzteile', 'Schnelle Diagnose', 'Express-Reparaturservice'],
+      bullets: ['Alle Marken und Modelle', 'Originalersatzteile', 'Schnelle Diagnose', 'Schnelle Reparaturannahme'],
     },
     {
       icon: ShieldCheck, title: 'Service & Inspektion',
@@ -31,8 +31,8 @@ const LEISTUNGEN: Record<string, ServiceItem[]> = {
       bullets: ['Herstellerkonforme Inspektionen', 'Reifenservice', 'Klimaanlagenwartung', 'HU/AU Vorbereitung'],
     },
     {
-      icon: Clock, title: 'Pannendienst',
-      desc: 'Bei einer Panne sind wir schnell für Sie da – auch ausserhalb der Öffnungszeiten.',
+      icon: Clock, title: '24/7 Pannendienst Scania',
+      desc: 'Bei einer Panne sind wir rund um die Uhr für Sie da – auch ausserhalb der Öffnungszeiten.',
       bullets: ['Telefonische Sofortberatung', 'Pannenhilfe vor Ort', 'Abschleppdienst', 'Ersatzfahrzeug auf Anfrage'],
     },
   ],

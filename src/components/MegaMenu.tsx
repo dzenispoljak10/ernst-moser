@@ -9,7 +9,7 @@ import {
   Tag, Compass, Wrench, ShoppingCart, Key, Bot,
 } from 'lucide-react'
 import { getMenuColumnsForCenter, type MenuColumn } from '@/lib/menuConfig'
-import { groupBrandsForCenter, withExtraBrands } from '@/lib/brandCategories'
+import { groupBrandsForCenter, withExtraBrands, externalZubehoerForCenter } from '@/lib/brandCategories'
 import { imageUrl } from '@/lib/sanity'
 import type { SanityCenter, SanityBrand } from '@/lib/queries'
 
@@ -257,6 +257,23 @@ export default function MegaMenu({ centers, brandsByCenter, logoUrl }: Props) {
                                     </motion.div>
                                   ))
                                 })}
+                                {group.label === 'Zubehör' &&
+                                  externalZubehoerForCenter(activeCenter.slug.current).map((ext) => (
+                                    <motion.div key={ext.slug} variants={brandItemVariants} className="megamenu-brand-cell">
+                                      <a
+                                        href={ext.externalUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="megamenu-brand-row"
+                                        onClick={() => setActiveId(null)}
+                                      >
+                                        <div className="megamenu-brand-logo-box">
+                                          <div className="megamenu-brand-logo-placeholder" />
+                                        </div>
+                                        <span className="megamenu-brand-row-name">{ext.name}</span>
+                                      </a>
+                                    </motion.div>
+                                  ))}
                               </div>
                             </div>
                           ))}
@@ -411,6 +428,19 @@ export default function MegaMenu({ centers, brandsByCenter, logoUrl }: Props) {
                                     </Link>
                                   ))
                                 })}
+                                {group.label === 'Zubehör' &&
+                                  externalZubehoerForCenter(c.slug.current).map(ext => (
+                                    <a
+                                      key={ext.slug}
+                                      href={ext.externalUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="mobile-sub-link"
+                                      onClick={() => setMobileOpen(false)}
+                                    >
+                                      <ChevronRight size={11} />{ext.name}
+                                    </a>
+                                  ))}
                               </div>
                             ))}
                             <Link
