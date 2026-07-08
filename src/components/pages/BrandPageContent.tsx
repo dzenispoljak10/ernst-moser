@@ -593,43 +593,67 @@ export default async function BrandPageContent({
         />
       )}
 
-      {/* ═══ 5a-Shop: Segway – Shop-iframe (Test: iframe statt Einzelprodukte) ═══ */}
+      {/* ═══ 5a-Shop: Segway – Verweis auf den Online-Shop (CTA statt iframe) ═══ */}
       {brandSlug === 'segway' && (
         <section className="section" style={{ background: 'var(--c-bg-2)' }}>
           <div className="container">
-            <AnimatedSection className="section-header" style={{ marginBottom: 24 }}>
-              <div>
-                <div className="section-divider" style={{ background: center.color }} />
-                <div className="section-label">Online-Shop</div>
-                <h2 className="section-title">Segway Navimow direkt im Shop</h2>
-              </div>
-              <a
-                href="https://shop.ernst-moser.ch/?s=segway&post_type=product"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-outline-dark"
-              >
-                Im Shop öffnen <ExternalLink size={14} />
-              </a>
-            </AnimatedSection>
             <AnimatedSection delay={0.05}>
               <div
                 style={{
                   position: 'relative',
-                  width: '100%',
-                  borderRadius: 14,
                   overflow: 'hidden',
-                  border: `1px solid ${center.color}22`,
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
-                  background: '#fff',
+                  borderRadius: 22,
+                  background: `linear-gradient(135deg, ${center.color} 0%, ${center.color}d9 100%)`,
+                  padding: 'clamp(32px, 5vw, 60px)',
+                  boxShadow: '0 20px 48px rgba(0,0,0,0.16)',
                 }}
               >
-                <iframe
-                  src="https://shop.ernst-moser.ch/?s=segway&post_type=product"
-                  title="Segway Produkte im Ernst Moser Shop"
-                  loading="lazy"
-                  style={{ width: '100%', height: 1500, border: 0, display: 'block' }}
+                {/* dekorativer Kreis */}
+                <div
+                  aria-hidden
+                  style={{
+                    position: 'absolute',
+                    top: '-30%',
+                    right: '-8%',
+                    width: 340,
+                    height: 340,
+                    borderRadius: '50%',
+                    background: 'rgba(255,255,255,0.08)',
+                    pointerEvents: 'none',
+                  }}
                 />
+                <div style={{ position: 'relative', zIndex: 1, maxWidth: 620 }}>
+                  <div className="section-divider" style={{ background: '#fff', opacity: 0.9 }} />
+                  <div className="section-label" style={{ color: 'rgba(255,255,255,0.85)' }}>Online-Shop</div>
+                  <h2 className="section-title" style={{ color: '#fff', marginBottom: 14 }}>
+                    Segway Navimow – jetzt im Online-Shop
+                  </h2>
+                  <p style={{ color: 'rgba(255,255,255,0.92)', fontSize: 16, lineHeight: 1.65, maxWidth: 560, margin: '0 0 28px' }}>
+                    Die gesamte Navimow-Palette – von der kompakten i-Serie bis zu den Profi-Modellen der
+                    X-Serie – bequem ansehen und direkt bestellen. Beratung, Montage und Service wie gewohnt
+                    persönlich bei Ernst Moser.
+                  </p>
+                  <a
+                    href="https://shop.ernst-moser.ch/?s=segway&post_type=product"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 9,
+                      background: '#fff',
+                      color: center.color,
+                      padding: '15px 28px',
+                      borderRadius: 12,
+                      fontWeight: 700,
+                      fontSize: 15,
+                      textDecoration: 'none',
+                      boxShadow: '0 10px 24px rgba(0,0,0,0.20)',
+                    }}
+                  >
+                    Zum Segway Navimow Shop <ExternalLink size={16} />
+                  </a>
+                </div>
               </div>
             </AnimatedSection>
           </div>
