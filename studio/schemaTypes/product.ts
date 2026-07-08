@@ -105,6 +105,15 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'showOnBrandPage',
+      title: 'Auf Markenseite anzeigen',
+      type: 'boolean',
+      description:
+        'Nur relevant für Marken mit fest hinterlegtem Katalog (z. B. Scania, Isuzu, Hilltip). ' +
+        'Wenn aktiv, erscheint dieses Produkt zusätzlich im Abschnitt „Weitere Produkte“ der Markenseite.',
+      initialValue: false,
+    }),
+    defineField({
       name: 'isNew',
       title: 'Neu',
       type: 'boolean',

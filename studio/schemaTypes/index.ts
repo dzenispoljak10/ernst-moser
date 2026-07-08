@@ -5,5 +5,6 @@ import menuCategory from './menuCategory'
 import salesperson from './salesperson'
 import teamMember from './teamMember'
 import jobPosting from './jobPosting'
+import popup from './popup'
 
-export const schemaTypes = [center, brand, product, menuCategory, salesperson, teamMember, jobPosting]
+export const schemaTypes = [center, brand, product, menuCategory, salesperson, teamMember, jobPosting, popup]

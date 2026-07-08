@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { auth } from '@/auth'
 import { prisma } from '@/lib/prisma'
 import { client } from '@/lib/sanity'
+import { textToBlocks } from '@/lib/admin/product-helpers'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,7 +18,20 @@ export async function GET(
   try {
     const brand = await prisma.brand.findUnique({ where: { id } })
     if (!brand) return NextResponse.json({ error: 'Not found' }, { status: 404 })
-    return NextResponse.json(brand)
+
+    // Tagline lebt nur in Sanity (nicht in Prisma) → dazuladen.
+    let tagline = ''
+    try {
+      const s = await client.fetch<{ tagline?: string } | null>(
+        `*[_type == "brand" && slug.current == $slug][0]{ tagline }`,
+        { slug: brand.slug }
+      )
+      tagline = s?.tagline ?? ''
+    } catch {
+      // Sanity nicht erreichbar → Tagline leer lassen
+    }
+
+    return NextResponse.json({ ...brand, tagline })
   } catch {
     return NextResponse.json({ error: 'DB error' }, { status: 500 })
   }
@@ -42,10 +57,16 @@ export async function PUT(
       },
     })
 
-    // Sync description to Sanity
-    await syncBrandToSanity(brand.slug, { description: brand.description, isActive: brand.isActive })
+    // Texte in Sanity spiegeln (öffentliche Markenseite liest aus Sanity).
+    await syncBrandToSanity(brand.slug, {
+      description: brand.description,
+      tagline: typeof body.tagline === 'string' ? body.tagline : undefined,
+    })
 
-    return NextResponse.json(brand)
+    // Markenseite neu bauen, damit Änderungen sofort erscheinen.
+    if (brand.centerSlug && brand.slug) revalidatePath(`/${brand.centerSlug}/${brand.slug}`)
+
+    return NextResponse.json({ ...brand, tagline: body.tagline ?? '' })
   } catch {
     return NextResponse.json({ error: 'Update failed' }, { status: 500 })
   }
@@ -53,18 +74,24 @@ export async function PUT(
 
 async function syncBrandToSanity(
   slug: string,
-  data: { description?: string | null; isActive?: boolean }
+  data: { description?: string | null; tagline?: string }
 ) {
   try {
     const existing = await client.fetch<{ _id: string } | null>(
       `*[_type == "brand" && slug.current == $slug][0]`,
       { slug }
     )
-    if (existing && data.description !== undefined) {
-      await client
-        .patch(existing._id)
-        .set({ description: data.description ? [{ _type: 'block', children: [{ _type: 'span', text: data.description }] }] : [] })
-        .commit()
+    if (!existing) return
+
+    const patch: Record<string, unknown> = {}
+    if (data.description !== undefined) {
+      patch.description = data.description ? (textToBlocks(data.description) ?? []) : []
+    }
+    if (data.tagline !== undefined) {
+      patch.tagline = data.tagline.trim() || undefined
+    }
+    if (Object.keys(patch).length) {
+      await client.patch(existing._id).set(patch).commit()
     }
   } catch {
     // Non-fatal

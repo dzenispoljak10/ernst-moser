@@ -37,6 +37,7 @@ import CountUp from '@/components/ui/CountUp'
 import { ArrowRight, ExternalLink, Package, Phone } from 'lucide-react'
 import { isBrandDisabled } from '@/lib/brand-flags'
 import { SCANIA_EMERGENCY } from '@/lib/scania-emergency'
+import BrandExtraProducts, { type ExtraProduct } from '@/components/pages/BrandExtraProducts'
 
 // Segway: Einzelprodukte „on hold" – statt der gepflegten Produktkarten wird nur
 // das Shop-iframe gezeigt (spart Doppelpflege). Auf `false` setzen, um die
@@ -92,6 +93,7 @@ interface Product {
   mainImage?: { asset: { _ref: string } }
   description?: PortableBlock[]
   priceLabel?: string
+  showOnBrandPage?: boolean
 }
 
 // ─── Portable Text → plain text ──────────────────────────────────────────────
@@ -195,10 +197,19 @@ export default async function BrandPageContent({
 
   const center = brand.center
 
-  const [spFromSanity, sanityProducts] = await Promise.all([
+  const [spFromSanity, sanityProducts, flaggedProducts] = await Promise.all([
     getSalespersonByBrand(brand._id, center._id),
     client.fetch<Product[]>(
       `*[_type == "product" && brand._ref == $brandId] | order(_createdAt desc)[0..8] {
+        _id, name, slug, mainImage, priceLabel,
+        "description": description[0..1]
+      }`,
+      { brandId: brand._id }
+    ),
+    // Explizit für die Markenseite freigeschaltete Produkte (Schalter im Admin).
+    // Bestehende Produkte ohne Schalter bleiben unsichtbar → Seite unverändert.
+    client.fetch<Product[]>(
+      `*[_type == "product" && brand._ref == $brandId && showOnBrandPage == true] | order(_createdAt desc) {
         _id, name, slug, mainImage, priceLabel,
         "description": description[0..1]
       }`,
@@ -229,6 +240,31 @@ export default async function BrandPageContent({
     }
     sanityProducts.sort((a, b) => rank(a.slug?.current) - rank(b.slug?.current))
   }
+
+  // Katalog-Marken beziehen ihren Hauptbereich aus fest hinterlegten Katalogen.
+  // Im Admin gepflegte Sanity-Produkte werden für diese Marken als separate
+  // Sektion angehängt. Ohne solche Produkte rendert die Sektion nichts – die
+  // Seite bleibt damit exakt wie bisher.
+  const isCatalogBrand =
+    brandSlug === 'isuzu' || brandSlug === 'piaggio' || brandSlug === 'dhollandia' ||
+    brandSlug === 'scania' || brandSlug === 'ut' || brandSlug === 'hilltip' ||
+    !!KOMMUNAL_BRANDS[brandSlug] || !!MOTORGERAETE_BRANDS[brandSlug]
+
+  const extraCatalogProducts: ExtraProduct[] = isCatalogBrand
+    ? flaggedProducts.map((product) => ({
+        id: product._id,
+        name: product.name,
+        href: `/${centerSlug}/${brandSlug}/${product.slug?.current ?? ''}`,
+        imageUrl:
+          productImageBySlug(product.slug?.current ?? '') ??
+          (product.mainImage ? imageUrl(product.mainImage) : null) ??
+          (brand.heroImage ? imageUrl(brand.heroImage) : null) ??
+          (brand.images?.[0] ? imageUrl(brand.images[0]) : null) ??
+          null,
+        priceLabel: product.priceLabel ?? null,
+        desc: product.description?.[0]?.children?.map((c) => c.text).join('') ?? null,
+      }))
+    : []
 
   const highlights: SanityHighlight[]     = brand.highlights ?? []
   const sanityFeatures: SanityFeature[]   = brand.features ?? []
@@ -599,6 +635,9 @@ export default async function BrandPageContent({
           </div>
         </section>
       )}
+
+      {/* ═══ 5b: Zusätzliche, im Admin gepflegte Produkte (Katalog-Marken) ═ */}
+      {isCatalogBrand && <BrandExtraProducts products={extraCatalogProducts} accent={center.color} />}
 
       {/* ═══ 5: Produkte ══════════════════════════════════════════════════ */}
       {brandSlug !== 'isuzu' && brandSlug !== 'piaggio' && brandSlug !== 'dhollandia' && brandSlug !== 'scania' && brandSlug !== 'ut' && brandSlug !== 'hilltip' && !KOMMUNAL_BRANDS[brandSlug] && !MOTORGERAETE_BRANDS[brandSlug] && hasProducts && (

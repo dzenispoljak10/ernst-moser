@@ -15,6 +15,8 @@ import {
   LogOut,
   ArrowLeft,
   X,
+  Package,
+  MessageSquare,
 } from 'lucide-react'
 
 interface NavItem {
@@ -41,8 +43,15 @@ const SECTIONS: NavSection[] = [
     items: [
       { href: '/admin/team', label: 'Teammitglieder', icon: Users },
       { href: '/admin/brands', label: 'Marken', icon: Tag },
+      { href: '/admin/products', label: 'Produkte', icon: Package },
       { href: '/admin/salesperson', label: 'Verkäufer', icon: UserCheck },
       { href: '/admin/jobs', label: 'Stellen & Lehrstellen', icon: Briefcase },
+    ],
+  },
+  {
+    label: 'Inhalte',
+    items: [
+      { href: '/admin/popups', label: 'Pop-ups', icon: MessageSquare },
     ],
   },
   {

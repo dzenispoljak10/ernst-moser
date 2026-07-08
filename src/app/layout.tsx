@@ -5,6 +5,7 @@ import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import FontLoader from '@/components/layout/FontLoader'
 import ChatBot from '@/components/ChatBot'
+import PopupManager from '@/components/PopupManager'
 import { getLogoAsset } from '@/lib/queries'
 
 const outfit = Outfit({
@@ -50,6 +51,7 @@ export default async function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer logoUrl={logoUrl} />
         <ChatBot />
+        <PopupManager />
       </body>
     </html>
   )
