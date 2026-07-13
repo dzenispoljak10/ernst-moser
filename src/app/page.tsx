@@ -14,6 +14,7 @@ import HomeZigzag from '@/components/home/HomeZigzag'
 import HomeTimeline from '@/components/home/HomeTimeline'
 import HomeKontakt from '@/components/home/HomeKontakt'
 import InstagramSection from '@/components/InstagramSection'
+import { getInstagramPosts } from '@/lib/instagram'
 import { ArrowRight } from 'lucide-react'
 
 export const revalidate = 60
@@ -26,9 +27,10 @@ const STATS = [
 ]
 
 export default async function HomePage() {
-  const [centers, allBrands] = await Promise.all([
+  const [centers, allBrands, instagram] = await Promise.all([
     getCenters(),
     getAllBrands(),
+    getInstagramPosts(),
   ])
 
   const centersData = centers.map((center) => {
@@ -190,7 +192,7 @@ export default async function HomePage() {
       )}
 
       {/* ══ 10: INSTAGRAM ═══════════════════════════════════════════ */}
-      <InstagramSection />
+      <InstagramSection posts={instagram.posts} />
 
       {/* ══ 11: KONTAKT & STANDORT ══════════════════════════════════ */}
       <HomeKontakt />

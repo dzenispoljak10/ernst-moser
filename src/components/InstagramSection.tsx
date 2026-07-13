@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Image from 'next/image'
+import type { InstagramPost } from '@/lib/instagram'
 
 declare global {
   interface Window {
@@ -19,35 +20,7 @@ function InstagramIcon({ size = 16 }: { size?: number }) {
   )
 }
 
-type Post = { permalink: string; image: string | null; alt: string }
-
-// Fallback, falls die API (noch) keinen Feed/Token hat: nur Permalinks -> IG-Embed.
-const FALLBACK_POSTS: Post[] = [
-  'https://www.instagram.com/p/DWgIPgbkckl/',
-  'https://www.instagram.com/p/DWZQzSkDkqX/',
-  'https://www.instagram.com/p/DWJEZEvDsj3/',
-  'https://www.instagram.com/p/DVeS8AVDB4m/',
-  'https://www.instagram.com/p/DT231QylW0E/',
-  'https://www.instagram.com/p/DUoZ8NFD-Hs/',
-].map((permalink) => ({ permalink, image: null, alt: 'Instagram Post von @e.moser_gmbh' }))
-
-export default function InstagramSection() {
-  const [posts, setPosts] = useState<Post[]>(FALLBACK_POSTS)
-
-  // (ggf. 6 neuesten) Posts laden
-  useEffect(() => {
-    let active = true
-    fetch('/api/instagram')
-      .then((r) => r.json())
-      .then((d) => {
-        if (active && Array.isArray(d?.posts) && d.posts.length) setPosts(d.posts.slice(0, 6))
-      })
-      .catch(() => {})
-    return () => {
-      active = false
-    }
-  }, [])
-
+export default function InstagramSection({ posts }: { posts: InstagramPost[] }) {
   // IG-Embed-Skript nur laden, wenn mindestens ein Post kein Bild hat (Fallback-Modus)
   const needsEmbed = posts.some((p) => !p.image)
   useEffect(() => {
