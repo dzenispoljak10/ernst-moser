@@ -11,10 +11,24 @@ export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData()
     const file = formData.get('file') as File | null
-    if (!file) return NextResponse.json({ error: 'No file provided' }, { status: 400 })
+    if (!file) return NextResponse.json({ error: 'Keine Datei ausgewählt.' }, { status: 400 })
+
+    const isPdf = file.type === 'application/pdf' || /\.pdf$/i.test(file.name)
+    const isImage = file.type.startsWith('image/')
+    if (!isPdf && !isImage) {
+      return NextResponse.json({ error: 'Nur Bilder (JPG, PNG, WebP) oder PDF-Dateien sind erlaubt.' }, { status: 400 })
+    }
 
     const arrayBuffer = await file.arrayBuffer()
     const buffer = Buffer.from(arrayBuffer)
+
+    if (isPdf) {
+      const asset = await client.assets.upload('file', buffer, {
+        filename: file.name,
+        contentType: 'application/pdf',
+      })
+      return NextResponse.json({ url: asset.url, assetId: asset._id })
+    }
 
     const asset = await client.assets.upload('image', buffer, {
       filename: file.name,
@@ -26,6 +40,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ url, assetId: asset._id })
   } catch (err) {
     console.error('Upload error:', err)
-    return NextResponse.json({ error: 'Upload failed' }, { status: 500 })
+    return NextResponse.json({ error: 'Upload fehlgeschlagen. Bitte erneut versuchen.' }, { status: 500 })
   }
 }

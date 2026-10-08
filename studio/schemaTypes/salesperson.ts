@@ -40,6 +40,13 @@ export default defineType({
       options: {hotspot: true},
     }),
     defineField({
+      name: 'photoFromAdmin',
+      title: 'Foto im Admin hochgeladen',
+      type: 'boolean',
+      description: 'Wird automatisch gesetzt, wenn im Admin ein Foto hochgeladen wurde (hat dann Vorrang).',
+      hidden: true,
+    }),
+    defineField({
       name: 'centers',
       title: 'Zuständig für Center',
       type: 'array',

@@ -1,5 +1,6 @@
 import { existsSync } from 'fs'
 import { join } from 'path'
+import { imageUrl } from './sanity'
 
 /**
  * Returns the local image path for a product slug if a main.webp exists,
@@ -89,4 +90,17 @@ export function teamPhotoByName(firstName?: string, lastName?: string): string |
     if (existsSync(abs)) return rel
   }
   return null
+}
+
+/**
+ * Foto eines Verkäufers/Ansprechpartners.
+ * Ein im Admin hochgeladenes Foto (photoFromAdmin) hat Vorrang; sonst wie
+ * bisher: lokales Team-Foto → Sanity-Foto.
+ */
+export function salespersonPhotoUrl(
+  sp?: { firstName?: string; lastName?: string; photo?: unknown; photoFromAdmin?: boolean } | null,
+): string | null {
+  if (!sp) return null
+  if (sp.photoFromAdmin && sp.photo) return imageUrl(sp.photo) || null
+  return teamPhotoByName(sp.firstName, sp.lastName) ?? (sp.photo ? imageUrl(sp.photo) || null : null)
 }

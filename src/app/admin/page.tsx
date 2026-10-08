@@ -1,20 +1,26 @@
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { Users, Tag, UserCheck, Package, ChevronRight, MapPin, Phone, Mail } from 'lucide-react'
+import { Users, Tag, UserCheck, Package, ChevronRight, MapPin, Phone, Mail, Briefcase, MessageSquare } from 'lucide-react'
 import PageWrapper from '@/components/admin/PageWrapper'
 
+export const dynamic = 'force-dynamic'
+
+// Alle Zahlen stammen aus Sanity – derselben Quelle wie die Website.
 async function getStats() {
   try {
-    const { prisma } = await import('@/lib/prisma')
-    const { readClient } = await import('@/lib/sanity')
-    const [teamCount, brandCount, salespersonCount, productCount] = await Promise.all([
-      prisma.teamMember.count({ where: { isActive: true } }),
-      prisma.brand.count({ where: { isActive: true } }),
-      prisma.salesperson.count(),
-      readClient.fetch<number>('count(*[_type == "product"])').catch(() => 0),
-    ])
-    return { teamCount, brandCount, salespersonCount, productCount: productCount ?? 0 }
+    const { client } = await import('@/lib/sanity')
+    const { DISABLED_BRANDS } = await import('@/lib/brand-flags')
+    const s = await client.fetch<{ team: number; brands: number; sp: number; products: number }>(
+      `{
+        "team": count(*[_type == "teamMember" && isActive != false && !(_id in path("drafts.**"))]),
+        "brands": count(*[_type == "brand" && !(slug.current in $disabled) && !(_id in path("drafts.**"))]),
+        "sp": count(*[_type == "salesperson" && !(_id in path("drafts.**"))]),
+        "products": count(*[_type == "product" && !(_id in path("drafts.**"))])
+      }`,
+      { disabled: [...DISABLED_BRANDS] }
+    )
+    return { teamCount: s.team, brandCount: s.brands, salespersonCount: s.sp, productCount: s.products }
   } catch {
     return { teamCount: 0, brandCount: 0, salespersonCount: 0, productCount: 0 }
   }
@@ -55,7 +61,7 @@ export default async function AdminDashboardPage() {
     },
     {
       label: 'Produkte',
-      sub: 'in Sanity',
+      sub: 'gesamt',
       count: stats.productCount,
       icon: Package,
       iconBg: 'bg-emerald-50',
@@ -82,12 +88,36 @@ export default async function AdminDashboardPage() {
       iconColor: 'text-blue-500',
     },
     {
+      href: '/admin/products',
+      label: 'Produkte',
+      sub: 'Produkte anlegen und bearbeiten',
+      icon: Package,
+      iconBg: 'bg-emerald-50',
+      iconColor: 'text-emerald-500',
+    },
+    {
       href: '/admin/salesperson',
       label: 'Verkäufer',
       sub: 'Ansprechpartner und Kontaktdaten',
       icon: UserCheck,
       iconBg: 'bg-amber-50',
       iconColor: 'text-amber-500',
+    },
+    {
+      href: '/admin/jobs',
+      label: 'Stellen & Lehrstellen',
+      sub: 'Offene Stellen veröffentlichen',
+      icon: Briefcase,
+      iconBg: 'bg-sky-50',
+      iconColor: 'text-sky-500',
+    },
+    {
+      href: '/admin/popups',
+      label: 'Pop-ups',
+      sub: 'Hinweise auf der Website einblenden',
+      icon: MessageSquare,
+      iconBg: 'bg-rose-50',
+      iconColor: 'text-rose-500',
     },
   ]
 
@@ -169,13 +199,13 @@ export default async function AdminDashboardPage() {
               <div className="flex items-start gap-2.5">
                 <MapPin size={13} className="text-gray-300 mt-0.5 shrink-0" />
                 <div>
-                  <div className="text-[12px] text-gray-600">Industrie Ost 17</div>
+                  <div className="text-[12px] text-gray-600">Derendingenstrasse 25</div>
                   <div className="text-[12px] text-gray-600">4563 Gerlafingen SO</div>
                 </div>
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone size={13} className="text-gray-300 shrink-0" />
-                <div className="text-[12px] text-gray-600">+41 32 674 25 25</div>
+                <div className="text-[12px] text-gray-600">+41 32 675 58 05</div>
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail size={13} className="text-gray-300 shrink-0" />

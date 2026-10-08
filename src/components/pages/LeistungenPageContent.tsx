@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import BrandSalespersonSection from '@/components/ui/BrandSalespersonSection'
-import { readClient as client, imageUrl } from '@/lib/sanity'
-import { teamPhotoByName } from '@/lib/serverImages'
+import { readClient as client } from '@/lib/sanity'
+import { salespersonPhotoUrl } from '@/lib/serverImages'
 import {
   Truck, Wrench, ShieldCheck, Clock,
   Leaf, Award, Settings, Users,
@@ -94,7 +94,7 @@ const CENTER_CONTACT_EMAIL: Record<string, string> = {
   nutzfahrzeugcenter: 'roland.burkhalter@ernst-moser.ch',
 }
 
-interface LeistungSp { firstName: string; lastName: string; title?: string; phone?: string; email?: string; photo?: { _type: 'image'; asset: { _ref: string } } }
+interface LeistungSp { firstName: string; lastName: string; title?: string; phone?: string; email?: string; photo?: { _type: 'image'; asset: { _ref: string } }; photoFromAdmin?: boolean }
 
 export default async function LeistungenPageContent({ centerSlug }: { centerSlug: string }) {
   const meta = CENTER_META[centerSlug] ?? CENTER_META.nutzfahrzeugcenter
@@ -104,13 +104,12 @@ export default async function LeistungenPageContent({ centerSlug }: { centerSlug
   const contactEmail = CENTER_CONTACT_EMAIL[centerSlug]
   const sp: LeistungSp | null = contactEmail
     ? await client.fetch(
-        `*[_type == "salesperson" && email == $email][0]{ firstName, lastName, title, phone, email, photo }`,
+        `*[_type == "salesperson" && email == $email][0]{ firstName, lastName, title, phone, email, photo, photoFromAdmin }`,
         { email: contactEmail },
       )
     : null
   const spPhotoUrl =
-    teamPhotoByName(sp?.firstName, sp?.lastName) ??
-    (sp?.photo ? imageUrl(sp.photo) : null)
+    salespersonPhotoUrl(sp)
 
   return (
     <>

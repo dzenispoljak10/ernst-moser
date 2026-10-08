@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Save, Upload, X } from 'lucide-react'
+import { adminFetch, uploadImage } from '@/lib/admin/api-client'
+import { CENTER_OPTIONS } from '@/lib/admin/sanity-admin'
 
 interface TeamFormData {
   firstName: string
@@ -10,7 +12,7 @@ interface TeamFormData {
   role: string
   email: string
   phone: string
-  centerId: string
+  centerSlug: string
   order: number
   isActive: boolean
   photoUrl: string
@@ -21,12 +23,7 @@ interface TeamFormProps {
   memberId?: string
 }
 
-const CENTERS = [
-  { value: '', label: '— Kein Center —' },
-  { value: 'nutzfahrzeugcenter', label: 'Nutzfahrzeugcenter' },
-  { value: 'kommunalcenter', label: 'Kommunalcenter' },
-  { value: 'motorgeraetecenter', label: 'Motorgeräte Center' },
-]
+const CENTERS = [{ value: '', label: '— Kein Center —' }, ...CENTER_OPTIONS]
 
 export default function TeamForm({ defaultValues, memberId }: TeamFormProps) {
   const router = useRouter()
@@ -38,12 +35,15 @@ export default function TeamForm({ defaultValues, memberId }: TeamFormProps) {
     role: defaultValues?.role ?? '',
     email: defaultValues?.email ?? '',
     phone: defaultValues?.phone ?? '',
-    centerId: defaultValues?.centerId ?? '',
+    centerSlug: defaultValues?.centerSlug ?? '',
     order: defaultValues?.order ?? 0,
     isActive: defaultValues?.isActive ?? true,
     photoUrl: defaultValues?.photoUrl ?? '',
   })
 
+  // Neu hochgeladenes Foto (Sanity-Asset) bzw. Wunsch, das Foto zu entfernen
+  const [photoAssetId, setPhotoAssetId] = useState('')
+  const [photoRemoved, setPhotoRemoved] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
@@ -54,16 +54,17 @@ export default function TeamForm({ defaultValues, memberId }: TeamFormProps) {
 
   async function handlePhotoUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
+    e.target.value = ''
     if (!file) return
+    setError('')
     setUploading(true)
     try {
-      const fd = new FormData()
-      fd.append('file', file)
-      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
-      const data = await res.json()
-      if (data.url) set('photoUrl', data.url)
-    } catch {
-      setError('Foto-Upload fehlgeschlagen.')
+      const { url, assetId } = await uploadImage(file)
+      set('photoUrl', url)
+      setPhotoAssetId(assetId)
+      setPhotoRemoved(false)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Foto-Upload fehlgeschlagen.')
     } finally {
       setUploading(false)
     }
@@ -76,12 +77,11 @@ export default function TeamForm({ defaultValues, memberId }: TeamFormProps) {
     try {
       const method = isEdit ? 'PUT' : 'POST'
       const url = isEdit ? `/api/admin/team/${memberId}` : '/api/admin/team'
-      const res = await fetch(url, {
+      await adminFetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, photoAssetId, photoRemoved }),
       })
-      if (!res.ok) throw new Error(await res.text())
       router.push('/admin/team')
       router.refresh()
     } catch (err) {
@@ -121,7 +121,7 @@ export default function TeamForm({ defaultValues, memberId }: TeamFormProps) {
           <div>
             <label className="cursor-pointer inline-flex items-center gap-2 px-3 py-2 border border-gray-200 rounded-xl text-sm text-gray-700 hover:bg-gray-50 transition-colors">
               <Upload size={14} />
-              {uploading ? 'Uploading…' : 'Foto hochladen'}
+              {uploading ? 'Wird hochgeladen…' : form.photoUrl ? 'Foto ersetzen' : 'Foto hochladen'}
               <input
                 type="file"
                 accept="image/*"
@@ -133,7 +133,11 @@ export default function TeamForm({ defaultValues, memberId }: TeamFormProps) {
             {form.photoUrl && (
               <button
                 type="button"
-                onClick={() => set('photoUrl', '')}
+                onClick={() => {
+                  set('photoUrl', '')
+                  setPhotoAssetId('')
+                  setPhotoRemoved(true)
+                }}
                 className="ml-2 text-xs text-gray-400 hover:text-red-500"
               >
                 Entfernen
@@ -194,8 +198,8 @@ export default function TeamForm({ defaultValues, memberId }: TeamFormProps) {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1.5">Center</label>
             <select
-              value={form.centerId}
-              onChange={(e) => set('centerId', e.target.value)}
+              value={form.centerSlug}
+              onChange={(e) => set('centerSlug', e.target.value)}
               className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none"
               onFocus={(e) => {
                 e.currentTarget.style.borderColor = '#1B2D5B'
@@ -214,7 +218,7 @@ export default function TeamForm({ defaultValues, memberId }: TeamFormProps) {
             </select>
           </div>
           <FormField
-            label="Reihenfolge"
+            label="Reihenfolge (kleinere Zahl = weiter vorne)"
             type="number"
             value={String(form.order)}
             onChange={(v) => set('order', parseInt(v) || 0)}
@@ -243,7 +247,7 @@ export default function TeamForm({ defaultValues, memberId }: TeamFormProps) {
       <div className="flex items-center gap-3">
         <button
           type="submit"
-          disabled={saving}
+          disabled={saving || uploading}
           className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-sm font-semibold transition-all hover:brightness-110 disabled:opacity-70"
           style={{ background: '#1B2D5B' }}
         >

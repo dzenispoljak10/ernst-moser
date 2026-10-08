@@ -144,13 +144,14 @@ export interface SanitySalesperson {
   phone?: string
   email?: string
   photo?: SanityImage
+  photoFromAdmin?: boolean
   centers?: Array<{ _id: string; name: string; slug: { current: string } }>
 }
 
 export async function getSalespersonsByCenter(centerId: string): Promise<SanitySalesperson[]> {
   return client.fetch(
     `*[_type == "salesperson" && $centerId in centers[]._ref] {
-      _id, firstName, lastName, title, phone, email, photo,
+      _id, firstName, lastName, title, phone, email, photo, photoFromAdmin,
       centers[]->{ _id, name, slug }
     }`,
     { centerId }
@@ -160,7 +161,7 @@ export async function getSalespersonsByCenter(centerId: string): Promise<SanityS
 export async function getSalespersonByBrand(brandId: string, centerId: string): Promise<SanitySalesperson | null> {
   // First try brand-specific salesperson
   const brandSp = await client.fetch<SanitySalesperson | null>(
-    `*[_type == "brand" && _id == $brandId][0].salesperson->{ _id, firstName, lastName, title, phone, email, photo }`,
+    `*[_type == "brand" && _id == $brandId][0].salesperson->{ _id, firstName, lastName, title, phone, email, photo, photoFromAdmin }`,
     { brandId }
   )
   if (brandSp?._id) return brandSp

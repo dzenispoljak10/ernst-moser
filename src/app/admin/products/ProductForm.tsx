@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Save, Upload, X, Plus, Trash2 } from 'lucide-react'
+import { uploadImage } from '@/lib/admin/api-client'
 
 export interface BrandOption {
   value: string
@@ -76,21 +77,16 @@ export default function ProductForm({ brands, defaultValues, productId }: Props)
 
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
+    e.target.value = ''
     if (!file) return
+    setError('')
     setUploading(true)
     try {
-      const fd = new FormData()
-      fd.append('file', file)
-      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
-      const data = await res.json()
-      if (data.url) {
-        set('mainImageUrl', data.url)
-        set('mainImageAssetId', data.assetId ?? '')
-      } else {
-        setError('Bild-Upload fehlgeschlagen.')
-      }
-    } catch {
-      setError('Bild-Upload fehlgeschlagen.')
+      const { url, assetId } = await uploadImage(file)
+      set('mainImageUrl', url)
+      set('mainImageAssetId', assetId)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Bild-Upload fehlgeschlagen.')
     } finally {
       setUploading(false)
     }
@@ -310,7 +306,7 @@ export default function ProductForm({ brands, defaultValues, productId }: Props)
       {/* Aktionen */}
       <div className="flex items-center gap-3">
         <button
-          type="submit" disabled={saving}
+          type="submit" disabled={saving || uploading}
           className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-sm font-semibold transition-all hover:brightness-110 disabled:opacity-70"
           style={{ background: '#1B2D5B' }}
         >

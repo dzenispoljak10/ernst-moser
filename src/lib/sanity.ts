@@ -3,12 +3,16 @@ import { createImageUrlBuilder } from '@sanity/image-url'
 import localImages from './localImages.json'
 import localExternalImages from './localExternalImages.json'
 
-// Read-only client — no token needed, uses CDN for public dataset reads
+// Read-only client — no token needed.
+// Bewusst OHNE Sanity-CDN: Die Seiten werden ohnehin von Next.js gecacht
+// (revalidate) und per revalidatePath sofort neu aufgebaut, wenn im Admin
+// gespeichert wird. Der zusätzliche CDN-Cache würde dabei veraltete Daten
+// liefern, sodass Änderungen erst verzögert sichtbar wären.
 export const readClient = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'owqsc1ph',
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
   apiVersion: '2024-01-01',
-  useCdn: true,
+  useCdn: false,
 })
 
 // Write client — requires SANITY_TOKEN, used only in admin API routes

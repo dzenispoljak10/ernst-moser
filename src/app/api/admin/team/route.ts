@@ -1,22 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'
 import { auth } from '@/auth'
-import { prisma } from '@/lib/prisma'
 import { client } from '@/lib/sanity'
+import { slugify, imageFromAssetId } from '@/lib/admin/product-helpers'
+import { centerRef, clean } from '@/lib/admin/sanity-admin'
 
 export const dynamic = 'force-dynamic'
 
+/**
+ * Teammitglieder leben ausschliesslich in Sanity (`teamMember`) —
+ * genau dort liest die Seite /unternehmen.
+ */
 export async function GET() {
   const session = await auth()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   try {
-    const members = await prisma.teamMember.findMany({
-      orderBy: [{ order: 'asc' }, { lastName: 'asc' }],
-    })
+    const members = await client.fetch(
+      `*[_type == "teamMember" && !(_id in path("drafts.**"))] | order(order asc, lastName asc) {
+        _id, firstName, lastName, role, email, phone, order, isActive,
+        "centerSlug": center->slug.current
+      }`
+    )
     return NextResponse.json(members)
   } catch {
-    return NextResponse.json({ error: 'DB error' }, { status: 500 })
+    return NextResponse.json({ error: 'Teammitglieder konnten nicht geladen werden.' }, { status: 500 })
   }
 }
 
@@ -26,66 +34,45 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json()
-    const member = await prisma.teamMember.create({
-      data: {
-        firstName: body.firstName,
-        lastName: body.lastName,
-        role: body.role,
-        email: body.email || null,
-        phone: body.phone || null,
-        photoUrl: body.photoUrl || null,
-        centerId: body.centerId || null,
-        order: body.order ?? 0,
-        isActive: body.isActive ?? true,
-      },
-    })
+    const firstName = clean(body.firstName)
+    const lastName = clean(body.lastName)
+    const role = clean(body.role)
+    if (!firstName || !lastName || !role) {
+      return NextResponse.json({ error: 'Vorname, Nachname und Funktion sind Pflichtfelder.' }, { status: 400 })
+    }
 
-    // Sync to Sanity
-    await syncTeamMemberToSanity(member)
-
-    revalidatePath('/unternehmen')
-
-    return NextResponse.json(member, { status: 201 })
-  } catch {
-    return NextResponse.json({ error: 'Create failed' }, { status: 500 })
-  }
-}
-
-async function syncTeamMemberToSanity(member: {
-  firstName: string
-  lastName: string
-  role: string
-  email: string | null
-  phone: string | null
-  photoUrl: string | null
-  centerId: string | null
-  order: number
-  isActive: boolean
-}) {
-  try {
-    // Find existing Sanity document by firstName + lastName
-    const existing = await client.fetch<{ _id: string } | null>(
-      `*[_type == "teamMember" && firstName == $first && lastName == $last][0]`,
-      { first: member.firstName, last: member.lastName }
+    // Lesbare, eindeutige ID (z. B. team-max-muster, bei Namensgleichheit -2, -3 …)
+    const base = `team-${slugify(`${firstName} ${lastName}`) || 'mitglied'}`
+    const taken = await client.fetch<string[]>(
+      `*[_type == "teamMember" && _id match $pattern]._id`,
+      { pattern: `${base}*` }
     )
+    let id = base
+    for (let n = 2; taken.includes(id); n++) id = `${base}-${n}`
 
-    const doc = {
+    const doc: Record<string, unknown> = {
+      _id: id,
       _type: 'teamMember',
-      firstName: member.firstName,
-      lastName: member.lastName,
-      role: member.role,
-      email: member.email,
-      phone: member.phone,
-      order: member.order,
-      isActive: member.isActive,
+      firstName,
+      lastName,
+      role,
+      order: Number.isFinite(Number(body.order)) ? Number(body.order) : 0,
+      isActive: body.isActive !== false,
     }
+    const email = clean(body.email)
+    const phone = clean(body.phone)
+    const center = centerRef(body.centerSlug)
+    const photo = imageFromAssetId(clean(body.photoAssetId))
+    if (email) doc.email = email
+    if (phone) doc.phone = phone
+    if (center) doc.center = center
+    if (photo) doc.photo = photo
 
-    if (existing) {
-      await client.patch(existing._id).set(doc).commit()
-    } else {
-      await client.create(doc)
-    }
-  } catch {
-    // Sanity sync failure is non-fatal
+    const created = await client.create(doc as { _type: string })
+    revalidatePath('/unternehmen')
+    return NextResponse.json({ _id: created._id }, { status: 201 })
+  } catch (err) {
+    console.error('Team create failed:', err)
+    return NextResponse.json({ error: 'Teammitglied konnte nicht gespeichert werden.' }, { status: 500 })
   }
 }

@@ -1,5 +1,5 @@
 import { readClient as client, imageUrl } from '@/lib/sanity'
-import { productImageBySlug, teamPhotoByName } from '@/lib/serverImages'
+import { productImageBySlug, salespersonPhotoUrl } from '@/lib/serverImages'
 import { getSalespersonByBrand } from '@/lib/queries'
 import { notFound } from 'next/navigation'
 import ProductHeroClient from '@/components/ui/ProductHeroClient'
@@ -71,8 +71,7 @@ export default async function ProductPageContent({
   // Lokales Team-Foto (z. B. /images/team/adrian-moser.webp) wird bevorzugt;
   // fällt auf das Sanity-Asset zurück, wenn keine lokale Datei vorhanden ist.
   const spPhotoUrl =
-    teamPhotoByName(sp?.firstName, sp?.lastName) ??
-    (sp?.photo ? imageUrl(sp.photo) : null)
+    salespersonPhotoUrl(sp)
 
   const descriptionText = ptText(product.description)
   const specs = (product.specs ?? []) as Array<{ label: string; value: string }>

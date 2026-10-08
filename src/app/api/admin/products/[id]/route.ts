@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'
 import { auth } from '@/auth'
-import { client, readClient, imageUrl } from '@/lib/sanity'
+import { client, imageUrl } from '@/lib/sanity'
 import { slugify, textToBlocks, blocksToText, imageFromAssetId, PortableBlock } from '@/lib/admin/product-helpers'
 
 export const dynamic = 'force-dynamic'
@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic'
 async function revalidateForBrand(brandId?: string, productSlug?: string) {
   if (!brandId) return
   try {
-    const info = await readClient.fetch<{ brand?: string; center?: string } | null>(
+    const info = await client.fetch<{ brand?: string; center?: string } | null>(
       `*[_type == "brand" && _id == $brandId][0]{ "brand": slug.current, "center": center->slug.current }`,
       { brandId }
     )
@@ -43,7 +43,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { id } = await params
   try {
-    const p = await readClient.fetch<ProductDoc | null>(
+    const p = await client.fetch<ProductDoc | null>(
       `*[_type == "product" && _id == $id][0]{
         _id, name, slug, price, priceLabel, description, mainImage, specs, isNew, isOccasion, showOnBrandPage,
         "brandId": brand._ref
@@ -116,7 +116,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { id } = await params
   try {
-    const info = await readClient.fetch<{ brandId?: string; slug?: string } | null>(
+    const info = await client.fetch<{ brandId?: string; slug?: string } | null>(
       `*[_type == "product" && _id == $id][0]{ "brandId": brand._ref, "slug": slug.current }`,
       { id }
     )

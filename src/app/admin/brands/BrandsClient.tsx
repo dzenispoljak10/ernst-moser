@@ -10,9 +10,7 @@ interface Brand {
   slug: string
   centerSlug: string
   logoUrl: string | null
-  description: string | null
   isActive: boolean
-  order: number
 }
 
 const CENTER_LABELS: Record<string, string> = {
@@ -165,7 +163,7 @@ export default function BrandsClient({ brands }: { brands: Brand[] }) {
                         ) : (
                           <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-md">
                             <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
-                            Inaktiv
+                            Ausgeblendet
                           </span>
                         )}
                       </td>

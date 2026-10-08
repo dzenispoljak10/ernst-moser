@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   try {
     const b = await req.json()
-    if (!b.title) return NextResponse.json({ error: 'Titel fehlt' }, { status: 400 })
+    if (!String(b.title ?? '').trim()) return NextResponse.json({ error: 'Titel fehlt' }, { status: 400 })
     const doc = await client.create({
       _type: 'jobPosting',
       title: b.title,
@@ -44,6 +44,6 @@ export async function POST(req: NextRequest) {
     revalidatePath('/karriere')
     return NextResponse.json(doc, { status: 201 })
   } catch {
-    return NextResponse.json({ error: 'Create failed' }, { status: 500 })
+    return NextResponse.json({ error: 'Eintrag konnte nicht gespeichert werden.' }, { status: 500 })
   }
 }

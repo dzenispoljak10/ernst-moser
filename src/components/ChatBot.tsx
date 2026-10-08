@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MessageCircle, X, Send, Bot } from 'lucide-react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { getResponse, ChatbotLink } from '@/lib/chatbot'
 
 interface Message {
@@ -20,6 +21,7 @@ const DEFAULT_CHIPS = ['Nutzfahrzeuge', 'Kommunal', 'Motorgeräte', 'Kontakt']
 const TYPING_SPEED = 15 // ms per character
 
 export default function ChatBot() {
+  const pathname = usePathname()
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
@@ -106,7 +108,8 @@ export default function ChatBot() {
     }, 600)
   }
 
-  if (!mounted) return null
+  // Im Admin-Bereich ausblenden – der Chat-Button würde dort Bedienelemente verdecken.
+  if (!mounted || pathname?.startsWith('/admin')) return null
 
   return (
     <>

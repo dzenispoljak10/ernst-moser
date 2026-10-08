@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
-import { readClient as client, imageUrl } from '@/lib/sanity'
+import { readClient as client } from '@/lib/sanity'
 import { getSalespersonByBrand } from '@/lib/queries'
-import { teamPhotoByName } from '@/lib/serverImages'
+import { salespersonPhotoUrl } from '@/lib/serverImages'
 import { getIsuzuModel } from '@/lib/isuzu-catalog'
 import IsuzuModelHero from './IsuzuModelHero'
 import BrandSalespersonSection from '@/components/ui/BrandSalespersonSection'
@@ -29,8 +29,7 @@ export default async function IsuzuModelPageContent({ categorySlug, modelSlug }:
 
   const sp = await getSalespersonByBrand(isuzuBrand._id, center._id)
   const spPhotoUrl =
-    teamPhotoByName(sp?.firstName, sp?.lastName) ??
-    (sp?.photo ? imageUrl(sp.photo) : null)
+    salespersonPhotoUrl(sp)
 
   const mailtoHref = `mailto:${sp?.email ?? 'info@ernst-moser.ch'}?subject=${encodeURIComponent(
     `Ich interessiere mich für Isuzu ${model.title}`,

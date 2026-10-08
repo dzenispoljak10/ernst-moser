@@ -2,7 +2,7 @@ import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { readClient } from '@/lib/sanity'
+import { client as readClient } from '@/lib/sanity'
 import PageWrapper from '@/components/admin/PageWrapper'
 import ProductForm, { BrandOption } from '../ProductForm'
 

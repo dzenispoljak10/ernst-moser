@@ -1,6 +1,6 @@
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
-import { readClient } from '@/lib/sanity'
+import { client as readClient } from '@/lib/sanity'
 import PageWrapper from '@/components/admin/PageWrapper'
 import PopupsClient, { PopupRow } from './PopupsClient'
 

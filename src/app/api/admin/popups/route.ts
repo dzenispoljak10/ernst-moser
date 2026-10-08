@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'
 import { auth } from '@/auth'
-import { client, readClient } from '@/lib/sanity'
+import { client } from '@/lib/sanity'
 import { imageFromAssetId } from '@/lib/admin/product-helpers'
 
 export const dynamic = 'force-dynamic'
@@ -16,7 +16,7 @@ export async function GET() {
   const session = await auth()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   try {
-    const popups = await readClient.fetch(
+    const popups = await client.fetch(
       `*[_type == "popup"] | order(order asc, _createdAt desc) {
         _id, title, heading, target, delaySeconds, autoCloseSeconds, reappearDays, isActive, order
       }`

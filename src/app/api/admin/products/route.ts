@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'
 import { auth } from '@/auth'
-import { client, readClient, imageUrl } from '@/lib/sanity'
+import { client, imageUrl } from '@/lib/sanity'
 import { slugify, textToBlocks, imageFromAssetId } from '@/lib/admin/product-helpers'
 
 export const dynamic = 'force-dynamic'
@@ -22,7 +22,7 @@ export async function GET() {
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   try {
-    const products = await readClient.fetch<SanityProduct[]>(
+    const products = await client.fetch<SanityProduct[]>(
       `*[_type == "product"] | order(brand->name asc, name asc) {
         _id, name, slug, priceLabel, isNew, isOccasion, mainImage,
         "brand": brand->{ name, slug, "center": center->{ slug } }
@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
 /** Revalidiert Markenseite + Produkt-Detailseite anhand der Marke. */
 async function revalidateForBrand(brandId: string, productSlug?: string) {
   try {
-    const info = await readClient.fetch<{ brand?: string; center?: string } | null>(
+    const info = await client.fetch<{ brand?: string; center?: string } | null>(
       `*[_type == "brand" && _id == $brandId][0]{ "brand": slug.current, "center": center->slug.current }`,
       { brandId }
     )

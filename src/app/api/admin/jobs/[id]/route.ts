@@ -13,13 +13,25 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const { id } = await params
   try {
     const b = await req.json()
-    const patch: Record<string, unknown> = {}
-    for (const f of FIELDS) if (f in b) patch[f] = b[f]
-    const doc = await client.patch(id).set(patch).commit()
+    if ('title' in b && !String(b.title ?? '').trim()) {
+      return NextResponse.json({ error: 'Titel fehlt.' }, { status: 400 })
+    }
+    const set: Record<string, unknown> = {}
+    const unset: string[] = []
+    for (const f of FIELDS) {
+      if (!(f in b)) continue
+      const v = typeof b[f] === 'string' ? b[f].trim() : b[f]
+      if (v === '' || v === null || v === undefined) unset.push(f)
+      else set[f] = f === 'kind' ? (v === 'lehrstelle' ? 'lehrstelle' : 'stelle') : v
+    }
+    let p = client.patch(id)
+    if (Object.keys(set).length) p = p.set(set)
+    if (unset.length) p = p.unset(unset)
+    const doc = await p.commit()
     revalidatePath('/karriere')
     return NextResponse.json(doc)
   } catch {
-    return NextResponse.json({ error: 'Update failed' }, { status: 500 })
+    return NextResponse.json({ error: 'Änderungen konnten nicht gespeichert werden.' }, { status: 500 })
   }
 }
 
@@ -32,6 +44,6 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
     revalidatePath('/karriere')
     return NextResponse.json({ success: true })
   } catch {
-    return NextResponse.json({ error: 'Delete failed' }, { status: 500 })
+    return NextResponse.json({ error: 'Eintrag konnte nicht gelöscht werden.' }, { status: 500 })
   }
 }

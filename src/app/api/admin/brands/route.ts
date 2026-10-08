@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { auth } from '@/auth'
-import { prisma } from '@/lib/prisma'
+import { client } from '@/lib/sanity'
 
 export const dynamic = 'force-dynamic'
 
@@ -9,11 +9,13 @@ export async function GET() {
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   try {
-    const brands = await prisma.brand.findMany({
-      orderBy: [{ centerSlug: 'asc' }, { order: 'asc' }, { name: 'asc' }],
-    })
+    const brands = await client.fetch(
+      `*[_type == "brand" && !(_id in path("drafts.**"))] | order(name asc) {
+        _id, name, "slug": slug.current, "centerSlug": center->slug.current
+      }`
+    )
     return NextResponse.json(brands)
   } catch {
-    return NextResponse.json({ error: 'DB error' }, { status: 500 })
+    return NextResponse.json({ error: 'Marken konnten nicht geladen werden.' }, { status: 500 })
   }
 }

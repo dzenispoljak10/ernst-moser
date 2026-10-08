@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Plus, Trash2, Pencil, Eye, EyeOff } from 'lucide-react'
+import { adminFetch } from '@/lib/admin/api-client'
 
 export interface PopupRow {
   _id: string
@@ -29,21 +30,31 @@ export default function PopupsClient({ popups }: { popups: PopupRow[] }) {
 
   async function toggle(p: PopupRow) {
     setBusy(p._id)
-    await fetch(`/api/admin/popups/${p._id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ isActive: !p.isActive }),
-    })
-    setBusy(null)
-    router.refresh()
+    try {
+      await adminFetch(`/api/admin/popups/${p._id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isActive: !p.isActive }),
+      })
+      router.refresh()
+    } catch (err) {
+      window.alert(err instanceof Error ? err.message : 'Aktion fehlgeschlagen.')
+    } finally {
+      setBusy(null)
+    }
   }
 
   async function del(p: PopupRow) {
     if (!confirm(`Pop-up „${p.title}“ wirklich löschen?`)) return
     setBusy(p._id)
-    await fetch(`/api/admin/popups/${p._id}`, { method: 'DELETE' })
-    setBusy(null)
-    router.refresh()
+    try {
+      await adminFetch(`/api/admin/popups/${p._id}`, { method: 'DELETE' })
+      router.refresh()
+    } catch (err) {
+      window.alert(err instanceof Error ? err.message : 'Löschen fehlgeschlagen.')
+    } finally {
+      setBusy(null)
+    }
   }
 
   return (

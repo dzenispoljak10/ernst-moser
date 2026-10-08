@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Trash2 } from 'lucide-react'
+import { adminFetch } from '@/lib/admin/api-client'
 
 export default function DeleteTeamMember({ id, name }: { id: string; name: string }) {
   const router = useRouter()
@@ -12,8 +13,10 @@ export default function DeleteTeamMember({ id, name }: { id: string; name: strin
   async function handleDelete() {
     setLoading(true)
     try {
-      await fetch(`/api/admin/team/${id}`, { method: 'DELETE' })
+      await adminFetch(`/api/admin/team/${id}`, { method: 'DELETE' })
       router.refresh()
+    } catch (err) {
+      window.alert(err instanceof Error ? err.message : 'Löschen fehlgeschlagen.')
     } finally {
       setLoading(false)
       setConfirming(false)

@@ -3,6 +3,10 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Pencil, Mail, Phone } from 'lucide-react'
 import PageWrapper from '@/components/admin/PageWrapper'
+import { client } from '@/lib/sanity'
+import { salespersonPhotoUrl } from '@/lib/serverImages'
+
+export const dynamic = 'force-dynamic'
 
 interface Salesperson {
   id: string
@@ -12,15 +16,46 @@ interface Salesperson {
   email: string | null
   phone: string | null
   photoUrl: string | null
-  centerSlug: string | null
+  centerSlugs: string[]
 }
 
-async function getSalespeople(): Promise<Salesperson[]> {
+// Quelle ist Sanity – dieselben Ansprechpartner, die auf der Website erscheinen.
+async function getSalespeople(): Promise<{ people: Salesperson[]; failed: boolean }> {
   try {
-    const { prisma } = await import('@/lib/prisma')
-    return prisma.salesperson.findMany({ orderBy: [{ lastName: 'asc' }] })
-  } catch {
-    return []
+    const rows = await client.fetch<
+      Array<{
+        _id: string
+        firstName?: string
+        lastName?: string
+        title?: string
+        email?: string
+        phone?: string
+        photo?: { asset?: { _ref: string } }
+        photoFromAdmin?: boolean
+        centers?: string[]
+      }>
+    >(
+      `*[_type == "salesperson" && !(_id in path("drafts.**"))] | order(lastName asc) {
+        _id, firstName, lastName, title, email, phone, photo, photoFromAdmin,
+        "centers": centers[]->slug.current
+      }`
+    )
+    return {
+      failed: false,
+      people: rows.map((r) => ({
+        id: r._id,
+        firstName: r.firstName ?? '',
+        lastName: r.lastName ?? '',
+        title: r.title ?? '',
+        email: r.email ?? null,
+        phone: r.phone ?? null,
+        photoUrl: salespersonPhotoUrl(r),
+        centerSlugs: (r.centers ?? []).filter(Boolean),
+      })),
+    }
+  } catch (err) {
+    console.error('Admin salesperson list failed:', err)
+    return { people: [], failed: true }
   }
 }
 
@@ -39,24 +74,27 @@ const CENTER_COLORS: Record<string, { bg: string; color: string }> = {
 export default async function SalespersonPage() {
   const session = await auth()
   if (!session) redirect('/admin/login')
-  const people = await getSalespeople()
+  const { people, failed } = await getSalespeople()
 
   return (
     <PageWrapper>
-      <div className="px-8 py-6">
+      <div className="px-4 sm:px-8 py-6">
 
         <div className="mb-4">
           <span className="text-[12px] text-gray-400">{people.length} Einträge</span>
         </div>
 
-        {people.length === 0 ? (
+        {failed ? (
+          <div className="bg-white rounded-xl border border-gray-100 py-16 text-center text-[13px] text-red-500">
+            Verkäufer konnten nicht geladen werden. Bitte Seite neu laden.
+          </div>
+        ) : people.length === 0 ? (
           <div className="bg-white rounded-xl border border-gray-100 py-16 text-center text-[13px] text-gray-400">
             Noch keine Verkäufer vorhanden.
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {people.map((p, i) => {
-              const cc = p.centerSlug ? CENTER_COLORS[p.centerSlug] : null
               return (
                 <div
                   key={p.id}
@@ -87,13 +125,21 @@ export default async function SalespersonPage() {
                     </div>
                     <div className="text-[12px] text-gray-500 mt-0.5">{p.title}</div>
 
-                    {p.centerSlug && cc && (
-                      <span
-                        className="inline-flex items-center text-[10px] font-medium rounded-full px-2 py-0.5 mt-2"
-                        style={{ background: cc.bg, color: cc.color }}
-                      >
-                        {CENTER_LABELS[p.centerSlug]}
-                      </span>
+                    {p.centerSlugs.length > 0 && (
+                      <div className="flex flex-wrap justify-center gap-1 mt-2">
+                        {p.centerSlugs.map((slug) => {
+                          const cc = CENTER_COLORS[slug]
+                          return cc ? (
+                            <span
+                              key={slug}
+                              className="inline-flex items-center text-[10px] font-medium rounded-full px-2 py-0.5"
+                              style={{ background: cc.bg, color: cc.color }}
+                            >
+                              {CENTER_LABELS[slug]}
+                            </span>
+                          ) : null
+                        })}
+                      </div>
                     )}
 
                     <div className="mt-3 space-y-1 w-full">

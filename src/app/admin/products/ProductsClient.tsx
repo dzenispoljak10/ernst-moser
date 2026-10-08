@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Plus, Trash2, Pencil, ExternalLink, Package } from 'lucide-react'
+import { adminFetch } from '@/lib/admin/api-client'
 
 export interface ProductRow {
   id: string
@@ -24,9 +25,14 @@ export default function ProductsClient({ products }: { products: ProductRow[] })
   async function del(p: ProductRow) {
     if (!confirm(`Produkt „${p.name}“ wirklich löschen?`)) return
     setBusy(p.id)
-    await fetch(`/api/admin/products/${p.id}`, { method: 'DELETE' })
-    setBusy(null)
-    router.refresh()
+    try {
+      await adminFetch(`/api/admin/products/${p.id}`, { method: 'DELETE' })
+      router.refresh()
+    } catch (err) {
+      window.alert(err instanceof Error ? err.message : 'Löschen fehlgeschlagen.')
+    } finally {
+      setBusy(null)
+    }
   }
 
   return (

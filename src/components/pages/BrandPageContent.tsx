@@ -1,6 +1,6 @@
 import { readClient as client, imageUrl } from '@/lib/sanity'
-import { productImageBySlug, teamPhotoByName } from '@/lib/serverImages'
-import { getSalespersonByBrand, type SanitySalesperson } from '@/lib/queries'
+import { productImageBySlug, salespersonPhotoUrl } from '@/lib/serverImages'
+import { getSalespersonByBrand } from '@/lib/queries'
 import { getIcon } from '@/lib/iconMap'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -217,19 +217,8 @@ export default async function BrandPageContent({
     ),
   ])
 
-  // Lokales Ansprechpartner-Override (überschreibt die Sanity-Zuordnung)
-  const SALESPERSON_OVERRIDE: Record<string, SanitySalesperson> = {
-    // Zaugg: Michael Peter statt Raphael Maurer
-    zaugg: {
-      _id: 'salesperson-michael-peter',
-      firstName: 'Michael',
-      lastName: 'Peter',
-      title: 'Verkauf / Aussendienst',
-      phone: '+41 79 485 89 12',
-      email: 'michael.peter@ernst-moser.ch',
-    },
-  }
-  const sp = SALESPERSON_OVERRIDE[brandSlug] ?? spFromSanity
+  // Ansprechpartner kommt aus Sanity (im Admin unter „Marken“ einstellbar).
+  const sp = spFromSanity
 
   // Optionale markenspezifische Produkt-Reihenfolge (z. B. Fiat nach Fahrzeuggrösse)
   const productOrder = BRAND_PRODUCT_ORDER[brandSlug]
@@ -310,8 +299,7 @@ export default async function BrandPageContent({
     LOCAL_HERO_OVERRIDES[brandSlug] ?? (heroImgRaw ? imageUrl(heroImgRaw) : null)
   const logoUrl = brand.logo ? imageUrl(brand.logo) : null
   const spPhotoUrl =
-    teamPhotoByName(sp?.firstName, sp?.lastName) ??
-    (sp?.photo ? imageUrl(sp.photo) : null)
+    salespersonPhotoUrl(sp)
 
   const descBlocks = (brand.description ?? []) as PortableBlock[]
   const descText   = ptText(descBlocks)

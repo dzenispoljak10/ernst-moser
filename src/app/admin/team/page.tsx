@@ -4,6 +4,10 @@ import Link from 'next/link'
 import { Plus, Pencil } from 'lucide-react'
 import DeleteTeamMember from './DeleteTeamMember'
 import PageWrapper from '@/components/admin/PageWrapper'
+import { client, imageUrl } from '@/lib/sanity'
+import { CENTER_OPTIONS } from '@/lib/admin/sanity-admin'
+
+export const dynamic = 'force-dynamic'
 
 interface TeamMember {
   id: string
@@ -13,24 +17,58 @@ interface TeamMember {
   email: string | null
   phone: string | null
   photoUrl: string | null
-  centerId: string | null
+  centerLabel: string | null
   isActive: boolean
   order: number
 }
 
-async function getTeamMembers(): Promise<TeamMember[]> {
+interface SanityRow {
+  _id: string
+  firstName?: string
+  lastName?: string
+  role?: string
+  email?: string
+  phone?: string
+  photo?: { asset?: { _ref: string } }
+  centerSlug?: string
+  isActive?: boolean
+  order?: number
+}
+
+// Quelle ist Sanity – exakt dieselben Daten, die /unternehmen anzeigt.
+async function getTeamMembers(): Promise<{ members: TeamMember[]; failed: boolean }> {
   try {
-    const { prisma } = await import('@/lib/prisma')
-    return prisma.teamMember.findMany({ orderBy: [{ order: 'asc' }, { lastName: 'asc' }] })
-  } catch {
-    return []
+    const rows = await client.fetch<SanityRow[]>(
+      `*[_type == "teamMember" && !(_id in path("drafts.**"))] | order(order asc, lastName asc) {
+        _id, firstName, lastName, role, email, phone, photo, order, isActive,
+        "centerSlug": center->slug.current
+      }`
+    )
+    return {
+      failed: false,
+      members: rows.map((r) => ({
+        id: r._id,
+        firstName: r.firstName ?? '',
+        lastName: r.lastName ?? '',
+        role: r.role ?? '',
+        email: r.email ?? null,
+        phone: r.phone ?? null,
+        photoUrl: r.photo?.asset ? imageUrl(r.photo) || null : null,
+        centerLabel: CENTER_OPTIONS.find((c) => c.value === r.centerSlug)?.label ?? null,
+        isActive: r.isActive !== false,
+        order: r.order ?? 0,
+      })),
+    }
+  } catch (err) {
+    console.error('Admin team list failed:', err)
+    return { members: [], failed: true }
   }
 }
 
 export default async function TeamPage() {
   const session = await auth()
   if (!session) redirect('/admin/login')
-  const members = await getTeamMembers()
+  const { members, failed } = await getTeamMembers()
 
   return (
     <PageWrapper>
@@ -51,7 +89,11 @@ export default async function TeamPage() {
         </div>
 
         <div className="bg-white rounded-xl border border-gray-100 overflow-hidden overflow-x-auto">
-          {members.length === 0 ? (
+          {failed ? (
+            <div className="py-16 text-center text-[13px] text-red-500">
+              Teammitglieder konnten nicht geladen werden. Bitte Seite neu laden.
+            </div>
+          ) : members.length === 0 ? (
             <div className="py-16 text-center text-[13px] text-gray-400">
               Noch keine Teammitglieder vorhanden.
             </div>
@@ -94,8 +136,8 @@ export default async function TeamPage() {
                           <div className="text-[13px] font-medium text-gray-800 leading-tight">
                             {m.firstName} {m.lastName}
                           </div>
-                          {m.centerId && (
-                            <div className="text-[11px] text-gray-400 mt-0.5">{m.centerId}</div>
+                          {m.centerLabel && (
+                            <div className="text-[11px] text-gray-400 mt-0.5">{m.centerLabel}</div>
                           )}
                         </div>
                       </div>

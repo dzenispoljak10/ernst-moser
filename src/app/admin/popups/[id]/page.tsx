@@ -2,7 +2,7 @@ import { auth } from '@/auth'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { readClient, imageUrl } from '@/lib/sanity'
+import { client as readClient, imageUrl } from '@/lib/sanity'
 import PageWrapper from '@/components/admin/PageWrapper'
 import PopupForm, { PopupFormData } from '../PopupForm'
 

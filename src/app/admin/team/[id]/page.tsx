@@ -4,14 +4,33 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import TeamForm from '../TeamForm'
 import PageWrapper from '@/components/admin/PageWrapper'
+import { client, imageUrl } from '@/lib/sanity'
+import { isValidDocId } from '@/lib/admin/sanity-admin'
 
-async function getMember(id: string) {
-  try {
-    const { prisma } = await import('@/lib/prisma')
-    return prisma.teamMember.findUnique({ where: { id } })
-  } catch {
-    return null
-  }
+export const dynamic = 'force-dynamic'
+
+interface MemberDoc {
+  _id: string
+  firstName?: string
+  lastName?: string
+  role?: string
+  email?: string
+  phone?: string
+  order?: number
+  isActive?: boolean
+  photo?: { asset?: { _ref: string } }
+  centerSlug?: string
+}
+
+async function getMember(id: string): Promise<MemberDoc | null> {
+  if (!isValidDocId(id)) return null
+  return client.fetch<MemberDoc | null>(
+    `*[_type == "teamMember" && _id == $id][0]{
+      _id, firstName, lastName, role, email, phone, order, isActive, photo,
+      "centerSlug": center->slug.current
+    }`,
+    { id }
+  )
 }
 
 export default async function EditTeamMemberPage({
@@ -27,7 +46,7 @@ export default async function EditTeamMemberPage({
 
   return (
     <PageWrapper>
-      <div className="px-8 py-6">
+      <div className="px-4 sm:px-8 py-6">
         <div className="mb-5">
           <Link
             href="/admin/team"
@@ -41,15 +60,15 @@ export default async function EditTeamMemberPage({
           <TeamForm
             memberId={id}
             defaultValues={{
-              firstName: member.firstName,
-              lastName: member.lastName,
-              role: member.role,
+              firstName: member.firstName ?? '',
+              lastName: member.lastName ?? '',
+              role: member.role ?? '',
               email: member.email ?? '',
               phone: member.phone ?? '',
-              centerId: member.centerId ?? '',
-              order: member.order,
-              isActive: member.isActive,
-              photoUrl: member.photoUrl ?? '',
+              centerSlug: member.centerSlug ?? '',
+              order: member.order ?? 0,
+              isActive: member.isActive !== false,
+              photoUrl: member.photo?.asset ? imageUrl(member.photo) : '',
             }}
           />
         </div>
