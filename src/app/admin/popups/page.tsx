@@ -27,10 +27,7 @@ export default async function AdminPopupsPage() {
     <PageWrapper>
       <div className="px-4 sm:px-8 py-6">
         <div className="mb-5 max-w-2xl">
-          <h1 className="text-[20px] font-bold text-gray-900" style={{ fontFamily: 'var(--font-heading, sans-serif)' }}>
-            Pop-ups
-          </h1>
-          <p className="text-[13px] text-gray-500 mt-1">
+          <p className="text-[13px] text-gray-500">
             Hinweis-Fenster auf der Website. Neue Pop-ups sind zuerst inaktiv – erst nach dem Aktivieren sichtbar.
           </p>
         </div>

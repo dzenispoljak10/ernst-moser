@@ -11,6 +11,9 @@ const PAGE_META: Record<string, { title: string; subtitle: string }> = {
   '/admin/brands': { title: 'Marken', subtitle: 'Logos und Center-Zuordnung' },
   '/admin/salesperson': { title: 'Verkäufer', subtitle: 'Ansprechpartner verwalten' },
   '/admin/settings': { title: 'Einstellungen', subtitle: 'Konto und System' },
+  '/admin/products': { title: 'Produkte', subtitle: 'Produkte anlegen und bearbeiten' },
+  '/admin/jobs': { title: 'Stellen & Lehrstellen', subtitle: 'Offene Stellen veröffentlichen' },
+  '/admin/popups': { title: 'Pop-ups', subtitle: 'Hinweise auf der Website einblenden' },
 }
 
 function getMeta(pathname: string) {
@@ -18,6 +21,8 @@ function getMeta(pathname: string) {
   if (pathname.startsWith('/admin/team/')) return { title: 'Mitglied bearbeiten', subtitle: 'Daten aktualisieren' }
   if (pathname.startsWith('/admin/brands/')) return { title: 'Marke bearbeiten', subtitle: 'Daten aktualisieren' }
   if (pathname.startsWith('/admin/salesperson/')) return { title: 'Verkäufer bearbeiten', subtitle: 'Daten aktualisieren' }
+  if (pathname.startsWith('/admin/products/')) return { title: 'Produkte', subtitle: 'Produkt anlegen oder bearbeiten' }
+  if (pathname.startsWith('/admin/popups/')) return { title: 'Pop-ups', subtitle: 'Pop-up anlegen oder bearbeiten' }
   return { title: 'Admin', subtitle: '' }
 }
 

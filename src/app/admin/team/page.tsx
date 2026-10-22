@@ -81,7 +81,7 @@ export default async function TeamPage() {
           <Link
             href="/admin/team/new"
             className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-[12px] font-medium text-white transition-all hover:opacity-90"
-            style={{ background: '#1B2D5B' }}
+            style={{ background: '#1B2D5B', color: '#fff' }}
           >
             <Plus size={13} />
             Mitglied hinzufügen
