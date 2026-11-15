@@ -17,7 +17,9 @@ import InstagramSection from '@/components/InstagramSection'
 import { getInstagramPosts } from '@/lib/instagram'
 import { ArrowRight } from 'lucide-react'
 
-export const revalidate = 60
+// Seiten werden bei jeder Admin-Speicherung sofort neu aufgebaut (revalidatePath).
+// Zeitbasiert nur 1x täglich, um Sanity-API-Anfragen zu sparen.
+export const revalidate = 86400
 
 const STATS = [
   { value: 48, suffix: '+', label: 'Jahre Erfahrung' },

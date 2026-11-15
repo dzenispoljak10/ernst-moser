@@ -2,7 +2,15 @@ import BrandPageContent from '@/components/pages/BrandPageContent'
 import { readClient as client } from '@/lib/sanity'
 import type { Metadata } from 'next'
 
-export const revalidate = 60
+// Seiten werden bei jeder Admin-Speicherung sofort neu aufgebaut (revalidatePath).
+// Zeitbasiert nur 1x täglich, um Sanity-API-Anfragen zu sparen.
+export const revalidate = 86400
+
+// Leere Liste = Seite wird beim ersten Aufruf gebaut und danach zwischengespeichert.
+// Ohne diese Funktion wurde sie bei JEDEM Besuch neu gebaut (sehr viele Sanity-Anfragen).
+export async function generateStaticParams() {
+  return []
+}
 
 interface Props {
   params: Promise<{ brand: string }>

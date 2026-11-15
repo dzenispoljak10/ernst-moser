@@ -2,7 +2,9 @@ import { readClient as client } from '@/lib/sanity'
 import type { Metadata } from 'next'
 import ProductPageContent from '@/components/pages/ProductPageContent'
 
-export const revalidate = 60
+// Seiten werden bei jeder Admin-Speicherung sofort neu aufgebaut (revalidatePath).
+// Zeitbasiert nur 1x täglich, um Sanity-API-Anfragen zu sparen.
+export const revalidate = 86400
 
 interface Props {
   params: Promise<{ brand: string; product: string }>

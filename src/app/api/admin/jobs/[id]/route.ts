@@ -28,7 +28,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     if (Object.keys(set).length) p = p.set(set)
     if (unset.length) p = p.unset(unset)
     const doc = await p.commit()
-    revalidatePath('/karriere')
+    revalidatePath('/', 'layout')
     return NextResponse.json(doc)
   } catch {
     return NextResponse.json({ error: 'Änderungen konnten nicht gespeichert werden.' }, { status: 500 })
@@ -41,7 +41,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   const { id } = await params
   try {
     await client.delete(id)
-    revalidatePath('/karriere')
+    revalidatePath('/', 'layout')
     return NextResponse.json({ success: true })
   } catch {
     return NextResponse.json({ error: 'Eintrag konnte nicht gelöscht werden.' }, { status: 500 })

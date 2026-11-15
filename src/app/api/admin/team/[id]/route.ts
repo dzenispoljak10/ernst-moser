@@ -77,7 +77,7 @@ export async function PUT(req: NextRequest, { params }: Params) {
     if (unset.length) patch = patch.unset(unset)
     await patch.commit()
 
-    revalidatePath('/unternehmen')
+    revalidatePath('/', 'layout')
     return NextResponse.json({ _id: id })
   } catch (err) {
     console.error('Team update failed:', err)
@@ -94,7 +94,7 @@ export async function DELETE(_req: NextRequest, { params }: Params) {
   try {
     // Ein ggf. vorhandener Studio-Entwurf wird mitgelöscht, damit nichts „wieder auftaucht".
     await client.transaction().delete(id).delete(`drafts.${id}`).commit()
-    revalidatePath('/unternehmen')
+    revalidatePath('/', 'layout')
     return NextResponse.json({ success: true })
   } catch (err) {
     console.error('Team delete failed:', err)

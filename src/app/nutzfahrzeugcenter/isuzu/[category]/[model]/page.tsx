@@ -2,7 +2,9 @@ import type { Metadata } from 'next'
 import { getIsuzuModel, getAllIsuzuRoutes } from '@/lib/isuzu-catalog'
 import IsuzuModelPageContent from '@/components/pages/IsuzuModelPageContent'
 
-export const revalidate = 60
+// Seiten werden bei jeder Admin-Speicherung sofort neu aufgebaut (revalidatePath).
+// Zeitbasiert nur 1x täglich, um Sanity-API-Anfragen zu sparen.
+export const revalidate = 86400
 
 interface Props {
   params: Promise<{ category: string; model: string }>

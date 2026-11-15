@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
     if (photo) doc.photo = photo
 
     const created = await client.create(doc as { _type: string })
-    revalidatePath('/unternehmen')
+    revalidatePath('/', 'layout')
     return NextResponse.json({ _id: created._id }, { status: 201 })
   } catch (err) {
     console.error('Team create failed:', err)

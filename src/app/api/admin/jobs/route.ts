@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
       order: typeof b.order === 'number' ? b.order : 0,
       isActive: b.isActive ?? false,
     })
-    revalidatePath('/karriere')
+    revalidatePath('/', 'layout')
     return NextResponse.json(doc, { status: 201 })
   } catch {
     return NextResponse.json({ error: 'Eintrag konnte nicht gespeichert werden.' }, { status: 500 })

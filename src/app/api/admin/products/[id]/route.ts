@@ -18,6 +18,8 @@ async function revalidateForBrand(brandId?: string, productSlug?: string) {
       revalidatePath(`/${info.center}/${info.brand}`)
       if (productSlug) revalidatePath(`/${info.center}/${info.brand}/${productSlug}`)
     }
+    // Produkte erscheinen auch auf Center-/Startseite -> alle Seiten aktualisieren
+    revalidatePath('/', 'layout')
   } catch {
     // best-effort
   }

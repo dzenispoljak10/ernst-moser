@@ -8,7 +8,9 @@ import {
   FileText, ChevronRight, Mail, Phone, Briefcase,
 } from 'lucide-react'
 
-export const revalidate = 60
+// Seiten werden bei jeder Admin-Speicherung sofort neu aufgebaut (revalidatePath).
+// Zeitbasiert nur 1x täglich, um Sanity-API-Anfragen zu sparen.
+export const revalidate = 86400
 
 interface JobPosting {
   _id: string

@@ -3,7 +3,7 @@ import { readClient, imageUrl } from '@/lib/sanity'
 
 // Öffentlich (keine Auth): liefert aktive Pop-ups; der Client entscheidet über
 // Ziel/Timing/Häufigkeit. Ohne aktives Pop-up ist die Antwort leer.
-export const revalidate = 30
+export const revalidate = 86400 // Admin-Speichern aktualisiert sofort
 
 interface PopupDoc {
   _id: string

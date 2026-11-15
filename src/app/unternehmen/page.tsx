@@ -10,7 +10,9 @@ import {
 } from 'lucide-react'
 import type { SanityTeamMember } from '@/lib/queries'
 
-export const revalidate = 60
+// Seiten werden bei jeder Admin-Speicherung sofort neu aufgebaut (revalidatePath).
+// Zeitbasiert nur 1x täglich, um Sanity-API-Anfragen zu sparen.
+export const revalidate = 86400
 
 export const metadata: Metadata = {
   title: 'Unternehmen',
