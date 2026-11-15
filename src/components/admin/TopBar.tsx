@@ -14,6 +14,7 @@ const PAGE_META: Record<string, { title: string; subtitle: string }> = {
   '/admin/products': { title: 'Produkte', subtitle: 'Produkte anlegen und bearbeiten' },
   '/admin/jobs': { title: 'Stellen & Lehrstellen', subtitle: 'Offene Stellen veröffentlichen' },
   '/admin/popups': { title: 'Pop-ups', subtitle: 'Hinweise auf der Website einblenden' },
+  '/admin/texts': { title: 'Texte bearbeiten', subtitle: 'Jeden Text der Website direkt anpassen' },
 }
 
 function getMeta(pathname: string) {

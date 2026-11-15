@@ -6,5 +6,6 @@ import salesperson from './salesperson'
 import teamMember from './teamMember'
 import jobPosting from './jobPosting'
 import popup from './popup'
+import textOverride from './textOverride'
 
-export const schemaTypes = [center, brand, product, menuCategory, salesperson, teamMember, jobPosting, popup]
+export const schemaTypes = [center, brand, product, menuCategory, salesperson, teamMember, jobPosting, popup, textOverride]

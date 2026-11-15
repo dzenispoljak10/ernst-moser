@@ -17,6 +17,7 @@ import {
   X,
   Package,
   MessageSquare,
+  Type,
 } from 'lucide-react'
 
 interface NavItem {
@@ -51,6 +52,7 @@ const SECTIONS: NavSection[] = [
   {
     label: 'Inhalte',
     items: [
+      { href: '/admin/texts', label: 'Texte bearbeiten', icon: Type },
       { href: '/admin/popups', label: 'Pop-ups', icon: MessageSquare },
     ],
   },

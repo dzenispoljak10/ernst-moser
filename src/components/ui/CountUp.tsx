@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { useOvNumber } from '@/lib/text-ov/useOvNumber'
 
 interface Props {
   to: number
@@ -8,12 +9,19 @@ interface Props {
   suffix?: string
 }
 
-export default function CountUp({ to, duration = 2000, suffix = '' }: Props) {
+export default function CountUp({ to: original, duration = 2000, suffix = '' }: Props) {
+  // Zielzahl ist im Admin-Bearbeitungsmodus änderbar (ohne Änderung = Original)
+  const to = useOvNumber(original)
   const [value, setValue] = useState(0)
   const ref = useRef<HTMLSpanElement>(null)
   const started = useRef(false)
 
   useEffect(() => {
+    // Zielzahl hat sich nach der Animation geändert (Admin-Bearbeitung) -> direkt anzeigen
+    if (started.current) {
+      const id = requestAnimationFrame(() => setValue(to))
+      return () => cancelAnimationFrame(id)
+    }
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !started.current) {

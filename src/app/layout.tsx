@@ -7,6 +7,8 @@ import FontLoader from '@/components/layout/FontLoader'
 import ChatBot from '@/components/ChatBot'
 import PopupManager from '@/components/PopupManager'
 import { getLogoAsset } from '@/lib/queries'
+import TextOverrideProvider from '@/lib/text-ov/TextOverrideProvider'
+import { getTextOverrides } from '@/lib/text-ov/server'
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -35,7 +37,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const logo = await getLogoAsset()
+  const [logo, textOverrides] = await Promise.all([getLogoAsset(), getTextOverrides()])
   const logoUrl = logo?.url ?? '/brand/logo.webp'
 
   return (
@@ -47,11 +49,13 @@ export default async function RootLayout({
         <FontLoader />
       </head>
       <body className="min-h-full flex flex-col antialiased">
-        <Header logoUrl={logoUrl} />
-        <main className="flex-1">{children}</main>
-        <Footer logoUrl={logoUrl} />
-        <ChatBot />
-        <PopupManager />
+        <TextOverrideProvider data={textOverrides}>
+          <Header logoUrl={logoUrl} />
+          <main className="flex-1">{children}</main>
+          <Footer logoUrl={logoUrl} />
+          <ChatBot />
+          <PopupManager />
+        </TextOverrideProvider>
       </body>
     </html>
   )
